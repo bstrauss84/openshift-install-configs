@@ -1,0 +1,74 @@
+---
+apiVersion: v1alpha1
+kind: AgentConfig
+metadata:
+  name: gold
+rendezvousIP: 192.168.111.10  # choose a control-plane IP reachable during discovery
+
+# NTP note:
+# - If DHCP Option 42 provides NTP to hosts, you generally do not need additionalNTPSources.
+# - Otherwise specify at least two internal sources.
+additionalNTPSources:
+  - 192.168.111.2
+  - 192.168.111.3
+
+hosts:
+  # Fully commented example host to show format. Others can be minimal to reduce noise.
+  - hostname: cp-0.gold.example.local
+    interfaces:
+      - name: eno1
+        macAddress: 52:54:00:aa:bb:00
+      - name: eno2
+        macAddress: 52:54:00:aa:bb:10
+    networkConfig:
+      interfaces:
+        - name: bond0
+          type: bond
+          state: up
+          ipv4:
+            enabled: true
+            address:
+              - ip: 192.168.111.10
+                prefix-length: 24
+            dhcp: false
+          link-aggregation:
+            mode: balance-rr
+            port:
+              - eno1
+              - eno2
+        - name: bond0.100
+          type: vlan
+          state: up
+          vlan:
+            base-iface: bond0
+            id: 100
+          ipv4:
+            enabled: true
+            address:
+              - ip: 10.10.100.10
+                prefix-length: 24
+            dhcp: false
+      dns-resolver:
+        config:
+          server:
+            - 192.168.111.2
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: 192.168.111.1
+            next-hop-interface: bond0
+            table-id: 254
+    rootDeviceHints:
+      # Prefer by-path so the correct device is chosen even if names change
+      deviceName: /dev/disk/by-path/pci-0000:00:01.1-scsi-0:0:0:0
+
+  # Minimal examples (DHCP single NIC)
+  - hostname: cp-1.gold.example.local
+    interfaces:
+      - name: eno1
+        macAddress: 52:54:00:aa:bb:01
+
+  - hostname: cp-2.gold.example.local
+    interfaces:
+      - name: eno1
+        macAddress: 52:54:00:aa:bb:02

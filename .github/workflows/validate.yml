@@ -1,0 +1,94 @@
+---
+name: validate
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python & yamllint
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install yamllint
+          sudo apt-get update -y
+          sudo apt-get install -y jq
+          sudo snap install yq
+
+      - name: Run yamllint
+        run: |
+          yamllint -d "{extends: default, rules: {line-length: {max: 180}}}" .
+
+      - name: Forbid flow-style YAML and empty operator arrays
+        run: |
+          ! grep -R --line-number -E '\\{.*\\}|\\[.*\\]' imagesets || (echo "Flow-style YAML found in imagesets"; exit 1)
+          ! grep -R --line-number -E 'operators:\\s*\\[\\s*\\]' imagesets || (echo "Empty operators array found"; exit 1)
+
+      - name: Validate install-config core fields + trust policy pairing
+        run: |
+          shopt -s globstar nullglob
+          for f in installation-configs/**/install-config.yaml; do
+            echo "Checking $f"
+            test "$(yq '.apiVersion' "$f")" = "v1"
+            test "$(yq '.networking.networkType' "$f")" = "OVNKubernetes"
+            if yq -e '.additionalTrustBundle' "$f" >/dev/null 2>&1; then
+              test "$(yq '.additionalTrustBundlePolicy' "$f")" = "Always"
+            fi
+          done
+
+      - name: Validate agent-config apiVersion/kind
+        run: |
+          shopt -s globstar nullglob
+          for f in installation-configs/**/agent-config.yaml; do
+            echo "Checking $f"
+            test "$(yq '.apiVersion' "$f")" = "v1alpha1"
+            test "$(yq '.kind' "$f")" = "AgentConfig"
+          done
+
+      - name: Validate ImageSetConfiguration apiVersions by directory
+        run: |
+          shopt -s globstar nullglob
+          for f in imagesets/**/oc-mirror-v1/*.yaml; do
+            echo "Checking v1 $f"
+            test "$(yq '.apiVersion' "$f")" = "mirror.openshift.io/v1alpha2"
+            test "$(yq '.kind' "$f")" = "ImageSetConfiguration"
+          done
+          for f in imagesets/**/oc-mirror-v2/*.yaml; do
+            echo "Checking v2 $f"
+            test "$(yq '.apiVersion' "$f")" = "mirror.openshift.io/v2alpha1"
+            test "$(yq '.kind' "$f")" = "ImageSetConfiguration"
+          done
+
+      - name: Enforce variant scopes for imagesets
+        run: |
+          set -e
+          shopt -s globstar nullglob
+          # platform-only must NOT include operators or additionalImages
+          for f in imagesets/**/oc-mirror-v*/platform-only.yaml; do
+            echo "Scope check (platform-only) $f"
+            test "$(yq '.mirror.operators' "$f" 2>/dev/null || echo null)" = "null"
+            test "$(yq '.additionalImages' "$f" 2>/dev/null || echo null)" = "null"
+            # Must include platform with channels AND graph field
+            yq -e '.mirror.platform.channels[0].type == "ocp"' "$f" >/dev/null
+            yq -e '.mirror.platform.channels[0].name' "$f" >/dev/null
+            yq -e '.mirror.platform.graph == true' "$f" >/dev/null
+          done
+          # operators-only must NOT include platform or additionalImages
+          for f in imagesets/**/oc-mirror-v*/operators-only.yaml; do
+            echo "Scope check (operators-only) $f"
+            test "$(yq '.mirror.platform' "$f" 2>/dev/null || echo null)" = "null"
+            test "$(yq '.additionalImages' "$f" 2>/dev/null || echo null)" = "null"
+            # Must include at least one catalog entry
+            yq -e '.mirror.operators[0].catalog' "$f" >/dev/null
+          done
+          # additional-images-only must NOT include platform or operators
+          for f in imagesets/**/oc-mirror-v*/additional-images-only.yaml; do
+            echo "Scope check (additional-images-only) $f"
+            test "$(yq '.mirror.platform' "$f" 2>/dev/null || echo null)" = "null"
+            test "$(yq '.mirror.operators' "$f" 2>/dev/null || echo null)" = "null"
+            # Must include at least one image
+            yq -e '.additionalImages[0].name' "$f" >/dev/null
+          done

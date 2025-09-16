@@ -1,0 +1,194 @@
+---
+kind: ImageSetConfiguration
+apiVersion: mirror.openshift.io/v2alpha1
+# This file includes OpenShift platform, a broad operator set, and useful additional images.
+# v1 command (point-to-point):
+#   oc mirror --config ./golden-all.yaml docker://registry.example.local:5000
+# v1 command (multi-hop archive to removable media):
+#   oc mirror --config ./golden-all.yaml file://./mirror-archive
+#   # Then carry archives to high side and run:
+#   oc mirror --from file://./mirror-archive docker://registry.high.example.local:5000
+# v2 command (point-to-point) with workspace caching:
+#   oc mirror --config ./golden-all.yaml --workspace file://./workdir \
+#     docker://registry.example.local:5000 --v2
+# Re-runs:
+# - v1: use the same output directory if you want differential behavior; otherwise start clean.
+# - v2: reuse the SAME --workspace to benefit from caching and only pull deltas when you add packages.
+# Storage notes: v2 uses extra space for on-disk cache and cluster-resources under the workspace.
+# Guest image boot-source setup references:
+#   https://access.redhat.com/articles/7085872
+#   https://access.redhat.com/solutions/7066555
+mirror:
+  platform:
+    # architectures:
+    #   - amd64
+    channels:
+      - type: ocp
+        name: stable-4.18
+        minVersion: 4.18.3
+        maxVersion: 4.18.3
+    graph: true
+  operators:
+    - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.18
+      packages:
+        # Management
+        - name: advanced-cluster-management
+          channels:
+            - name: release-2.13
+        - name: multicluster-engine
+          channels:
+            - name: stable-2.8
+        # Security
+        - name: rhacs-operator
+          channels:
+            - name: stable
+        # Quay
+        - name: quay-operator
+          channels:
+            - name: stable-3.14
+        - name: quay-bridge-operator
+          channels:
+            - name: stable-3.14
+        - name: container-security-operator
+          channels:
+            - name: stable-3.14
+        # Storage (ODF and deps; confirm version-specific deps per SOURCES.md)
+        - name: odf-operator
+          channels:
+            - name: stable-4.18
+        - name: odf-csi-addons-operator
+          channels:
+            - name: stable-4.18
+        - name: ocs-operator
+          channels:
+            - name: stable-4.18
+        - name: mcg-operator
+          channels:
+            - name: stable-4.18
+        - name: odf-dependencies
+          channels:
+            - name: stable-4.18
+        - name: rook-ceph-operator
+          channels:
+            - name: stable-4.18
+        - name: recipe
+          channels:
+            - name: stable-4.18
+        - name: cephcsi-operator
+          channels:
+            - name: stable-4.18
+        - name: ocs-client-operator
+          channels:
+            - name: stable-4.18
+        - name: odf-prometheus-operator
+          channels:
+            - name: stable-4.18
+        - name: odr-cluster-operator
+          channels:
+            - name: stable-4.18
+        - name: odr-hub-operator
+          channels:
+            - name: stable-4.18
+        # Local Storage
+        - name: lvms-operator
+          channels:
+            - name: stable-4.18
+        - name: local-storage-operator
+          channels:
+            - name: stable
+        # Web Terminal
+        - name: web-terminal
+          channels:
+            - name: fast
+        - name: devworkspace-operator
+          channels:
+            - name: fast
+        # Virtualization
+        - name: kubevirt-hyperconverged
+          channels:
+            - name: stable
+        - name: kubernetes-nmstate-operator
+          channels:
+            - name: stable
+        # Update Service
+        - name: cincinnati-operator
+          channels:
+            - name: v1
+        # Compliance
+        - name: compliance-operator
+          channels:
+            - name: stable
+        # File Integrity
+        - name: file-integrity-operator
+          channels:
+            - name: stable
+        # Ansible Automation Platform
+        - name: ansible-automation-platform-operator
+          channels:
+            - name: stable-2.5
+        # MetalLB
+        - name: metallb-operator
+          channels:
+            - name: stable
+        # PTP
+        - name: ptp-operator
+          channels:
+            - name: stable
+        # Logging
+        - name: cluster-logging
+          channels:
+            - name: stable-6.2
+        - name: loki-operator
+          channels:
+            - name: stable-6.2
+        # Service Mesh
+        - name: servicemeshoperator3
+          channels:
+            - name: stable
+        - name: kiali-ossm
+          channels:
+            - name: stable
+        - name: jaeger-product
+          channels:
+            - name: stable
+        # Cluster Observability
+        - name: cluster-observability-operator
+          channels:
+            - name: stable
+        # Network Observability
+        - name: netobserv-operator
+          channels:
+            - name: stable
+        # Keycloak
+        - name: rhbk-operator
+          channels:
+            - name: stable-v26.0
+        # CI/CD
+        - name: openshift-pipelines-operator-rh
+          channels:
+            - name: stable
+        - name: openshift-gitops-operator
+          channels:
+            - name: latest
+        # Migration Toolkit for Virtualization
+        - name: mtv-operator
+          channels:
+            - name: release-4.9
+  additionalImages:
+    - name: registry.redhat.io/rhel9/support-tools:latest
+    - name: registry.redhat.io/openshift4/ose-must-gather:latest
+    - name: registry.redhat.io/ubi9/ubi:latest
+    - name: registry.redhat.io/odf4/odf-must-gather-rhel9:v4.18
+    - name: registry.redhat.io/container-native-virtualization/cnv-must-gather-rhel9:v4.18
+    # VM Boot Images for OpenShift Virtualization (adjust or remove as needed)
+    - name: registry.redhat.io/rhel8/rhel-guest-image:8.4.0
+    - name: registry.redhat.io/rhel8/rhel-guest-image:8.6.0
+    - name: registry.redhat.io/rhel8/rhel-guest-image:8.8.0
+    - name: registry.redhat.io/rhel8/rhel-guest-image:8.10.0
+    - name: registry.redhat.io/rhel8/rhel-guest-image:latest
+    - name: registry.redhat.io/rhel9/rhel-guest-image:9.2
+    - name: registry.redhat.io/rhel9/rhel-guest-image:9.4
+    - name: registry.redhat.io/rhel9/rhel-guest-image:latest
+    - name: quay.io/containerdisks/centos:7-2009
+    - name: quay.io/containerdisks/centos-stream:8-latest
+    - name: quay.io/containerdisks/centos-stream:9-latest

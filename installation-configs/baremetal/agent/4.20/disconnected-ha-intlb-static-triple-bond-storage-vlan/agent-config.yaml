@@ -1,0 +1,105 @@
+---
+apiVersion: v1alpha1
+kind: AgentConfig
+metadata:
+  name: gold
+rendezvousIP: 192.168.111.10
+
+# If DHCP Option 42 provides NTP, omit additionalNTPSources. Otherwise define at least two.
+additionalNTPSources:
+  - 192.168.111.2
+  - 192.168.111.3
+
+hosts:
+  # Host 0: fully commented example showing three bonds
+  - hostname: cp-0.gold.example.local
+    interfaces:
+      - name: eno1
+        macAddress: 52:54:00:aa:cc:00
+      - name: eno2
+        macAddress: 52:54:00:aa:cc:01
+      - name: eno3
+        macAddress: 52:54:00:aa:cc:02
+      - name: eno4
+        macAddress: 52:54:00:aa:cc:03
+      - name: eno5
+        macAddress: 52:54:00:aa:cc:04
+      - name: eno6
+        macAddress: 52:54:00:aa:cc:05
+    networkConfig:
+      interfaces:
+        # bond0: install/mgmt network (static IP in machineNetwork 192.168.111.0/24)
+        - name: bond0
+          type: bond
+          state: up
+          ipv4:
+            enabled: true
+            address:
+              - ip: 192.168.111.10
+                prefix-length: 24
+            dhcp: false
+          link-aggregation:
+            mode: balance-rr
+            port:
+              - eno1
+              - eno2
+        # bond1: VLAN subinterfaces for VM networks (no IPs here; pods/VMs attach via NADs later)
+        - name: bond1
+          type: bond
+          state: up
+          link-aggregation:
+            mode: balance-rr
+            port:
+              - eno3
+              - eno4
+        - name: bond1.100
+          type: vlan
+          state: up
+          vlan:
+            base-iface: bond1
+            id: 100
+        - name: bond1.200
+          type: vlan
+          state: up
+          vlan:
+            base-iface: bond1
+            id: 200
+        # bond2: storage network
+        - name: bond2
+          type: bond
+          state: up
+          ipv4:
+            enabled: true
+            address:
+              - ip: 172.22.0.10
+                prefix-length: 24
+            dhcp: false
+          link-aggregation:
+            mode: balance-rr
+            port:
+              - eno5
+              - eno6
+      dns-resolver:
+        config:
+          server:
+            - 192.168.111.2
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: 192.168.111.1
+            next-hop-interface: bond0
+            table-id: 254
+    rootDeviceHints:
+      deviceName: /dev/disk/by-path/pci-0000:00:01.1-scsi-0:0:0:0
+
+  # Host 1: minimal (DHCP or static via networkConfig as needed)
+  - hostname: cp-1.gold.example.local
+    interfaces:
+      - name: eno1
+        macAddress: 52:54:00:aa:cc:11
+
+  # Host 2: minimal
+  - hostname: cp-2.gold.example.local
+    interfaces:
+      - name: eno1
+        macAddress: 52:54:00:aa:cc:12

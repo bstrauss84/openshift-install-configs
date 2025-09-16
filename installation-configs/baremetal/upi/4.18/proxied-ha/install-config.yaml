@@ -1,0 +1,33 @@
+---
+apiVersion: v1
+baseDomain: example.local
+metadata:
+  name: baremetal-upi-proxied
+compute:
+  - name: worker
+    replicas: 3
+controlPlane:
+  name: master
+  replicas: 3
+networking:
+  networkType: OVNKubernetes
+  clusterNetwork:
+    - cidr: 10.128.0.0/14
+      hostPrefix: 23
+  serviceNetwork:
+    - 172.30.0.0/16
+  machineNetwork:
+    - cidr: 10.0.0.0/16
+platform:
+  baremetal: {}
+pullSecret: '{"auths":{"registry.example.local:5000":{"auth":"REPLACE_ME_BASE64","email":"root@localhost"}}}'
+sshKey: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFAKE_PUBLIC_KEY_EXAMPLE user@host'
+proxy:
+  httpProxy: http://proxy.example.local:3128
+  httpsProxy: http://proxy.example.local:3128
+  noProxy: .example.local,127.0.0.1,localhost,10.0.0.0/16
+additionalTrustBundlePolicy: Always
+additionalTrustBundle: |
+  -----BEGIN CERTIFICATE-----
+  MIIFakeProxyCAHereOnlyAPlaceholder
+  -----END CERTIFICATE-----

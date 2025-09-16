@@ -1,0 +1,16 @@
+---
+kind: ImageSetConfiguration
+apiVersion: mirror.openshift.io/v1alpha2
+# How to discover current package names and default channels:
+#   oc mirror list operators --catalog=registry.redhat.io/redhat/redhat-operator-index:v4.20 \
+#     --version=4.20  # v1 only; v2 does not provide 'list' subcommand
+# For v2, consult OperatorHub in-cluster or release notes, or use catalog tooling.
+mirror:
+  operators:
+    - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.20
+      # Optionally set targetCatalog or targetTag (v1 only) for custom names in your mirror registry
+      # targetCatalog: my-registry.local/redhat/redhat-operator-index
+      packages:
+        - name: openshift-pipelines-operator-rh
+          # channels:
+          #   - name: stable

@@ -1,0 +1,53 @@
+---
+apiVersion: v1
+baseDomain: example.local
+metadata:
+  name: gold
+compute:
+  - name: worker
+    replicas: 0
+controlPlane:
+  name: master
+  replicas: 3
+networking:
+  networkType: OVNKubernetes
+  clusterNetwork:
+    - cidr: 10.128.0.0/14
+      hostPrefix: 23
+  serviceNetwork:
+    - 172.30.0.0/16
+  machineNetwork:
+    - cidr: 192.168.111.0/24
+platform:
+  baremetal:
+    apiVIPs:
+      - 192.168.111.5
+    ingressVIPs:
+      - 192.168.111.6
+    hosts: []
+pullSecret: '{"auths":{"registry.example.local:5000":{"auth":"REPLACE_ME_BASE64","email":"root@localhost"}}}'
+sshKey: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFAKE_PUBLIC_KEY_EXAMPLE user@host'
+imageDigestSources:
+  - mirrors:
+      - registry.example.local:5000/ocp
+    source: quay.io/openshift-release-dev/ocp-release
+proxy: {}
+additionalTrustBundlePolicy: Always
+additionalTrustBundle: |
+  -----BEGIN CERTIFICATE-----
+  MIIFakeProxyCAHereOnlyAPlaceholder
+  -----END CERTIFICATE-----
+  -----BEGIN CERTIFICATE-----
+  MIIFakeRegistryCAHereOnlyAPlaceholder
+  -----END CERTIFICATE-----
+fips: false
+
+# Install steps (agent-based):
+# 1) Back up this install-config.yaml and agent-config.yaml; they are consumed by the installer.
+# 2) From this directory: openshift-install --dir . agent create image
+# 3) Boot hosts from the generated ISO and wait for discovery.
+# 4) Monitor installation with: openshift-install --dir . agent wait-for install-complete
+# Notes:
+# - SSH key is PUBLIC key only. Generate new if needed: ssh-keygen -t ed25519 -N "" -f ~/.ssh/ocp_ed25519
+# - If you include an additionalTrustBundle, pair it with additionalTrustBundlePolicy: Always.
+# - Include your proxy CA first, then registry mirror CA in the single PEM.

@@ -1,0 +1,10 @@
+---
+kind: ImageSetConfiguration
+apiVersion: mirror.openshift.io/v1alpha2
+mirror:
+  operators:
+    - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.18
+      packages:
+        - name: nfd-operator
+        - name: odf-operator
+        - name: gpu-operator-certified

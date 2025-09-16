@@ -1,0 +1,7 @@
+---
+name: disconnected-ha-intlb-static-triple-bond-storage-vlan
+version: 4.20
+files:
+  - install-config.yaml
+  - agent-config.yaml
+  - README.md
