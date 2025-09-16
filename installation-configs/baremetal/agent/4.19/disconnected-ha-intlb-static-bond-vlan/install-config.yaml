@@ -1,0 +1,65 @@
+apiVersion: v1
+# No kind field for install-config
+baseDomain: example.local
+metadata:
+  # Becomes cluster name in routes like console.apps.<name>.<baseDomain>
+  name: gold
+compute:
+  - name: worker
+    replicas: 0  # set to >0 as needed; compact 3-node uses workers=0
+controlPlane:
+  name: master
+  replicas: 3
+networking:
+  networkType: OVNKubernetes
+  # clusterNetwork is the pod network CIDR(s)
+  clusterNetwork:
+    - cidr: 10.128.0.0/14
+      hostPrefix: 23
+  # serviceNetwork is the ClusterIP range
+  serviceNetwork:
+    - 172.30.0.0/16
+  # machineNetwork must include on-link subnets of your nodes and VIPs
+  machineNetwork:
+    - cidr: 192.168.111.0/24
+platform:
+  baremetal:
+    # With apiVIPs/ingressVIPs set, installer manages keepalived/haproxy
+    apiVIPs:
+      - 192.168.111.5
+    ingressVIPs:
+      - 192.168.111.6
+    hosts:
+      []  # Agent-based will discover; details in agent-config.yaml
+pullSecret: '{"auths":{"registry.example.local:5000":{"auth":"REPLACE_ME_BASE64","email":"root@localhost"}}}'
+sshKey: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFAKE_PUBLIC_KEY_EXAMPLE user@host'
+# When using an internal CA for proxies/registry, Always is recommended
+# imageContentSources (legacy/deprecated) is left here commented for reference:
+# imageContentSources:
+#   - mirrors:
+#       - registry.example.local:5000/ocp
+#     source: quay.io/openshift-release-dev/ocp-release
+imageDigestSources:
+  - mirrors:
+      - registry.example.local:5000/ocp
+    source: quay.io/openshift-release-dev/ocp-release
+proxy:
+  # Uncomment and set if needed; otherwise remove this section
+  # httpProxy: http://proxy.example.local:3128
+  # httpsProxy: http://proxy.example.local:3128
+  # noProxy: .example.local,127.0.0.1,localhost,192.168.111.0/24
+additionalTrustBundlePolicy: Always
+additionalTrustBundle: |
+  -----BEGIN CERTIFICATE-----
+  MIIFakeProxyCAHereOnlyAPlaceholder
+  -----END CERTIFICATE-----
+  -----BEGIN CERTIFICATE-----
+  MIIFakeRegistryCAHereOnlyAPlaceholder
+  -----END CERTIFICATE-----
+fips: false
+
+# Install execution (agent-based):
+# - Back up this file and the agent-config.yaml before running the install; they are consumed by the installer.
+# - Build ISO: openshift-install --dir . agent create image
+# - Boot hosts and wait for discovery; then: openshift-install --dir . agent wait-for install-complete
+# - If fips: true, run on a RHEL 9 host with FIPS enabled and use the exact matching openshift-install binary for your target x.y.z.

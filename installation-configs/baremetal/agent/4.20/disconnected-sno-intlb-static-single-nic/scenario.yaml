@@ -1,0 +1,7 @@
+# Scenario marker for ${scen}
+name: ${scen}
+version: ${ver}
+files:
+  - install-config.yaml
+  - agent-config.yaml
+  - README.md

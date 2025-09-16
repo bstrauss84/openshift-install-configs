@@ -1,0 +1,16 @@
+kind: ImageSetConfiguration
+apiVersion: mirror.openshift.io/v1alpha2
+mirror:
+  platform:
+    # Uncomment architectures to reduce content size to only what you need
+    # architectures:
+    #   - amd64
+    channels:
+      - type: ocp
+        name: stable-4.19
+        # Pin to single or narrow range for deterministic payloads
+        # Set both to the same value to pin to one release
+        minVersion: 4.19.3
+        maxVersion: 4.19.3
+    # When true, include the Cincinnati update graph so clusters can update between mirrored versions
+    graph: true
