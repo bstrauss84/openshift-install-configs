@@ -1,3 +1,4 @@
+---
 kind: ImageSetConfiguration
 apiVersion: mirror.openshift.io/v2alpha1
 # How to discover current package names and default channels:

@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 # No kind field for install-config
 baseDomain: example.local

@@ -1,3 +1,4 @@
+---
 kind: ImageSetConfiguration
 apiVersion: mirror.openshift.io/v1alpha2
 # This file includes OpenShift platform, a broad operator set, and useful additional images.

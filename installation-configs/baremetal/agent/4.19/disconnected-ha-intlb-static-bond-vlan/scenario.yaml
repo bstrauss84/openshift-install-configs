@@ -1,3 +1,4 @@
+---
 # Scenario marker for ${scen}
 name: ${scen}
 version: ${ver}

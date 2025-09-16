@@ -1,3 +1,4 @@
+---
 apiVersion: v1alpha1
 kind: AgentConfig
 metadata:
@@ -39,14 +40,18 @@ hosts:
             dhcp: false
           link-aggregation:
             mode: balance-rr
-            port: [ eno1, eno2 ]
+            port:
+              - eno1
+              - eno2
         # bond1: VLAN subinterfaces for VM networks (no IPs here; pods/VMs attach via NADs later)
         - name: bond1
           type: bond
           state: up
           link-aggregation:
             mode: balance-rr
-            port: [ eno3, eno4 ]
+            port:
+              - eno3
+              - eno4
         - name: bond1.100
           type: vlan
           state: up
@@ -71,10 +76,13 @@ hosts:
             dhcp: false
           link-aggregation:
             mode: balance-rr
-            port: [ eno5, eno6 ]
+            port:
+              - eno5
+              - eno6
       dns-resolver:
         config:
-          server: [ 192.168.111.2 ]
+          server:
+            - 192.168.111.2 
       routes:
         config:
           - destination: 0.0.0.0/0
