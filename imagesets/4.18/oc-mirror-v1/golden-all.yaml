@@ -1,3 +1,10 @@
+# Feel free to modify to reflect the operators/images you are targeting
+# To get the current list of operators and their default channels for this minor, run on an internet-facing host:
+#   oc-mirror list operators --catalog=registry.redhat.io/redhat/redhat-operator-index:v4.18 --version=4.18
+# oc-mirror v2 writes artifacts under working-dir/cluster-resources (IDMS/ITMS/CS/CC).
+# oc-mirror v1 writes artifacts under results-<timestamp>/ (ICSP for older clusters, or IDMS/ITMS on newer minors) and CatalogSource manifests.
+# See repo README for exact apply steps for v1 vs v2.
+
 ---
 kind: ImageSetConfiguration
 apiVersion: mirror.openshift.io/v1alpha2
@@ -192,3 +199,5 @@ mirror:
     - name: quay.io/containerdisks/centos:7-2009
     - name: quay.io/containerdisks/centos-stream:8-latest
     - name: quay.io/containerdisks/centos-stream:9-latest
+      channels:
+        - name: CHANGE_ME

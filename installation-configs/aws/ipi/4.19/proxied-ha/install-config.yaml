@@ -1,33 +1,52 @@
 ---
+# AWS IPI install-config: comprehensive, with examples for proxy and STS-free creds.
+# Replace placeholder values marked CHANGE ME.
 apiVersion: v1
-baseDomain: example.local
+baseDomain: CHANGE-ME.example.com
 metadata:
-  name: aws-ipi-proxied
-compute:
-  - name: worker
-    replicas: 3
+  name: CHANGE-ME-cluster
+
+networking:
+  networkType: OVNKubernetes
+  machineNetwork:
+  - cidr: 10.0.0.0/16
+
 controlPlane:
   name: master
   replicas: 3
-networking:
-  networkType: OVNKubernetes
-  clusterNetwork:
-    - cidr: 10.128.0.0/14
-      hostPrefix: 23
-  serviceNetwork:
-    - 172.30.0.0/16
-  machineNetwork:
-    - cidr: 10.0.0.0/16
+compute:
+- name: worker
+  replicas: 3
+
 platform:
-  aws: {}
-pullSecret: '{"auths":{"registry.example.local:5000":{"auth":"REPLACE_ME_BASE64","email":"root@localhost"}}}'
-sshKey: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFAKE_PUBLIC_KEY_EXAMPLE user@host'
-proxy:
-  httpProxy: http://proxy.example.local:3128
-  httpsProxy: http://proxy.example.local:3128
-  noProxy: .example.local,127.0.0.1,localhost,10.0.0.0/16
-additionalTrustBundlePolicy: Always
-additionalTrustBundle: |
-  -----BEGIN CERTIFICATE-----
-  MIIFakeProxyCAHereOnlyAPlaceholder
-  -----END CERTIFICATE-----
+  aws:
+    region: us-east-1
+    # Specify existing VPC/subnets to place control-plane and workers (optional).
+    # subnets:
+    # - subnet-0abc...
+    # - subnet-0def...
+    # multiZone: true
+    # public: false
+    # If you use a proxy, ensure endpoints for AWS APIs are in noProxy (or prefer VPC endpoints).
+    defaultMachinePlatform:
+      type: m6i.xlarge
+      rootVolume:
+        size: 300
+        type: gp3
+
+# If your environment uses a proxy:
+#proxy:
+#  httpProxy: http://proxy.internal.example.com:3128
+#  httpsProxy: http://proxy.internal.example.com:3128
+#  noProxy: .example.com,.svc,.cluster.local,10.0.0.0/8,127.0.0.1,localhost,ec2.internal
+#additionalTrustBundlePolicy: Always
+#additionalTrustBundle: |
+#  -----BEGIN CERTIFICATE-----
+#  ... proxy CA chain; include mirror CA if you run a private registry ...
+#  -----END CERTIFICATE-----
+
+# sshKey is your public key only:
+sshKey: 'ssh-ed25519 AAAA...CHANGE-ME... user@host'
+
+# Pull secret must be one-line JSON. Tip: jq -c . pull-secret.json
+pullSecret: '{"auths":{"cloud.openshift.com":{"auth":"..."},"quay.io":{"auth":"..."} }}'

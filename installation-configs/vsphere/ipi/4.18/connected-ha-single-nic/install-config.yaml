@@ -1,24 +1,48 @@
 ---
+# vSphere IPI install-config: comprehensive baseline.
+# Replace placeholder values marked CHANGE ME.
 apiVersion: v1
-baseDomain: example.local
+baseDomain: CHANGE-ME.example.com
 metadata:
-  name: vsphere-ipi-ha
-compute:
-  - name: worker
-    replicas: 3
+  name: CHANGE-ME-cluster
+
+networking:
+  networkType: OVNKubernetes
+  machineNetwork:
+  - cidr: 192.168.111.0/24
+
 controlPlane:
   name: master
   replicas: 3
-networking:
-  networkType: OVNKubernetes
-  clusterNetwork:
-    - cidr: 10.128.0.0/14
-      hostPrefix: 23
-  serviceNetwork:
-    - 172.30.0.0/16
-  machineNetwork:
-    - cidr: 10.0.0.0/16
+compute:
+- name: worker
+  replicas: 3
+
 platform:
-  vsphere: {}
-pullSecret: '{"auths":{"registry.example.local:5000":{"auth":"REPLACE_ME_BASE64","email":"root@localhost"}}}'
-sshKey: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFAKE_PUBLIC_KEY_EXAMPLE user@host'
+  vsphere:
+    vCenter: vcsa.example.com
+    username: administrator@vsphere.local
+    password: CHANGE-ME
+    datacenter: DC1
+    defaultDatastore: datastore1
+    cluster: compute-cluster
+    network: VM Network
+    folder: /DC1/vm/ocp
+    # Optional:
+    # resourcePool: /DC1/host/compute-cluster/Resources
+    # apiVIP: 192.168.111.10   # vSphere IPI typically uses single VIPs (legacy style)
+    # ingressVIP: 192.168.111.11
+
+# Proxy example (if required):
+#proxy:
+#  httpProxy: http://proxy.internal.example.com:3128
+#  httpsProxy: http://proxy.internal.example.com:3128
+#  noProxy: .example.com,.svc,.cluster.local,192.168.111.0/24,127.0.0.1,localhost
+#additionalTrustBundlePolicy: Always
+#additionalTrustBundle: |
+#  -----BEGIN CERTIFICATE-----
+#  ... proxy CA and any mirror CA ...
+#  -----END CERTIFICATE-----
+
+sshKey: 'ssh-ed25519 AAAA...CHANGE-ME... user@host'
+pullSecret: '{"auths":{"registry.redhat.io":{"auth":"..."},"quay.io":{"auth":"..."}}}'

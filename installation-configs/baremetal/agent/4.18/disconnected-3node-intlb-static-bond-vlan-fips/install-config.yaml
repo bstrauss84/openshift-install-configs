@@ -33,6 +33,22 @@ platform:
     hosts:
       []  # Agent-based will discover; details in agent-config.yaml
 pullSecret: '{"auths":{"registry.example.local:5000":{"auth":"REPLACE_ME_BASE64","email":"root@localhost"}}}'
+# __GS_ENSURE_IDS_BLOCK__
+# Legacy example for older docs/readers; prefer imageDigestSources below
+#imageContentSources:
+#- mirrors:
+#  - mirror.example.com:8443/openshift/release
+#  source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+#- mirrors:
+#  - mirror.example.com:8443/openshift/release-images
+#  source: quay.io/openshift-release-dev/ocp-release
+imageDigestSources:
+- mirrors:
+  - mirror.example.com:8443/openshift/release
+  source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+- mirrors:
+  - mirror.example.com:8443/openshift/release-images
+  source: quay.io/openshift-release-dev/ocp-release
 sshKey: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFAKE_PUBLIC_KEY_EXAMPLE user@host'
 # When using an internal CA for proxies/registry, Always is recommended
 # imageContentSources (legacy/deprecated) is left here commented for reference:
@@ -59,6 +75,22 @@ additionalTrustBundle: |
   -----END CERTIFICATE-----
 fips: true
 
+# __GS_ENSURE_IDS_BLOCK__
+# Legacy example for older docs/readers; prefer imageDigestSources below
+#imageContentSources:
+#- mirrors:
+#  - mirror.example.com:8443/openshift/release
+#  source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+#- mirrors:
+#  - mirror.example.com:8443/openshift/release-images
+#  source: quay.io/openshift-release-dev/ocp-release
+imageDigestSources:
+- mirrors:
+  - mirror.example.com:8443/openshift/release
+  source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+- mirrors:
+  - mirror.example.com:8443/openshift/release-images
+  source: quay.io/openshift-release-dev/ocp-release
 # Install execution (agent-based):
 # - Back up this file and the agent-config.yaml before running the install; they are consumed by the installer.
 # - Build ISO: openshift-install --dir . agent create image
