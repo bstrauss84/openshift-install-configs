@@ -1,0 +1,20 @@
+---
+# Example: Access external networks using Linux bridge
+# Docs: https://www.redhat.com/en/blog/access-external-networks-with-openshift-virtualization
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: bridge-external
+spec:
+  config: |
+    {
+      "cniVersion": "0.3.1",
+      "type": "bridge",
+      "bridge": "br-external",
+      "ipam": {
+        "type": "static",
+        "addresses": [
+          { "address": "198.51.100.10/24", "gateway": "198.51.100.1" }
+        ]
+      }
+    }

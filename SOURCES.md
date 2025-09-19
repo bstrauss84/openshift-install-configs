@@ -46,3 +46,11 @@ This repo’s content aligns with the following Red Hat documentation. Use these
 - Bare metal IPI host networkConfig and VIP lists: https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/installing_on_bare_metal/installer-provisioned-infrastructure#configuring-host-network-interfaces-in-the-install-config-yaml-file_ipi-install-installation-workflow
 - additionalTrustBundlePolicy and install-config field behavior (example reference): https://docs.redhat.com/en/documentation/openshift_container_platform/4.12/html/installing_on_gcp/installing-on-gcp#installation-configuration-parameters_installing-gcp
 - Installing on any platform (install-config reference, general behaviors): https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html-single/installing_on_any_platform/
+
+## Virt Secondary Networking
+- Access external networks with OpenShift Virtualization (Red Hat Blog, 2024):
+  https://www.redhat.com/en/blog/access-external-networks-with-openshift-virtualization
+- KubeVirt NetworkAttachmentDefinition API reference:
+  https://kubevirt.io/user-guide/operations/network/secondary_networks/
+- SR-IOV Network Operator documentation:
+  https://docs.openshift.com/container-platform/4.18/networking/hardware_networks/installing-sriov-operator.html

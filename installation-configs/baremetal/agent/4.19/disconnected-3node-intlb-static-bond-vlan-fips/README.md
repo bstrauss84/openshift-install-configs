@@ -1,4 +1,4 @@
-# ${scen}
+# disconnected-3node-intlb-static-bond-vlan-fips
 
 Notes:
 - All examples use OVN-Kubernetes.

@@ -1,3 +1,4 @@
+---
 # Feel free to modify to reflect the operators/images you are targeting
 # To get the current list of operators and their default channels for this minor, run on an internet-facing host:
 #   oc-mirror list operators --catalog=registry.redhat.io/redhat/redhat-operator-index:v4.19 --version=4.19
@@ -199,5 +200,3 @@ mirror:
     - name: quay.io/containerdisks/centos:7-2009
     - name: quay.io/containerdisks/centos-stream:8-latest
     - name: quay.io/containerdisks/centos-stream:9-latest
-      channels:
-        - name: CHANGE_ME
