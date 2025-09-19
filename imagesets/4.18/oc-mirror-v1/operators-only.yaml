@@ -19,7 +19,5 @@ mirror:
       # targetCatalog: my-registry.local/redhat/redhat-operator-index
       packages:
         - name: openshift-pipelines-operator-rh
-          # channels:
-          #   - name: stable
-      channels:
-        - name: CHANGE_ME
+          channels:
+            - name: CHANGE_ME
