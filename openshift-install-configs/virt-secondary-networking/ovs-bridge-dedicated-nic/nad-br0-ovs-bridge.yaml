@@ -1,0 +1,16 @@
+---
+# NAD for Option 2 (OVN localnet on br0).
+# "name" must match NNCP localnet (br0-network). No IPAM for VMs.
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: br0-network
+  namespace: vmtest
+spec:
+  config: '{
+    "name": "br0-network",
+    "type": "ovn-k8s-cni-overlay",
+    "cniVersion": "0.4.0",
+    "topology": "localnet",
+    "netAttachDefName": "vmtest/br0-network"
+  }'

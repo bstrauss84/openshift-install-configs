@@ -1,0 +1,18 @@
+---
+# NAD for Option 1 (OVN localnet on br-ex).
+# IMPORTANT:
+# - "name" below must match the NNCP localnet ("br-ex-network")
+# - "netAttachDefName" is <namespace>/<nad-name> and must match metadata
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: br-ex-network
+  namespace: vmtest
+spec:
+  config: '{
+    "name": "br-ex-network",
+    "type": "ovn-k8s-cni-overlay",
+    "cniVersion": "0.4.0",
+    "topology": "localnet",
+    "netAttachDefName": "vmtest/br-ex-network"
+  }'

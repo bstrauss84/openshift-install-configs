@@ -1,0 +1,32 @@
+---
+# VM example for Option 1: use the OVN localnet NAD on br-ex
+# Replace the containerDisk image with whatever you actually use (PVC/DataVolume is typical in real clusters).
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: vm-br-ex-net
+  namespace: vmtest
+spec:
+  running: true
+  template:
+    metadata:
+      labels:
+        example: br-ex-localnet
+    spec:
+      networks:
+        - name: br-ex-net
+          multus:
+            networkName: vmtest/br-ex-network
+      domain:
+        devices:
+          interfaces:
+            - name: br-ex-net
+              bridge: {}
+        resources:
+          requests:
+            memory: 2Gi
+            cpu: 2
+      volumes:
+        - name: rootdisk
+          containerDisk:
+            image: quay.io/containerdisks/centos-stream:9-latest

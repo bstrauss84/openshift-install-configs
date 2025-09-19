@@ -1,0 +1,18 @@
+---
+# Option 1: Single NIC — add a localnet to br-ex (OVN-Kubernetes)
+# Do NOT attempt to reconfigure 'br-ex' itself. You only add/remove a localnet mapping.
+# Safe rollback: change 'state: present' -> 'state: absent', then re-apply this NNCP.
+apiVersion: nmstate.io/v1
+kind: NodeNetworkConfigurationPolicy
+metadata:
+  name: br-ex-network
+spec:
+  # Target worker nodes (adjust selector to your cluster)
+  nodeSelector:
+    node-role.kubernetes.io/worker: ""
+  desiredState:
+    ovn:
+      bridge-mappings:
+        - localnet: br-ex-network  # this name is referenced by the NAD
+          bridge: br-ex            # OVN's external bridge on each node
+          state: present
