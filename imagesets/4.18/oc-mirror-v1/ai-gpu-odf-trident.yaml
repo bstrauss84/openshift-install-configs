@@ -13,7 +13,11 @@ mirror:
     - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.18
       packages:
         - name: nfd-operator
+          channels:
+            - name: CHANGE_ME
         - name: odf-operator
+          channels:
+            - name: CHANGE_ME
         - name: gpu-operator-certified
-      channels:
-        - name: CHANGE_ME
+          channels:
+            - name: CHANGE_ME
