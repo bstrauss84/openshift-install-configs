@@ -199,5 +199,3 @@ mirror:
     - name: quay.io/containerdisks/centos:7-2009
     - name: quay.io/containerdisks/centos-stream:8-latest
     - name: quay.io/containerdisks/centos-stream:9-latest
-      channels:
-        - name: CHANGE_ME
