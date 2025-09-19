@@ -1,0 +1,28 @@
+---
+# NetworkAttachmentDefinition: Linux bridge to an external VLAN-backed network
+# Apply namespace-scoped. Replace CHANGE-ME values to match your host bridge and VLAN.
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: br-ex-vlan100
+  namespace: CHANGE-ME-namespace
+spec:
+  config: |
+    {
+      "cniVersion": "0.3.1",
+      "name": "br-ex-vlan100",
+      "plugins": [
+        {
+          "type": "bridge",
+          "bridge": "br-ex",
+          "promiscMode": true,
+          "vlan": 100,
+          "ipam": {
+            "type": "static"
+          }
+        }
+      ]
+    }
+# Notes:
+# - Create and configure br-ex on every node that will host VMs. Use NMState NNCP for day-2 host networking.
+# - Pods/VMs can request a static IP via kubevirt/virt-launcher interfaces or via guest OS DHCP/static config.

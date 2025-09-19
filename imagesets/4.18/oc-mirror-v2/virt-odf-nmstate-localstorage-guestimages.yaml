@@ -40,6 +40,8 @@ mirror:
         - name: kubernetes-nmstate-operator
           channels:
             - name: stable
+              channels:
+                - name: CHANGE_ME
         # Storage (ODF + deps: check per-minor docs for exact dependency matrix)
         - name: odf-operator
           channels:
@@ -47,3 +49,5 @@ mirror:
         - name: local-storage-operator
           channels:
             - name: stable
+              channels:
+                - name: CHANGE_ME

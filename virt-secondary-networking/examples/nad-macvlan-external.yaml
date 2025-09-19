@@ -1,0 +1,22 @@
+---
+# NetworkAttachmentDefinition: macvlan L2 access to upstream network
+# Useful when you cannot bridge on the host but can present a trunk/untagged port.
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: macvlan-ext
+  namespace: CHANGE-ME-namespace
+spec:
+  config: |
+    {
+      "cniVersion": "0.3.1",
+      "type": "macvlan",
+      "mode": "bridge",
+      "master": "ens224",
+      "ipam": {
+        "type": "static"
+      }
+    }
+# Notes:
+# - macvlan creates a separate L2 domain per host; broadcast doesn’t cross nodes without L3 routing.
+# - Use when upstream switch provides access and you cannot deploy a bridge on the node.

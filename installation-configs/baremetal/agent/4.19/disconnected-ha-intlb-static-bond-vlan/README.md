@@ -1,4 +1,4 @@
-# ${scen}
+# disconnected-ha-intlb-static-bond-vlan
 
 Notes:
 - All examples use OVN-Kubernetes.

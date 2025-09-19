@@ -1,4 +1,4 @@
-# ${scen}
+# connected-ha-extlb-dhcp-single-nic
 
 Notes:
 - All examples use OVN-Kubernetes.
