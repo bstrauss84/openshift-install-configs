@@ -1,4 +1,6 @@
 ---
+# yamllint disable rule:truthy
+---
 name: validate
 on:
   push:
