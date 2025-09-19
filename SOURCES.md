@@ -38,7 +38,7 @@ This repo’s content aligns with the following Red Hat documentation. Use these
   - SC2S/C2S and related fixes: https://docs.redhat.com/en/documentation/openshift_container_platform/4.14/html/installing_on_aws/installing-aws-secret-region and 4.18 release notes item fixing load balancer SGs: https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/release_notes/ocp-4-18-release-notes
 
 <!-- __GS_DOC_ANCHOR__ -->
-## Key Red Hat docs referenced for this scaffold
+\# \1 Key Red Hat docs referenced for this scaffold
 
 - oc-mirror v2 (ImageSetConfiguration v2alpha1, workspace, outputs): https://docs.redhat.com/en/documentation/openshift_container_platform/4.16/html-single/disconnected_installations_and_updates/#oc-mirror-v2-ref_disconnected-oc-mirror
 - ImageSetConfiguration v2alpha1 API PDF: https://repo1.dso.mil/big-bang/product/packages/loki/-/raw/main/docs/OpenShift_Container_Platform-4.14-ImageSetConfiguration_v2alpha1-1-en-US.pdf

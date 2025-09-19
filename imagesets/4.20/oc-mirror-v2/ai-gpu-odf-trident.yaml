@@ -15,5 +15,5 @@ mirror:
         - name: nfd-operator
         - name: odf-operator
         - name: gpu-operator-certified
-      channels:
+          channels:
         - name: CHANGE_ME

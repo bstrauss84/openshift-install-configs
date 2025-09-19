@@ -14,5 +14,5 @@ mirror:
       packages:
         - name: openshift-pipelines-operator-rh
         - name: openshift-gitops-operator
-      channels:
+          channels:
         - name: CHANGE_ME

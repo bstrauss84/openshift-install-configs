@@ -13,5 +13,5 @@ mirror:
     - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.18
       packages:
         - name: ansible-automation-platform-operator
-      channels:
+          channels:
         - name: CHANGE_ME
