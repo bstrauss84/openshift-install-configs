@@ -35,11 +35,11 @@ platform:
 pullSecret: '{"auths":{"registry.example.local:5000":{"auth":"REPLACE_ME_BASE64","email":"root@localhost"}}}'
 # __GS_ENSURE_IDS_BLOCK__
 # Legacy example for older docs/readers; prefer imageDigestSources below
-#imageContentSources:
-#- mirrors:
+# imageContentSources:
+# - mirrors:
 #  - mirror.example.com:8443/openshift/release
 #  source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
-#- mirrors:
+# - mirrors:
 #  - mirror.example.com:8443/openshift/release-images
 #  source: quay.io/openshift-release-dev/ocp-release
 imageDigestSources:
@@ -77,11 +77,11 @@ fips: false
 
 # __GS_ENSURE_IDS_BLOCK__
 # Legacy example for older docs/readers; prefer imageDigestSources below
-#imageContentSources:
-#- mirrors:
+# imageContentSources:
+# - mirrors:
 #  - mirror.example.com:8443/openshift/release
 #  source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
-#- mirrors:
+# - mirrors:
 #  - mirror.example.com:8443/openshift/release-images
 #  source: quay.io/openshift-release-dev/ocp-release
 imageDigestSources:
