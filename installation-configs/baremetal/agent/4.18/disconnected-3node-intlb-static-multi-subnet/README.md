@@ -1,4 +1,4 @@
-# ${scen}
+# disconnected-3node-intlb-static-multi-subnet
 
 Notes:
 - All examples use OVN-Kubernetes.

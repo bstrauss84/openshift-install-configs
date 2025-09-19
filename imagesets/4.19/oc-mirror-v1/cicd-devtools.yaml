@@ -1,3 +1,4 @@
+---
 # Feel free to modify to reflect the operators/images you are targeting
 # To get the current list of operators and their default channels for this minor, run on an internet-facing host:
 #   oc-mirror list operators --catalog=registry.redhat.io/redhat/redhat-operator-index:v4.19 --version=4.19
@@ -10,9 +11,11 @@ kind: ImageSetConfiguration
 apiVersion: mirror.openshift.io/v1alpha2
 mirror:
   operators:
-    - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.18
+    - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.19
       packages:
         - name: openshift-pipelines-operator-rh
+          channels:
+            - name: CHANGE_ME
         - name: openshift-gitops-operator
-      channels:
-        - name: CHANGE_ME
+          channels:
+            - name: CHANGE_ME
