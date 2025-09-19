@@ -15,3 +15,5 @@ mirror:
         - name: ansible-automation-platform-operator
           channels:
         - name: CHANGE_ME
+          channels:
+            - name: CHANGE_ME

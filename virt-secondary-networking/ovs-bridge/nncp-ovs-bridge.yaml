@@ -1,0 +1,19 @@
+---
+apiVersion: nmstate.io/v1
+kind: NodeNetworkConfigurationPolicy
+metadata:
+  name: nncp-ovs-bridge-ext
+spec:
+  nodeSelector: {}
+  desiredState:
+    interfaces:
+      - name: ovs-br-ext
+        type: ovs-bridge
+        state: up
+        bridge:
+          port:
+            - name: eno3
+        ipv4:
+          enabled: false
+        ipv6:
+          enabled: false

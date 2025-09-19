@@ -1,0 +1,22 @@
+---
+apiVersion: nmstate.io/v1
+kind: NodeNetworkConfigurationPolicy
+metadata:
+  name: nncp-linux-bridge-br-ext
+spec:
+  nodeSelector: {}  # target all nodes; narrow with labels if desired
+  desiredState:
+    interfaces:
+      - name: br-ext
+        type: linux-bridge
+        state: up
+        bridge:
+          options:
+            stp:
+              enabled: false
+          port:
+            - name: eno2
+        ipv4:
+          enabled: false
+        ipv6:
+          enabled: false

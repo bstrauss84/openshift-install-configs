@@ -37,13 +37,21 @@ mirror:
         - name: kubevirt-hyperconverged
           channels:
             - name: stable
+              channels:
+                - name: CHANGE_ME
         - name: kubernetes-nmstate-operator
           channels:
             - name: stable
         # Storage (ODF + deps: check per-minor docs for exact dependency matrix)
+              channels:
+                - name: CHANGE_ME
         - name: odf-operator
           channels:
             - name: stable-4.18
+              channels:
+                - name: CHANGE_ME
         - name: local-storage-operator
           channels:
             - name: stable
+              channels:
+                - name: CHANGE_ME

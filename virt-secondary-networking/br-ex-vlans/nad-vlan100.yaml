@@ -1,0 +1,18 @@
+---
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: ext-vlan100
+  namespace: default
+spec:
+  config: |
+    {
+      "cniVersion": "0.3.1",
+      "type": "bridge",
+      "name": "ext-vlan100",
+      "bridge": "br-ex",
+      "vlan": 100,
+      "ipam": {
+        "type": "static"
+      }
+    }

@@ -13,6 +13,10 @@ mirror:
     - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.18
       packages:
         - name: openshift-pipelines-operator-rh
+          channels:
+            - name: CHANGE_ME
         - name: openshift-gitops-operator
           channels:
         - name: CHANGE_ME
+          channels:
+            - name: CHANGE_ME

@@ -23,3 +23,5 @@ mirror:
           #   - name: stable
           channels:
         - name: CHANGE_ME
+          channels:
+            - name: CHANGE_ME

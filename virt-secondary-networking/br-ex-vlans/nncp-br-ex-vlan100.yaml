@@ -1,0 +1,32 @@
+---
+apiVersion: nmstate.io/v1
+kind: NodeNetworkConfigurationPolicy
+metadata:
+  name: nncp-br-ex-vlan100
+spec:
+  nodeSelector: {}
+  desiredState:
+    interfaces:
+      - name: br-ex
+        type: linux-bridge
+        state: up
+        bridge:
+          options:
+            stp:
+              enabled: false
+          port:
+            - name: eno4
+        ipv4:
+          enabled: false
+        ipv6:
+          enabled: false
+      - name: br-ex.100
+        type: vlan
+        state: up
+        vlan:
+          base-iface: br-ex
+          id: 100
+        ipv4:
+          enabled: false
+        ipv6:
+          enabled: false
