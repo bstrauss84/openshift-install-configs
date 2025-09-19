@@ -36,12 +36,12 @@ pullSecret: '{"auths":{"registry.example.local:5000":{"auth":"REPLACE_ME_BASE64"
 #  - mirror.example.com:8443/openshift/release-images
 #  source: quay.io/openshift-release-dev/ocp-release
 imageDigestSources:
-- mirrors:
-  - mirror.example.com:8443/openshift/release
-  source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
-- mirrors:
-  - mirror.example.com:8443/openshift/release-images
-  source: quay.io/openshift-release-dev/ocp-release
+  - mirrors:
+      - mirror.example.com:8443/openshift/release
+    source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+  - mirrors:
+      - mirror.example.com:8443/openshift/release-images
+    source: quay.io/openshift-release-dev/ocp-release
 sshKey: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFAKE_PUBLIC_KEY_EXAMPLE user@host'
 imageDigestSources:
   - mirrors:
@@ -57,7 +57,6 @@ additionalTrustBundle: |
   MIIFakeRegistryCAHereOnlyAPlaceholder
   -----END CERTIFICATE-----
 fips: false
-
 # __GS_ENSURE_IDS_BLOCK__
 # Legacy example for older docs/readers; prefer imageDigestSources below
 # imageContentSources:
@@ -68,12 +67,12 @@ fips: false
 #  - mirror.example.com:8443/openshift/release-images
 #  source: quay.io/openshift-release-dev/ocp-release
 imageDigestSources:
-- mirrors:
-  - mirror.example.com:8443/openshift/release
-  source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
-- mirrors:
-  - mirror.example.com:8443/openshift/release-images
-  source: quay.io/openshift-release-dev/ocp-release
+  - mirrors:
+      - mirror.example.com:8443/openshift/release
+    source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+  - mirrors:
+      - mirror.example.com:8443/openshift/release-images
+    source: quay.io/openshift-release-dev/ocp-release
 # Install steps (agent-based):
 # 1) Back up this install-config.yaml and agent-config.yaml; they are consumed by the installer.
 # 2) From this directory: openshift-install --dir . agent create image
