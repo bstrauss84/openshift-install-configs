@@ -14,3 +14,22 @@ These opinionated examples are meant to be a practical baseline for disconnected
 - **v2 (`mirror.openshift.io/v2alpha1`)**: Always use `--workspace file://./workdir` and reuse the same path for differential updates. Cluster resources land under `workdir/cluster-resources` (IDMS/ITMS/CS/CC).
 
 See `SOURCES.md` for the documentation that justifies key choices.
+
+---
+
+<!-- __GS_IPI_EXPANDED__ -->
+## IPI templates updated
+
+- Bare metal IPI now includes fully commented `hosts[]` with `networkConfig` (bonds), `provisioningNetwork: Disabled`, and `apiVIPs`/`ingressVIPs` semantics.
+- AWS and vSphere IPI examples expanded with realistic fields and proxy guidance.
+- Agent-based install-configs do **not** use `hosts: []`; those are removed.
+
+## oc-mirror quick guide (v2 vs v1)
+
+- **v2** (`apiVersion: mirror.openshift.io/v2alpha1`): run from a stable `--workspace`; outputs under `working-dir/cluster-resources/` (IDMS/ITMS/CatalogSource/CatalogContent). Apply the cluster-scoped resources first on a connected admin host with cluster access.
+- **v1** (`apiVersion: mirror.openshift.io/v1alpha2`): outputs under `results-<timestamp>/`; apply generated manifests (IDMS/ITMS on newer minors, or ICSP on older) plus CatalogSources.
+- To discover default channels for operators on a given minor:
+  `oc-mirror list operators --catalog=registry.redhat.io/redhat/redhat-operator-index:v4.18 --version=4.18`
+  Replace `4.18` with your minor.
+- Include `graph: true` under `mirror.platform` to mirror OpenShift Update Service graph data for that minor.
+

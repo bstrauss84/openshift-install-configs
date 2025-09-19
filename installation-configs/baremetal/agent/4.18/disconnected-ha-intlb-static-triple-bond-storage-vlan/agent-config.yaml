@@ -1,5 +1,5 @@
 ---
-apiVersion: v1alpha1
+apiVersion: v1beta1
 kind: AgentConfig
 metadata:
   name: gold

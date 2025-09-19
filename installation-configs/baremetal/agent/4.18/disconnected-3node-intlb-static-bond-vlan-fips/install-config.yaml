@@ -7,7 +7,7 @@ metadata:
   name: gold
 compute:
   - name: worker
-    replicas: 0  # set to >0 as needed; compact 3-node uses workers=0
+    replicas: 0 # set to >0 as needed; compact 3-node uses workers=0
 controlPlane:
   name: master
   replicas: 3
@@ -30,9 +30,24 @@ platform:
       - 192.168.111.5
     ingressVIPs:
       - 192.168.111.6
-    hosts:
-      []  # Agent-based will discover; details in agent-config.yaml
+    hosts: [] # Agent-based will discover; details in agent-config.yaml
 pullSecret: '{"auths":{"registry.example.local:5000":{"auth":"REPLACE_ME_BASE64","email":"root@localhost"}}}'
+# __GS_ENSURE_IDS_BLOCK__
+# Legacy example for older docs/readers; prefer imageDigestSources below
+# imageContentSources:
+# - mirrors:
+#  - mirror.example.com:8443/openshift/release
+#  source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+# - mirrors:
+#  - mirror.example.com:8443/openshift/release-images
+#  source: quay.io/openshift-release-dev/ocp-release
+imageDigestSources:
+  - mirrors:
+      - mirror.example.com:8443/openshift/release
+    source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+  - mirrors:
+      - mirror.example.com:8443/openshift/release-images
+    source: quay.io/openshift-release-dev/ocp-release
 sshKey: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFAKE_PUBLIC_KEY_EXAMPLE user@host'
 # When using an internal CA for proxies/registry, Always is recommended
 # imageContentSources (legacy/deprecated) is left here commented for reference:
@@ -40,15 +55,11 @@ sshKey: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFAKE_PUBLIC_KEY_EXAMPLE user@host'
 #   - mirrors:
 #       - registry.example.local:5000/ocp
 #     source: quay.io/openshift-release-dev/ocp-release
-imageDigestSources:
-  - mirrors:
-      - registry.example.local:5000/ocp
-    source: quay.io/openshift-release-dev/ocp-release
 proxy:
-  # Uncomment and set if needed; otherwise remove this section
-  # httpProxy: http://proxy.example.local:3128
-  # httpsProxy: http://proxy.example.local:3128
-  # noProxy: .example.local,127.0.0.1,localhost,192.168.111.0/24
+# Uncomment and set if needed; otherwise remove this section
+# httpProxy: http://proxy.example.local:3128
+# httpsProxy: http://proxy.example.local:3128
+# noProxy: .example.local,127.0.0.1,localhost,192.168.111.0/24
 additionalTrustBundlePolicy: Always
 additionalTrustBundle: |
   -----BEGIN CERTIFICATE-----
@@ -58,7 +69,15 @@ additionalTrustBundle: |
   MIIFakeRegistryCAHereOnlyAPlaceholder
   -----END CERTIFICATE-----
 fips: true
-
+# __GS_ENSURE_IDS_BLOCK__
+# Legacy example for older docs/readers; prefer imageDigestSources below
+# imageContentSources:
+# - mirrors:
+#  - mirror.example.com:8443/openshift/release
+#  source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+# - mirrors:
+#  - mirror.example.com:8443/openshift/release-images
+#  source: quay.io/openshift-release-dev/ocp-release
 # Install execution (agent-based):
 # - Back up this file and the agent-config.yaml before running the install; they are consumed by the installer.
 # - Build ISO: openshift-install --dir . agent create image

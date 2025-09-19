@@ -1,24 +1,147 @@
 ---
+# Bare Metal IPI install-config: comprehensive, with Virtual Media (provisioningNetwork: Disabled),
+# and host-level networkConfig using NMState (bond + DHCP example). Replace all CHANGE-ME values.
 apiVersion: v1
-baseDomain: example.local
+baseDomain: CHANGE-ME.example.com
 metadata:
-  name: baremetal-ipi-ha
-compute:
-  - name: worker
-    replicas: 3
+  name: CHANGE-ME-cluster
+
+# Enable FIPS only if your admin host is already FIPS-enabled and you use the matching openshift-install binary.
+# fips: true
+
+networking:
+  networkType: OVNKubernetes
+  machineNetwork:
+    - cidr: 10.11.12.0/24  # Must cover API/Ingress VIPs and node IPs
+
 controlPlane:
   name: master
   replicas: 3
-networking:
-  networkType: OVNKubernetes
-  clusterNetwork:
-    - cidr: 10.128.0.0/14
-      hostPrefix: 23
-  serviceNetwork:
-    - 172.30.0.0/16
-  machineNetwork:
-    - cidr: 10.0.0.0/16
+
+compute:
+  - name: worker
+    replicas: 0  # Compact, set >0 for workers
+
+# Public SSH key only. Generate: ssh-keygen -t ed25519 -C "core@openshift-nodes"
+sshKey: 'ssh-ed25519 AAAA...CHANGE-ME... core@openshift-nodes'
+
+# One-line JSON. Tip: jq -c . pull-secret.json
+pullSecret: '{"auths":{"mirror.example.com:8443":{"auth":"YWRtaW46cGFzc3dvcmQ="}}}'
+
 platform:
-  baremetal: {}
-pullSecret: '{"auths":{"registry.example.local:5000":{"auth":"REPLACE_ME_BASE64","email":"root@localhost"}}}'
-sshKey: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFAKE_PUBLIC_KEY_EXAMPLE user@host'
+  baremetal:
+    # If DHCP option 42 provides NTP, omit additionalNTPServers. Else provide two or more internal sources.
+    additionalNTPServers:
+      - ntp1.internal.example.com
+      - ntp2.internal.example.com
+
+    # With apiVIPs/ingressVIPs set, the installer provides keepalived/haproxy for API and Ingress.
+    apiVIPs:
+      - 10.11.12.10
+    ingressVIPs:
+      - 10.11.12.11
+
+    # Disable provisioning network; use virtual media (idrac-virtualmedia) and a host NM bridge for the bootstrap libvirt VM.
+    provisioningNetwork: "Disabled"
+    externalBridge: "bm-external"
+
+    # IPI on bare metal requires hosts[].
+    hosts:
+      - name: master-0
+        role: master
+        bmc:
+          address: idrac-virtualmedia://idrac-master-0.internal.example.com/redfish/v1/Systems/System.Embedded.1
+          username: root
+          password: CHANGE-ME
+          disableCertificateVerification: true
+        bootMode: UEFISecureBoot
+        bootMACAddress: 52:54:00:aa:bb:00
+        rootDeviceHints:
+          model: "BOSS"
+        networkConfig:
+          interfaces:
+            - name: bond0
+              type: bond
+              state: up
+              mtu: 9000
+              link-aggregation:
+                mode: 802.3ad
+                port:
+                  - eno1
+                  - eno2
+              ipv4:
+                enabled: true
+                dhcp: true
+              ipv6:
+                enabled: false
+      - name: master-1
+        role: master
+        bmc:
+          address: idrac-virtualmedia://idrac-master-1.internal.example.com/redfish/v1/Systems/System.Embedded.1
+          username: root
+          password: CHANGE-ME
+          disableCertificateVerification: true
+        bootMode: UEFISecureBoot
+        bootMACAddress: 52:54:00:aa:bb:01
+        rootDeviceHints:
+          model: "BOSS"
+        networkConfig:
+          interfaces:
+            - name: bond0
+              type: bond
+              state: up
+              mtu: 9000
+              link-aggregation:
+                mode: 802.3ad
+                port:
+                  - eno1
+                  - eno2
+              ipv4:
+                enabled: true
+                dhcp: true
+              ipv6:
+                enabled: false
+      - name: master-2
+        role: master
+        bmc:
+          address: idrac-virtualmedia://idrac-master-2.internal.example.com/redfish/v1/Systems/System.Embedded.1
+          username: root
+          password: CHANGE-ME
+          disableCertificateVerification: true
+        bootMode: UEFISecureBoot
+        bootMACAddress: 52:54:00:aa:bb:02
+        rootDeviceHints:
+          model: "BOSS"
+        networkConfig:
+          interfaces:
+            - name: bond0
+              type: bond
+              state: up
+              mtu: 9000
+              link-aggregation:
+                mode: 802.3ad
+                port:
+                  - eno1
+                  - eno2
+              ipv4:
+                enabled: true
+                dhcp: true
+              ipv6:
+                enabled: false
+
+# Proxy example
+# proxy:
+#   httpProxy: http://proxy.internal.example.com:3128
+#   httpsProxy: http://proxy.internal.example.com:3128
+#   noProxy: .example.com,.svc,.cluster.local,10.0.0.0/8,192.168.0.0/16,127.0.0.1,localhost,registry.internal.example.com
+# additionalTrustBundlePolicy: Always
+# additionalTrustBundle: |
+#   -----BEGIN CERTIFICATE-----
+#   ... proxy CA, then mirror registry CA(s) ...
+#   -----END CERTIFICATE-----
+
+# Notes:
+# - metadata.name becomes the cluster name (e.g., console.apps.<name>.<baseDomain>).
+# - VIPs must be inside machineNetwork CIDR.
+# - For multi-node platform: none, external LBs are required; Single Node (SNO) is valid with platform: none.
+# - Back up this file before running the installer; workflows consume it.

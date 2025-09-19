@@ -36,3 +36,13 @@ This repo’s content aligns with the following Red Hat documentation. Use these
 - AWS special regions:
   - AWS GovCloud: https://docs.redhat.com/en/documentation/openshift_container_platform/4.12/html/installing_on_aws/installing-aws-government-region
   - SC2S/C2S and related fixes: https://docs.redhat.com/en/documentation/openshift_container_platform/4.14/html/installing_on_aws/installing-aws-secret-region and 4.18 release notes item fixing load balancer SGs: https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/release_notes/ocp-4-18-release-notes
+
+<!-- __GS_DOC_ANCHOR__ -->
+## Key Red Hat docs referenced for this scaffold
+
+- oc-mirror v2 (ImageSetConfiguration v2alpha1, workspace, outputs): https://docs.redhat.com/en/documentation/openshift_container_platform/4.16/html-single/disconnected_installations_and_updates/#oc-mirror-v2-ref_disconnected-oc-mirror
+- ImageSetConfiguration v2alpha1 API PDF: https://repo1.dso.mil/big-bang/product/packages/loki/-/raw/main/docs/OpenShift_Container_Platform-4.14-ImageSetConfiguration_v2alpha1-1-en-US.pdf
+- Agent-based installer (4.18+), AgentConfig version and agent ISO: https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/installing_an_on-premise_cluster_with_the_agent-based_installer/preparing-to-install-with-agent-based-installer
+- Bare metal IPI host networkConfig and VIP lists: https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/installing_on_bare_metal/installer-provisioned-infrastructure#configuring-host-network-interfaces-in-the-install-config-yaml-file_ipi-install-installation-workflow
+- additionalTrustBundlePolicy and install-config field behavior (example reference): https://docs.redhat.com/en/documentation/openshift_container_platform/4.12/html/installing_on_gcp/installing-on-gcp#installation-configuration-parameters_installing-gcp
+- Installing on any platform (install-config reference, general behaviors): https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html-single/installing_on_any_platform/

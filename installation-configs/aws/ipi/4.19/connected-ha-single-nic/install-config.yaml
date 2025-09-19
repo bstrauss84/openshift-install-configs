@@ -1,24 +1,46 @@
 ---
+# AWS IPI install-config: comprehensive baseline. Replace all CHANGE-ME values.
 apiVersion: v1
-baseDomain: example.local
+baseDomain: CHANGE-ME.example.com
 metadata:
-  name: aws-ipi-ha
-compute:
-  - name: worker
-    replicas: 3
+  name: CHANGE-ME-cluster
+
+networking:
+  networkType: OVNKubernetes
+  machineNetwork:
+    - cidr: 10.0.0.0/16
+
 controlPlane:
   name: master
   replicas: 3
-networking:
-  networkType: OVNKubernetes
-  clusterNetwork:
-    - cidr: 10.128.0.0/14
-      hostPrefix: 23
-  serviceNetwork:
-    - 172.30.0.0/16
-  machineNetwork:
-    - cidr: 10.0.0.0/16
+compute:
+  - name: worker
+    replicas: 3
+
 platform:
-  aws: {}
-pullSecret: '{"auths":{"registry.example.local:5000":{"auth":"REPLACE_ME_BASE64","email":"root@localhost"}}}'
-sshKey: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFAKE_PUBLIC_KEY_EXAMPLE user@host'
+  aws:
+    region: us-east-1
+    defaultMachinePlatform:
+      type: m6i.xlarge
+      rootVolume:
+        size: 300
+        type: gp3
+    # Optional:
+    # subnets:
+    #   - subnet-0abc...
+    #   - subnet-0def...
+    # multiZone: true
+    # public: false
+
+# proxy:
+#   httpProxy: http://proxy.internal.example.com:3128
+#   httpsProxy: http://proxy.internal.example.com:3128
+#   noProxy: .example.com,.svc,.cluster.local,10.0.0.0/8,127.0.0.1,localhost,ec2.internal
+# additionalTrustBundlePolicy: Always
+# additionalTrustBundle: |
+#   -----BEGIN CERTIFICATE-----
+#   ... proxy CA and any mirror CA ...
+#   -----END CERTIFICATE-----
+
+sshKey: 'ssh-ed25519 AAAA...CHANGE-ME... user@host'
+pullSecret: '{"auths":{"cloud.openshift.com":{"auth":"..."},"quay.io":{"auth":"..."}}}'
