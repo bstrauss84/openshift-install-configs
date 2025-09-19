@@ -1,4 +1,3 @@
----
 # This example includes:
 # - OpenShift platform channel (graph enabled)
 # - Additional images: must-gather, ODF and CNV must-gather, common base images
@@ -8,50 +7,42 @@
 #   v2: see working-dir/cluster-resources/ for IDMS/ITMS/CS/CC. Apply cluster-resources/* manifests on the cluster.
 # To discover current default channels:
 #   oc-mirror list operators --catalog=registry.redhat.io/redhat/redhat-operator-index:v4.20 --version=4.20
+---
 kind: ImageSetConfiguration
 apiVersion: mirror.openshift.io/v1alpha2
 mirror:
   platform:
     channels:
-      - type: ocp
-        name: stable-4.20
+    - type: ocp
+      name: stable-4.20
         # pin min/max for reproducibility if desired
         # minVersion: 4.20.z
         # maxVersion: 4.20.z
     graph: true
 
   additionalImages:
-    - name: registry.redhat.io/openshift4/ose-must-gather:latest
-    - name: registry.redhat.io/ubi9/ubi:latest
-    - name: registry.redhat.io/rhel9/support-tools:latest
-    - name: registry.redhat.io/odf4/odf-must-gather-rhel9:v4.20
-    - name: registry.redhat.io/container-native-virtualization/cnv-must-gather-rhel9:v4.20
+  - name: registry.redhat.io/openshift4/ose-must-gather:latest
+  - name: registry.redhat.io/ubi9/ubi:latest
+  - name: registry.redhat.io/rhel9/support-tools:latest
+  - name: registry.redhat.io/odf4/odf-must-gather-rhel9:v4.20
+  - name: registry.redhat.io/container-native-virtualization/cnv-must-gather-rhel9:v4.20
     # VM guest image examples (remove if not using CNV)
-    - name: registry.redhat.io/rhel8/rhel-guest-image:latest
-    - name: registry.redhat.io/rhel9/rhel-guest-image:latest
+  - name: registry.redhat.io/rhel8/rhel-guest-image:latest
+  - name: registry.redhat.io/rhel9/rhel-guest-image:latest
 
   operators:
-    - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.20
-      packages:
+  - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.20
+    packages:
         # Virtualization
-        - name: kubevirt-hyperconverged
-          channels:
-            - name: stable
-              channels:
-                - name: CHANGE_ME
-        - name: kubernetes-nmstate-operator
-          channels:
-            - name: stable
-        # Storage (ODF + deps: check per-minor docs for exact dependency matrix)
-              channels:
-                - name: CHANGE_ME
-        - name: odf-operator
-          channels:
-            - name: stable-4.20
-              channels:
-                - name: CHANGE_ME
-        - name: local-storage-operator
-          channels:
-            - name: stable
-              channels:
-                - name: CHANGE_ME
+    - name: kubevirt-hyperconverged
+      channels:
+      - name: stable
+    - name: kubernetes-nmstate-operator
+      channels:
+      - name: stable
+    - name: odf-operator
+      channels:
+      - name: stable-4.20
+    - name: local-storage-operator
+      channels:
+      - name: stable

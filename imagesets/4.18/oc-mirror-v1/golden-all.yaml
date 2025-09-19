@@ -1,10 +1,3 @@
-# Feel free to modify to reflect the operators/images you are targeting
-# To get the current list of operators and their default channels for this minor, run on an internet-facing host:
-#   oc-mirror list operators --catalog=registry.redhat.io/redhat/redhat-operator-index:v4.18 --version=4.18
-# oc-mirror v2 writes artifacts under working-dir/cluster-resources (IDMS/ITMS/CS/CC).
-# oc-mirror v1 writes artifacts under results-<timestamp>/ (ICSP for older clusters, or IDMS/ITMS on newer minors) and CatalogSource manifests.
-# See repo README for exact apply steps for v1 vs v2.
-
 ---
 kind: ImageSetConfiguration
 apiVersion: mirror.openshift.io/v1alpha2
@@ -30,256 +23,155 @@ mirror:
     # architectures:
     #   - amd64
     channels:
-      - type: ocp
-        name: stable-4.18
-        minVersion: 4.18.3
-        maxVersion: 4.18.3
+    - type: ocp
+      name: stable-4.18
+      minVersion: 4.18.3
+      maxVersion: 4.18.3
     graph: true
   operators:
-    - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.18
-      packages:
+  - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.18
+    packages:
         # Management
-        - name: advanced-cluster-management
-          channels:
-            - name: release-2.13
-              channels:
-                - name: CHANGE_ME
-        - name: multicluster-engine
-          channels:
-            - name: stable-2.8
-        # Security
-              channels:
-                - name: CHANGE_ME
-        - name: rhacs-operator
-          channels:
-            - name: stable
-        # Quay
-              channels:
-                - name: CHANGE_ME
-        - name: quay-operator
-          channels:
-            - name: stable-3.14
-              channels:
-                - name: CHANGE_ME
-        - name: quay-bridge-operator
-          channels:
-            - name: stable-3.14
-              channels:
-                - name: CHANGE_ME
-        - name: container-security-operator
-          channels:
-            - name: stable-3.14
-        # Storage (ODF and deps; confirm version-specific deps per SOURCES.md)
-              channels:
-                - name: CHANGE_ME
-        - name: odf-operator
-          channels:
-            - name: stable-4.18
-              channels:
-                - name: CHANGE_ME
-        - name: odf-csi-addons-operator
-          channels:
-            - name: stable-4.18
-              channels:
-                - name: CHANGE_ME
-        - name: ocs-operator
-          channels:
-            - name: stable-4.18
-              channels:
-                - name: CHANGE_ME
-        - name: mcg-operator
-          channels:
-            - name: stable-4.18
-              channels:
-                - name: CHANGE_ME
-        - name: odf-dependencies
-          channels:
-            - name: stable-4.18
-              channels:
-                - name: CHANGE_ME
-        - name: rook-ceph-operator
-          channels:
-            - name: stable-4.18
-              channels:
-                - name: CHANGE_ME
-        - name: recipe
-          channels:
-            - name: stable-4.18
-              channels:
-                - name: CHANGE_ME
-        - name: cephcsi-operator
-          channels:
-            - name: stable-4.18
-              channels:
-                - name: CHANGE_ME
-        - name: ocs-client-operator
-          channels:
-            - name: stable-4.18
-              channels:
-                - name: CHANGE_ME
-        - name: odf-prometheus-operator
-          channels:
-            - name: stable-4.18
-              channels:
-                - name: CHANGE_ME
-        - name: odr-cluster-operator
-          channels:
-            - name: stable-4.18
-              channels:
-                - name: CHANGE_ME
-        - name: odr-hub-operator
-          channels:
-            - name: stable-4.18
-        # Local Storage
-              channels:
-                - name: CHANGE_ME
-        - name: lvms-operator
-          channels:
-            - name: stable-4.18
-              channels:
-                - name: CHANGE_ME
-        - name: local-storage-operator
-          channels:
-            - name: stable
-        # Web Terminal
-              channels:
-                - name: CHANGE_ME
-        - name: web-terminal
-          channels:
-            - name: fast
-              channels:
-                - name: CHANGE_ME
-        - name: devworkspace-operator
-          channels:
-            - name: fast
-        # Virtualization
-              channels:
-                - name: CHANGE_ME
-        - name: kubevirt-hyperconverged
-          channels:
-            - name: stable
-              channels:
-                - name: CHANGE_ME
-        - name: kubernetes-nmstate-operator
-          channels:
-            - name: stable
-        # Update Service
-              channels:
-                - name: CHANGE_ME
-        - name: cincinnati-operator
-          channels:
-            - name: v1
-        # Compliance
-              channels:
-                - name: CHANGE_ME
-        - name: compliance-operator
-          channels:
-            - name: stable
-        # File Integrity
-              channels:
-                - name: CHANGE_ME
-        - name: file-integrity-operator
-          channels:
-            - name: stable
-        # Ansible Automation Platform
-              channels:
-                - name: CHANGE_ME
-        - name: ansible-automation-platform-operator
-          channels:
-            - name: stable-2.5
-        # MetalLB
-              channels:
-                - name: CHANGE_ME
-        - name: metallb-operator
-          channels:
-            - name: stable
-        # PTP
-              channels:
-                - name: CHANGE_ME
-        - name: ptp-operator
-          channels:
-            - name: stable
-        # Logging
-              channels:
-                - name: CHANGE_ME
-        - name: cluster-logging
-          channels:
-            - name: stable-6.2
-              channels:
-                - name: CHANGE_ME
-        - name: loki-operator
-          channels:
-            - name: stable-6.2
-        # Service Mesh
-              channels:
-                - name: CHANGE_ME
-        - name: servicemeshoperator3
-          channels:
-            - name: stable
-              channels:
-                - name: CHANGE_ME
-        - name: kiali-ossm
-          channels:
-            - name: stable
-              channels:
-                - name: CHANGE_ME
-        - name: jaeger-product
-          channels:
-            - name: stable
-        # Cluster Observability
-              channels:
-                - name: CHANGE_ME
-        - name: cluster-observability-operator
-          channels:
-            - name: stable
-        # Network Observability
-              channels:
-                - name: CHANGE_ME
-        - name: netobserv-operator
-          channels:
-            - name: stable
-        # Keycloak
-              channels:
-                - name: CHANGE_ME
-        - name: rhbk-operator
-          channels:
-            - name: stable-v26.0
-        # CI/CD
-              channels:
-                - name: CHANGE_ME
-        - name: openshift-pipelines-operator-rh
-          channels:
-            - name: stable
-              channels:
-                - name: CHANGE_ME
-        - name: openshift-gitops-operator
-          channels:
-            - name: latest
-        # Migration Toolkit for Virtualization
-              channels:
-                - name: CHANGE_ME
-        - name: mtv-operator
-          channels:
-            - name: release-4.9
-              channels:
-                - name: CHANGE_ME
-  additionalImages:
-    - name: registry.redhat.io/rhel9/support-tools:latest
-    - name: registry.redhat.io/openshift4/ose-must-gather:latest
-    - name: registry.redhat.io/ubi9/ubi:latest
-    - name: registry.redhat.io/odf4/odf-must-gather-rhel9:v4.18
-    - name: registry.redhat.io/container-native-virtualization/cnv-must-gather-rhel9:v4.18
-    # VM Boot Images for OpenShift Virtualization (adjust or remove as needed)
-    - name: registry.redhat.io/rhel8/rhel-guest-image:8.4.0
-    - name: registry.redhat.io/rhel8/rhel-guest-image:8.6.0
-    - name: registry.redhat.io/rhel8/rhel-guest-image:8.8.0
-    - name: registry.redhat.io/rhel8/rhel-guest-image:8.10.0
-    - name: registry.redhat.io/rhel8/rhel-guest-image:latest
-    - name: registry.redhat.io/rhel9/rhel-guest-image:9.2
-    - name: registry.redhat.io/rhel9/rhel-guest-image:9.4
-    - name: registry.redhat.io/rhel9/rhel-guest-image:latest
-    - name: quay.io/containerdisks/centos:7-2009
-    - name: quay.io/containerdisks/centos-stream:8-latest
-    - name: quay.io/containerdisks/centos-stream:9-latest
+    - name: advanced-cluster-management
       channels:
-        - name: CHANGE_ME
+      - name: release-2.13
+    - name: multicluster-engine
+      channels:
+      - name: stable-2.8
+    - name: rhacs-operator
+      channels:
+      - name: stable
+    - name: quay-operator
+      channels:
+      - name: stable-3.14
+    - name: quay-bridge-operator
+      channels:
+      - name: stable-3.14
+    - name: container-security-operator
+      channels:
+      - name: stable-3.14
+    - name: odf-operator
+      channels:
+      - name: stable-4.18
+    - name: odf-csi-addons-operator
+      channels:
+      - name: stable-4.18
+    - name: ocs-operator
+      channels:
+      - name: stable-4.18
+    - name: mcg-operator
+      channels:
+      - name: stable-4.18
+    - name: odf-dependencies
+      channels:
+      - name: stable-4.18
+    - name: rook-ceph-operator
+      channels:
+      - name: stable-4.18
+    - name: recipe
+      channels:
+      - name: stable-4.18
+    - name: cephcsi-operator
+      channels:
+      - name: stable-4.18
+    - name: ocs-client-operator
+      channels:
+      - name: stable-4.18
+    - name: odf-prometheus-operator
+      channels:
+      - name: stable-4.18
+    - name: odr-cluster-operator
+      channels:
+      - name: stable-4.18
+    - name: odr-hub-operator
+      channels:
+      - name: stable-4.18
+    - name: lvms-operator
+      channels:
+      - name: stable-4.18
+    - name: local-storage-operator
+      channels:
+      - name: stable
+    - name: web-terminal
+      channels:
+      - name: fast
+    - name: devworkspace-operator
+      channels:
+      - name: fast
+    - name: kubevirt-hyperconverged
+      channels:
+      - name: stable
+    - name: kubernetes-nmstate-operator
+      channels:
+      - name: stable
+    - name: cincinnati-operator
+      channels:
+      - name: v1
+    - name: compliance-operator
+      channels:
+      - name: stable
+    - name: file-integrity-operator
+      channels:
+      - name: stable
+    - name: ansible-automation-platform-operator
+      channels:
+      - name: stable-2.5
+    - name: metallb-operator
+      channels:
+      - name: stable
+    - name: ptp-operator
+      channels:
+      - name: stable
+    - name: cluster-logging
+      channels:
+      - name: stable-6.2
+    - name: loki-operator
+      channels:
+      - name: stable-6.2
+    - name: servicemeshoperator3
+      channels:
+      - name: stable
+    - name: kiali-ossm
+      channels:
+      - name: stable
+    - name: jaeger-product
+      channels:
+      - name: stable
+    - name: cluster-observability-operator
+      channels:
+      - name: stable
+    - name: netobserv-operator
+      channels:
+      - name: stable
+    - name: rhbk-operator
+      channels:
+      - name: stable-v26.0
+    - name: openshift-pipelines-operator-rh
+      channels:
+      - name: stable
+    - name: openshift-gitops-operator
+      channels:
+      - name: latest
+    - name: mtv-operator
+      channels:
+      - name: release-4.9
+  additionalImages:
+  - name: registry.redhat.io/rhel9/support-tools:latest
+  - name: registry.redhat.io/openshift4/ose-must-gather:latest
+  - name: registry.redhat.io/ubi9/ubi:latest
+  - name: registry.redhat.io/odf4/odf-must-gather-rhel9:v4.18
+  - name: registry.redhat.io/container-native-virtualization/cnv-must-gather-rhel9:v4.18
+    # VM Boot Images for OpenShift Virtualization (adjust or remove as needed)
+  - name: registry.redhat.io/rhel8/rhel-guest-image:8.4.0
+  - name: registry.redhat.io/rhel8/rhel-guest-image:8.6.0
+  - name: registry.redhat.io/rhel8/rhel-guest-image:8.8.0
+  - name: registry.redhat.io/rhel8/rhel-guest-image:8.10.0
+  - name: registry.redhat.io/rhel8/rhel-guest-image:latest
+  - name: registry.redhat.io/rhel9/rhel-guest-image:9.2
+  - name: registry.redhat.io/rhel9/rhel-guest-image:9.4
+  - name: registry.redhat.io/rhel9/rhel-guest-image:latest
+  - name: quay.io/containerdisks/centos:7-2009
+  - name: quay.io/containerdisks/centos-stream:8-latest
+  - name: quay.io/containerdisks/centos-stream:9-latest
+    channels:
+    - name: CHANGE_ME

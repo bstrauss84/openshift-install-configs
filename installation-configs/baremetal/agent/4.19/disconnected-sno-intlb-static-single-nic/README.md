@@ -1,4 +1,4 @@
-# ${scen}
+# disconnected-sno-intlb-static-single-nic
 
 Notes:
 - All examples use OVN-Kubernetes.
