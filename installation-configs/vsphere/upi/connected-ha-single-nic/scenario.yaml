@@ -1,0 +1,15 @@
+name: vsphere-upi-connected-ha-single-nic
+platform: vsphere
+method: upi
+networking:
+  type: OVNKubernetes
+  machineNetworkCIDR: 10.90.0.0/24
+loadBalancer: external
+addressing: dhcp
+nodes:
+  controlPlane: 3
+  workers: 3
+notes:
+  - You must provide external LB + DNS (api, api-int, *.apps)
+artifacts:
+  - install-config.yaml

@@ -1,0 +1,21 @@
+name: disconnected-3node-intlb-static-multi-subnet
+platform: baremetal
+method: agent
+networking:
+  type: OVNKubernetes
+  machineNetworkCIDRs:
+  - 10.90.0.0/24
+  - 10.91.0.0/24
+loadBalancer: internal
+addressing: static
+nodes:
+  controlPlane: 3
+  workers: 0
+vips:
+  api: 10.90.0.10
+  ingress: 10.90.0.11
+notes:
+  - Prefer imageDigestSources; imageContentSources is deprecated (kept as commented example)
+artifacts:
+  - install-config.yaml
+  - agent-config.yaml

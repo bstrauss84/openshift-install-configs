@@ -1,0 +1,19 @@
+name: baremetal-ipi-connected-ha-single-nic
+platform: baremetal
+method: ipi
+networking:
+  type: OVNKubernetes
+  machineNetworkCIDR: 10.90.0.0/24
+loadBalancer: internal
+addressing: dhcp
+nodes:
+  controlPlane: 3
+  workers: 3
+vips:
+  api: 10.90.0.10
+  ingress: 10.90.0.11
+notes:
+  - Connected install, Red Hat pull secret required (single line JSON)
+  - Optional proxy: see proxied variant
+artifacts:
+  - install-config.yaml

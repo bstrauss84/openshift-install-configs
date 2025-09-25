@@ -1,0 +1,21 @@
+name: baremetal-ipi-proxied-ha
+platform: baremetal
+method: ipi
+networking:
+  type: OVNKubernetes
+  machineNetworkCIDR: 10.90.0.0/24
+loadBalancer: internal
+addressing: dhcp
+nodes:
+  controlPlane: 3
+  workers: 3
+vips:
+  api: 10.90.0.10
+  ingress: 10.90.0.11
+proxy:
+  enabled: true
+  guidance: httpProxy/httpsProxy/noProxy fields and CA bundle in additionalTrustBundle
+notes:
+  - Prefer imageDigestSources for disconnected mirroring; imageContentSources is deprecated
+artifacts:
+  - install-config.yaml

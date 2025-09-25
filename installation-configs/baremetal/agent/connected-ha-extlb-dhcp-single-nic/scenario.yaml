@@ -1,0 +1,18 @@
+name: connected-ha-extlb-dhcp-single-nic
+platform: baremetal
+method: agent
+networking:
+  type: OVNKubernetes
+  machineNetworkCIDRs:
+  - 10.90.0.0/24
+loadBalancer: external
+addressing: dhcp
+nodes:
+  controlPlane: 3
+  workers: 3
+vips:
+notes:
+  - Prefer imageDigestSources; imageContentSources is deprecated (kept as commented example)
+artifacts:
+  - install-config.yaml
+  - agent-config.yaml

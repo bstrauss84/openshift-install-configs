@@ -1,0 +1,19 @@
+name: baremetal-upi-proxied-ha
+platform: baremetal
+method: upi
+networking:
+  type: OVNKubernetes
+  machineNetworkCIDR: 10.90.0.0/24
+loadBalancer: external
+addressing: dhcp
+nodes:
+  controlPlane: 3
+  workers: 3
+proxy:
+  enabled: true
+  guidance: set httpProxy/httpsProxy/noProxy; include proxy CA in additionalTrustBundle
+notes:
+  - platform: none, provide external LB and DNS
+  - prefer imageDigestSources if disconnected; imageContentSources is deprecated
+artifacts:
+  - install-config.yaml

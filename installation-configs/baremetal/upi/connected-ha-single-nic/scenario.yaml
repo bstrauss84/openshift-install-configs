@@ -1,0 +1,21 @@
+name: baremetal-upi-connected-ha-single-nic
+platform: baremetal
+method: upi
+networking:
+  type: OVNKubernetes
+  machineNetworkCIDR: 10.90.0.0/24
+loadBalancer: external
+addressing: dhcp
+nodes:
+  controlPlane: 3
+  workers: 3
+lb:
+  reference: utility-box/load-balancer/haproxy.cfg
+dns:
+  api: 10.90.0.10
+  ingress: 10.90.0.11
+notes:
+  - platform: none, provide external LB and DNS
+  - prefer imageDigestSources if disconnected; imageContentSources is deprecated
+artifacts:
+  - install-config.yaml

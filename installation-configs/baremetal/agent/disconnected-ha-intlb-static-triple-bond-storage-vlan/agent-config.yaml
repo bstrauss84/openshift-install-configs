@@ -1,0 +1,326 @@
+apiVersion: agent-install.openshift.io/v1beta1
+kind: AgentConfig
+metadata:
+  name: cluster
+rendezvousIP: 10.90.0.20
+# additionalNTPSources:
+# - 10.90.0.2
+hosts:
+- hostname: cluster-master-1
+  role: master
+  interfaces:
+  - name: eno1
+    macAddress: 52:54:00:aa:m1:01
+  - name: eno2
+    macAddress: 52:54:00:aa:m1:02
+  rootDeviceHints:
+    deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+  networkConfig:
+    interfaces:
+    - name: bond0
+      type: bond
+      state: up
+      link-aggregation:
+        mode: 802.3ad
+        port:
+        - eno1
+        - eno2
+      ipv4:
+        enabled: false
+      ipv6:
+        enabled: false
+    - name: eno1
+      type: ethernet
+      state: up
+    - name: eno2
+      type: ethernet
+      state: up
+    - name: bond0.100
+      type: vlan
+      state: up
+      vlan:
+        base-iface: bond0
+        id: 100
+      ipv4:
+        enabled: true
+        address:
+        - 10.90.0.21/24
+        gateway: 10.90.0.1
+      ipv6:
+        enabled: false
+    - name: bond0.200
+      type: vlan
+      state: up
+      vlan:
+        base-iface: bond0
+        id: 200
+      ipv4:
+        enabled: true
+        dhcp: true
+      ipv6:
+        enabled: false
+- hostname: cluster-master-2
+  role: master
+  interfaces:
+  - name: eno1
+    macAddress: 52:54:00:aa:m2:01
+  - name: eno2
+    macAddress: 52:54:00:aa:m2:02
+  rootDeviceHints:
+    deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+  networkConfig:
+    interfaces:
+    - name: bond0
+      type: bond
+      state: up
+      link-aggregation:
+        mode: 802.3ad
+        port:
+        - eno1
+        - eno2
+      ipv4:
+        enabled: false
+      ipv6:
+        enabled: false
+    - name: eno1
+      type: ethernet
+      state: up
+    - name: eno2
+      type: ethernet
+      state: up
+    - name: bond0.100
+      type: vlan
+      state: up
+      vlan:
+        base-iface: bond0
+        id: 100
+      ipv4:
+        enabled: true
+        address:
+        - 10.90.0.22/24
+        gateway: 10.90.0.1
+      ipv6:
+        enabled: false
+    - name: bond0.200
+      type: vlan
+      state: up
+      vlan:
+        base-iface: bond0
+        id: 200
+      ipv4:
+        enabled: true
+        dhcp: true
+      ipv6:
+        enabled: false
+- hostname: cluster-master-3
+  role: master
+  interfaces:
+  - name: eno1
+    macAddress: 52:54:00:aa:m3:01
+  - name: eno2
+    macAddress: 52:54:00:aa:m3:02
+  rootDeviceHints:
+    deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+  networkConfig:
+    interfaces:
+    - name: bond0
+      type: bond
+      state: up
+      link-aggregation:
+        mode: 802.3ad
+        port:
+        - eno1
+        - eno2
+      ipv4:
+        enabled: false
+      ipv6:
+        enabled: false
+    - name: eno1
+      type: ethernet
+      state: up
+    - name: eno2
+      type: ethernet
+      state: up
+    - name: bond0.100
+      type: vlan
+      state: up
+      vlan:
+        base-iface: bond0
+        id: 100
+      ipv4:
+        enabled: true
+        address:
+        - 10.90.0.23/24
+        gateway: 10.90.0.1
+      ipv6:
+        enabled: false
+    - name: bond0.200
+      type: vlan
+      state: up
+      vlan:
+        base-iface: bond0
+        id: 200
+      ipv4:
+        enabled: true
+        dhcp: true
+      ipv6:
+        enabled: false
+- hostname: cluster-worker-1
+  role: worker
+  interfaces:
+  - name: eno1
+    macAddress: 52:54:00:aa:w1:01
+  - name: eno2
+    macAddress: 52:54:00:aa:w1:02
+  rootDeviceHints:
+    deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+  networkConfig:
+    interfaces:
+    - name: bond0
+      type: bond
+      state: up
+      link-aggregation:
+        mode: 802.3ad
+        port:
+        - eno1
+        - eno2
+      ipv4:
+        enabled: false
+      ipv6:
+        enabled: false
+    - name: eno1
+      type: ethernet
+      state: up
+    - name: eno2
+      type: ethernet
+      state: up
+    - name: bond0.100
+      type: vlan
+      state: up
+      vlan:
+        base-iface: bond0
+        id: 100
+      ipv4:
+        enabled: true
+        address:
+        - 10.90.0.51/24
+        gateway: 10.90.0.1
+      ipv6:
+        enabled: false
+    - name: bond0.200
+      type: vlan
+      state: up
+      vlan:
+        base-iface: bond0
+        id: 200
+      ipv4:
+        enabled: true
+        dhcp: true
+      ipv6:
+        enabled: false
+- hostname: cluster-worker-2
+  role: worker
+  interfaces:
+  - name: eno1
+    macAddress: 52:54:00:aa:w2:01
+  - name: eno2
+    macAddress: 52:54:00:aa:w2:02
+  rootDeviceHints:
+    deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+  networkConfig:
+    interfaces:
+    - name: bond0
+      type: bond
+      state: up
+      link-aggregation:
+        mode: 802.3ad
+        port:
+        - eno1
+        - eno2
+      ipv4:
+        enabled: false
+      ipv6:
+        enabled: false
+    - name: eno1
+      type: ethernet
+      state: up
+    - name: eno2
+      type: ethernet
+      state: up
+    - name: bond0.100
+      type: vlan
+      state: up
+      vlan:
+        base-iface: bond0
+        id: 100
+      ipv4:
+        enabled: true
+        address:
+        - 10.90.0.52/24
+        gateway: 10.90.0.1
+      ipv6:
+        enabled: false
+    - name: bond0.200
+      type: vlan
+      state: up
+      vlan:
+        base-iface: bond0
+        id: 200
+      ipv4:
+        enabled: true
+        dhcp: true
+      ipv6:
+        enabled: false
+- hostname: cluster-worker-3
+  role: worker
+  interfaces:
+  - name: eno1
+    macAddress: 52:54:00:aa:w3:01
+  - name: eno2
+    macAddress: 52:54:00:aa:w3:02
+  rootDeviceHints:
+    deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+  networkConfig:
+    interfaces:
+    - name: bond0
+      type: bond
+      state: up
+      link-aggregation:
+        mode: 802.3ad
+        port:
+        - eno1
+        - eno2
+      ipv4:
+        enabled: false
+      ipv6:
+        enabled: false
+    - name: eno1
+      type: ethernet
+      state: up
+    - name: eno2
+      type: ethernet
+      state: up
+    - name: bond0.100
+      type: vlan
+      state: up
+      vlan:
+        base-iface: bond0
+        id: 100
+      ipv4:
+        enabled: true
+        address:
+        - 10.90.0.53/24
+        gateway: 10.90.0.1
+      ipv6:
+        enabled: false
+    - name: bond0.200
+      type: vlan
+      state: up
+      vlan:
+        base-iface: bond0
+        id: 200
+      ipv4:
+        enabled: true
+        dhcp: true
+      ipv6:
+        enabled: false

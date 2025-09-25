@@ -1,0 +1,15 @@
+name: aws-ipi-connected-ha-single-nic
+platform: aws
+method: ipi
+networking:
+  type: OVNKubernetes
+  machineNetworkCIDR: 10.90.0.0/24
+loadBalancer: cloud-managed
+addressing: dhcp
+nodes:
+  controlPlane: 3
+  workers: 3
+notes:
+  - Installer manages AWS ELB/ALB; no VIPs in install-config
+artifacts:
+  - install-config.yaml

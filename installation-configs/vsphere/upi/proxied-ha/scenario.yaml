@@ -1,0 +1,15 @@
+name: vsphere-upi-proxied-ha
+platform: vsphere
+method: upi
+networking:
+  type: OVNKubernetes
+  machineNetworkCIDR: 10.90.0.0/24
+loadBalancer: external
+addressing: dhcp
+nodes:
+  controlPlane: 3
+  workers: 3
+proxy:
+  enabled: true
+artifacts:
+  - install-config.yaml

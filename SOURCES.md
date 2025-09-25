@@ -1,0 +1,149 @@
+# Sources & References (OCP 4.18 focus; RHEL 9 where applicable)
+
+Priority order: **Official OpenShift docs** > **RH solution/knowledge articles** > **RH engineering/product blogs** > **Upstream (NMState/Multus)**.
+
+---
+
+## Global / Clients / oc-mirror
+
+- **OpenShift Client downloads (oc / oc-mirror, per OCP version and OS)**  
+  https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/  
+  *Pick the exact OCP version and platform (RHEL 8/9) to download oc/oc-mirror; includes checksums and signatures.*
+
+- **Disconnected mirroring (oc-mirror v2 workflow)** — OCP 4.18  
+  https://docs.openshift.com/container-platform/4.18/installing/disconnected_install/installing-mirroring-disconnected.html  
+  *Mirror to disk, disk to mirror, mirror to mirror; location of generated cluster resources; high-level prerequisites.*
+
+- **ImageContentSourcePolicy vs ImageDigestMirrorSet / ImageTagMirrorSet** — OCP 4.18  
+  https://docs.openshift.com/container-platform/4.18/openshift_images/image-configuration.html  
+  *Explains deprecation of ICSP (v1-era) in favor of IDMS/ITMS (v2-era); how the cluster consumes mirrored images.*
+
+- **oc-mirror v2 CLI reference (flags & workflows)**  
+  (use `oc-mirror --v2 --help` and the per-version docs above; flags like `--cache-dir`, `--parallel-images`, `--parallel-layers`, `--retry-delay`, `--retry-times` are especially useful)
+
+---
+
+## Installation Configs
+
+### Bare Metal
+
+- **Installing a cluster on bare metal (IPI)** — OCP 4.18  
+  https://docs.openshift.com/container-platform/4.18/installing/installing_bare_metal_ipi/ipi-install-installation-workflow.html  
+  *Bare metal IPI workflow, VIP semantics, provisioning network details, BMC drivers, boot modes.*
+
+- **Bare metal UPI** — OCP 4.18  
+  https://docs.openshift.com/container-platform/4.18/installing/installing_bare_metal/installing-bare-metal.html  
+  *UPI responsibilities, external load balancer and DNS expectations.*
+
+- **Agent-based installer** — OCP 4.18  
+  https://docs.openshift.com/container-platform/4.18/installing_with_agent_based_installer/installing-with-agent-based-installer.html  
+  *Agent-based flow, `install-config.yaml` + `AgentConfig` (`v1beta1`), generating ISO, rendezvous IP, NMState in `networkConfig`.*
+
+- **Configuring host network interfaces in the install-config.yaml (Bare Metal IPI)** — OCP 4.18  
+  https://docs.openshift.com/container-platform/4.18/installing/installing_bare_metal_ipi/ipi-preparing-to-install-on-bare-metal.html#configuring-host-network-interfaces-in-the-install-config-yaml-file_ipi-preparing-to-install-on-bare-metal  
+  *Inline NMState for IPI when specifying host networking.*
+
+- **Proxy configuration (install-config & cluster)** — OCP 4.18  
+  https://docs.openshift.com/container-platform/4.18/networking/enable-cluster-wide-proxy.html  
+  *`proxy:` in `install-config.yaml`, trusted CAs, `Proxy` object semantics.*
+
+- **FIPS mode** — OCP 4.18  
+  https://docs.openshift.com/container-platform/4.18/installing/installing-fips.html  
+  *FIPS pre-reqs, use of FIPS-enabled installer, host OS considerations.*
+
+- **Example (educational)** — IPI on bare metal with rich commentary (external reference)  
+  https://hackmd.io/@johnsimcall/rJ6Y9jN9ex  
+  *Field usage patterns and comments that inspired several inline notes here.*
+
+### AWS
+
+- **Installing a cluster on AWS (IPI)** — OCP 4.18  
+  https://docs.openshift.com/container-platform/4.18/installing/installing_aws/installing-aws-default.html  
+  *Installer-managed VPC, subnets, security groups, ELB/ALB; `platform.aws` fields.*
+
+- **User-provisioned infrastructure on AWS (UPI)** — OCP 4.18  
+  https://docs.openshift.com/container-platform/4.18/installing/installing_aws/installing-aws-user-infra.html  
+  *UPI responsibilities: external load balancer, DNS, EC2, IAM; `platform: none` usage.*
+
+- **AWS-specific install-config parameters** — OCP 4.18  
+  https://docs.openshift.com/container-platform/4.18/installing/installing_aws/ipi-aws-installation-reqs.html#installation-aws-config-yaml-parameters_ipi-aws-installation-reqs  
+  *`platform.aws` fields: region, subnets, defaultMachinePlatform, rootVolume, zones, tags, serviceEndpoints.*
+
+- **Proxy configuration** — OCP 4.18  
+  https://docs.openshift.com/container-platform/4.18/networking/enable-cluster-wide-proxy.html  
+  *Cluster-wide proxy and trust bundles; `noProxy` considerations.*
+
+### vSphere
+
+- **Installing a cluster on vSphere (IPI)** — OCP 4.18  
+  https://docs.openshift.com/container-platform/4.18/installing/installing_vsphere/installing-vsphere-installer-provisioned.html  
+  *`platform.vsphere` fields: vCenter, datacenter, datastore, cluster/resourcePool, network/PortGroup; VIP requirements.*
+
+- **User-provisioned infrastructure on vSphere (UPI)** — OCP 4.18  
+  https://docs.openshift.com/container-platform/4.18/installing/installing_vsphere/installing-vsphere.html  
+  *UPI on vSphere responsibilities; `platform: none`; external LB and DNS requirements.*
+
+- **vSphere-specific install-config parameters** — OCP 4.18  
+  https://docs.openshift.com/container-platform/4.18/installing/installing_vsphere/installing-vsphere-installer-provisioned.html#installation-vsphere-manual_infrastructure-configuration  
+  *Parameter table and examples; VIP list semantics (`apiVIPs`, `ingressVIPs`).*
+
+- **Proxy configuration** — OCP 4.18  
+  https://docs.openshift.com/container-platform/4.18/networking/enable-cluster-wide-proxy.html  
+  *Same proxy/trust guidance as other platforms.*
+
+---
+
+## Virtualization Networking (OpenShift Virtualization + NMState + Multus)
+
+- **Blog: Access external networks with OpenShift Virtualization** (Red Hat)  
+  https://www.redhat.com/en/blog/access-external-networks-with-openshift-virtualization  
+  *br-ex `localnet`, OVS bridge on dedicated NIC, Linux bridge on dedicated NIC; NAD and VM attachment examples.*
+
+- **NMState Operator concepts (NNS/NNCP/NNCE)** — OCP 4.18  
+  https://docs.openshift.com/container-platform/4.18/networking/k8s_nmstate/k8s-nmstate-about-the-k8s-nmstate-operator.html  
+  *CRDs, desired vs current state, policy enactments.*
+
+- **Configure node network with NMState (NNCP)** — OCP 4.18  
+  https://docs.openshift.com/container-platform/4.18/networking/k8s_nmstate/k8s-nmstate-updating-node-network-config.html  
+  *NNCP YAML structure, `state:` usage, safe rollback.*
+
+- **Multus / NAD** — OCP 4.18  
+  https://docs.openshift.com/container-platform/4.18/networking/multiple_networks/understanding-multiple-networks.html  
+  https://docs.openshift.com/container-platform/4.18/networking/multiple_networks/configuring-additional-network.html  
+  *Multiple networks concepts, NetworkAttachmentDefinition with OVN localnet and Linux bridge types.*
+
+- **OpenShift Virtualization (CNV) VMs** — OCP 4.18  
+  https://docs.openshift.com/container-platform/4.18/virt/virtual_machines/virt-creating-vms.html  
+  *VM NIC configuration and expectations when attached to additional networks.*
+
+---
+
+## Utility Box (RHEL 9 focus)
+
+- **dnsmasq (RHEL 9)** — `man dnsmasq` and RHEL docs  
+  https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9  
+  *DHCP options (human-readable forms like NTP), DNS caching/forwarding, reservations.*
+
+- **chrony (RHEL 9)**  
+  https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/configuring_basic_system_settings/configuring-time-synchronization_configuring-basic-system-settings  
+  *`chronyd` server config examples and best practices.*
+
+- **HAProxy (RHEL 9)**  
+  https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/configuring_and_managing_networking/using-load-balancers_configuring-and-managing-networking  
+  *Layer-4 passthrough vs Layer-7, TLS passthrough for API/API-int/apps routes.*
+
+- **Mirror registry (Quay) for OpenShift** — OCP 4.18  
+  https://docs.openshift.com/container-platform/4.18/installing/disconnected_install/installing-mirroring-disconnected.html#installing-mirror-registry  
+  *“Mirror registry” (mini-quay) installation steps, certs, auth integration with oc-mirror. Notes for RHEL 9/8.*
+
+---
+
+## Upstream / Supporting
+
+- **NMState**  
+  https://nmstate.io/  
+  *Schema and examples for interface, VLAN, bond, routes, DNS resolver sections.*
+
+- **Multus**  
+  https://github.com/k8snetworkplumbingwg/multus-cni  
+  *CNI chaining, NAD spec reference.*

@@ -1,0 +1,98 @@
+# -----------------------------------------------------------------------------
+# IMPORTANT PREP (READ ME)
+# - sshKey MUST be a PUBLIC key (e.g., ~/.ssh/id_ed25519.pub). Generate one if needed:
+#     ssh-keygen -t ed25519 -C "you@host" -f ~/.ssh/id_ed25519
+#   Then:  cat ~/.ssh/id_ed25519.pub
+# - pullSecret MUST be single-line JSON. Examples:
+#     # Collapse a multi-line file to a single line:
+#     tr -d '\n' < pull-secret.json
+#     # Or using jq:
+#     jq -c . < pull-secret.json
+# - Connected installs: use your Red Hat pull secret from cloud.redhat.com/openshift/install/pull-secret
+# - Disconnected installs: include ONLY your mirror registry auth in pullSecret (single-line JSON).
+#   NOTE: If you truly lack credentials, OKD docs show a dummy pattern for OKD (NOT SUPPORTED for OCP).
+# - If your environment uses a custom CA (proxy or mirror registry), provide it via additionalTrustBundle and set
+#   additionalTrustBundlePolicy: Always
+# -----------------------------------------------------------------------------
+apiVersion: v1
+baseDomain: example.com
+metadata:
+  name: cluster
+
+# fips: true  # Optional: Enable FIPS mode cluster-wide
+
+networking:
+  networkType: OVNKubernetes
+  machineNetwork:
+  - cidr: 10.90.0.0/24
+  # clusterNetwork and serviceNetwork use installer defaults if omitted
+
+controlPlane:
+  name: master
+  replicas: 3  # HA control plane
+
+compute:
+- name: worker
+  replicas: 3  # HA workers; set 0 for compact (3-node) clusters
+
+# PUBLIC SSH KEY (NOT PRIVATE)
+sshKey: 'ssh-ed25519 AAAA...REPLACE_ME... user@host'
+
+# SINGLE-LINE JSON (KEEP JSON FORMAT)
+pullSecret: '{"auths":{"registry.redhat.io":{"auth":"REPLACE_BASE64","email":"you@example.com"}}}'
+
+platform:
+  baremetal:
+    # VIPs are required for Bare Metal IPI multi-node clusters (internal load balancer managed by installer)
+    apiVIPs:
+    - 10.90.0.10
+    ingressVIPs:
+    - 10.90.0.11
+
+    # additionalNTPServers:    # Optional: Specify NTP servers if not using DHCP option 42
+    # - 10.90.0.2
+
+    # provisioningNetwork: Disabled   # Optional: Virtual media provisioning (disable PXE provisioning network)
+    # externalBridge: labnet          # Optional: Name of bridge for bootstrap VM (if using provisioningNetwork Disabled)
+
+    # hosts:                        # Optional: Static host declarations for IPI (rare; typically discovered automatically)
+    # - name: bm-master-0
+    #   role: master
+    #   bmc:
+    #     address: redfish-virtualmedia://<bmc-fqdn-or-ip>/redfish/v1/Systems/<id>
+    #     username: <user>
+    #     password: <pass>
+    #     disableCertificateVerification: true
+    #   bootMode: UEFISecureBoot
+    #   bootMACAddress: 52:54:00:00:00:01
+    #   rootDeviceHints:
+    #     deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"  # Prefer by-path for stability
+    #     # deviceName: "/dev/sda"        # Example (NOT RECOMMENDED): less stable than by-path
+
+# proxy:                           # Optional: cluster-wide egress proxy
+#   httpProxy: http://user:pass@proxy.example.com:3128
+#   httpsProxy: http://user:pass@proxy.example.com:3128
+#   noProxy: ".cluster.example.com,.example.com,127.0.0.1,localhost,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+
+# additionalTrustBundle: |         # Optional: PEM-encoded CA bundle (proxy CA and/or mirror registry CA)
+#   -----BEGIN CERTIFICATE-----
+#   MIID...REPLACE_ME...
+#   -----END CERTIFICATE-----
+# additionalTrustBundlePolicy: Always  # Ensure nodes always use the trusted bundle
+
+# imageDigestSources:              # Disconnected installs: PREFERRED over imageContentSources (v1 deprecated)
+# - mirrors:
+#   - registry.example.com/ocp/release
+#   source: quay.io/openshift-release-dev/ocp-release
+# - mirrors:
+#   - registry.example.com/ocp/release-images
+#   source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+#
+# imageContentSources:             # (Deprecated) v1-style mirror mapping; use only if required for older workflows
+# - mirrors:
+#   - registry.example.com/ocp/release
+#   source: quay.io/openshift-release-dev/ocp-release
+
+# NOTE: After creating this file, run:
+#   openshift-install create manifests
+#   openshift-install create cluster

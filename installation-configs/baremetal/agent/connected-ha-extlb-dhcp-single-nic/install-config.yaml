@@ -1,0 +1,59 @@
+# -----------------------------------------------------------------------------
+# IMPORTANT PREP
+# - sshKey MUST be a PUBLIC key (e.g., ~/.ssh/id_ed25519.pub). Generate if needed:
+#     ssh-keygen -t ed25519 -C "you@host" -f ~/.ssh/id_ed25519
+# - pullSecret MUST be single-line JSON:
+#     tr -d '\n' < pull-secret.json
+#     # or
+#     jq -c . < pull-secret.json
+# - Connected: use your Red Hat pull secret from console.redhat.com
+# - Disconnected: include ONLY your mirror registry auth in pullSecret (single-line JSON).
+#   NOTE: If you truly lack creds, OKD documents a dummy pattern for OKD (NOT SUPPORTED for OCP).
+# - Custom CA? Paste into additionalTrustBundle and set additionalTrustBundlePolicy: Always.
+# -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# AGENT INSTALLER NOTES
+# - Use:  openshift-install agent create cluster-manifests
+#         openshift-install agent create image
+#         # boot hosts with the generated ISO (or PXE/iPXE per docs)
+# - agent-config.yaml uses NMState for host networking in 'networkConfig'.
+# - If all hosts use DHCP and you provide at least one static IP in networkConfig,
+#   you may omit rendezvousIP; otherwise set it explicitly.
+# -----------------------------------------------------------------------------
+apiVersion: v1
+baseDomain: example.com
+metadata:
+  name: cluster
+
+networking:
+  networkType: OVNKubernetes
+  machineNetwork:
+  - cidr: 10.90.0.0/24
+
+controlPlane:
+  name: master
+  replicas: 3
+
+compute:
+- name: worker
+  replicas: 3
+
+sshKey: 'ssh-ed25519 AAAA...REPLACE_ME... user@host'
+pullSecret: '{"auths":{"registry.redhat.io":{"auth":"REPLACE_BASE64","email":"you@example.com"}}}'
+
+platform:
+  none: {}
+# External load balancer required. Use our utility-box/load-balancer/haproxy.cfg as canonical reference.
+
+# imageDigestSources:              # Disconnected installs: PREFERRED over imageContentSources (deprecated)
+# - mirrors:
+#   - registry.example.com/ocp/release
+#   source: quay.io/openshift-release-dev/ocp-release
+# - mirrors:
+#   - registry.example.com/ocp/release-images
+#   source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+
+# imageContentSources:             # (Deprecated) Only if you mirrored with oc-mirror v1 and must use it temporarily
+# - mirrors:
+#   - registry.example.com/ocp/release
+#   source: quay.io/openshift-release-dev/ocp-release
