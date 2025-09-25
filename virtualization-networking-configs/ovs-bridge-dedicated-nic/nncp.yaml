@@ -1,0 +1,26 @@
+# NNCP — Create OVS bridge 'br0' on a dedicated NIC (e.g., enp2s0), add OVN localnet mapping
+apiVersion: nmstate.io/v1
+kind: NodeNetworkConfigurationPolicy
+metadata:
+  name: br0-ovs
+spec:
+  nodeSelector:
+    node-role.kubernetes.io/worker: ''
+  desiredState:
+    interfaces:
+    - name: br0
+      description: |-
+        OVS bridge using dedicated NIC enp2s0
+        allowing untagged + VLAN traffic (trunk)
+      type: ovs-bridge
+      state: up
+      bridge:
+        options:
+          stp: true
+        port:
+        - name: enp2s0    # CHANGE_ME if NIC differs
+    ovn:
+      bridge-mappings:
+      - localnet: br0-network
+        bridge: br0
+        state: present

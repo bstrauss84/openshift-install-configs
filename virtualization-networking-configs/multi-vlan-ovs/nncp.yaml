@@ -1,0 +1,25 @@
+# NNCP — OVS bridge 'br0' on a dedicated NIC (trunking multiple VLANs)
+# This prepares a trunk; VLAN separation is enforced upstream or in-guest.
+apiVersion: nmstate.io/v1
+kind: NodeNetworkConfigurationPolicy
+metadata:
+  name: br0-ovs-trunk
+spec:
+  nodeSelector:
+    node-role.kubernetes.io/worker: ''
+  desiredState:
+    interfaces:
+    - name: br0
+      description: OVS bridge with enp2s0 as trunk port (untagged + VLANs)
+      type: ovs-bridge
+      state: up
+      bridge:
+        options:
+          stp: true
+        port:
+        - name: enp2s0              # Trunk uplink (CHANGE_ME if NIC differs)
+    ovn:
+      bridge-mappings:
+      - localnet: vlan-trunk-net    # Single localnet mapped to br0
+        bridge: br0
+        state: present

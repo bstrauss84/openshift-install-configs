@@ -1,0 +1,11 @@
+# scenario.yaml
+name: linux-bridge-dedicated-nic
+nodes:
+  selector: node-role.kubernetes.io/worker: ''
+inputs:
+  nic: enp8s0
+  bridge: br1
+artifacts:
+  - nncp.yaml
+  - nad.yaml
+  - vm.yaml

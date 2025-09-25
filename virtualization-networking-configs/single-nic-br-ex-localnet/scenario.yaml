@@ -1,0 +1,11 @@
+# scenario.yaml (human summary)
+name: single-nic-br-ex-localnet
+nodes:
+  selector: node-role.kubernetes.io/worker: ''
+inputs:
+  bridge: br-ex
+  localnet: br-ex-network
+artifacts:
+  - nncp.yaml
+  - nad.yaml
+  - vm.yaml

@@ -1,0 +1,12 @@
+# scenario.yaml
+name: ovs-bridge-dedicated-nic
+nodes:
+  selector: node-role.kubernetes.io/worker: ''
+inputs:
+  nic: enp2s0
+  bridge: br0
+  localnet: br0-network
+artifacts:
+  - nncp.yaml
+  - nad.yaml
+  - vm.yaml

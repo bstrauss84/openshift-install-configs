@@ -1,0 +1,33 @@
+# KubeVirt VM — attaches the 'br-ex-network' NAD (no IPAM in NAD; VM uses DHCP/static)
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: vm-br-ex
+  namespace: vmtest
+spec:
+  runStrategy: Always
+  template:
+    metadata:
+      labels:
+        kubevirt.io/domain: vm-br-ex
+    spec:
+      domain:
+        devices:
+          disks:
+          - disk:
+              bus: virtio
+            name: rootdisk
+          interfaces:
+          - name: br-ex-net
+            bridge: {}
+        resources:
+          requests:
+            memory: 2Gi
+      networks:
+      - name: br-ex-net
+        multus:
+          networkName: vmtest/br-ex-network
+      volumes:
+      - name: rootdisk
+        containerDisk:
+          image: quay.io/kubevirt/cirros-container-disk-demo:latest

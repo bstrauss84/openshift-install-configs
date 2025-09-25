@@ -1,0 +1,33 @@
+# KubeVirt VM — attaches the 'br1-network' NAD (Linux bridge on dedicated NIC)
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: vm-br1
+  namespace: vmtest
+spec:
+  runStrategy: Always
+  template:
+    metadata:
+      labels:
+        kubevirt.io/domain: vm-br1
+    spec:
+      domain:
+        devices:
+          disks:
+          - disk:
+              bus: virtio
+            name: rootdisk
+          interfaces:
+          - name: br1-net
+            bridge: {}
+        resources:
+          requests:
+            memory: 2Gi
+      networks:
+      - name: br1-net
+        multus:
+          networkName: vmtest/br1-network
+      volumes:
+      - name: rootdisk
+        containerDisk:
+          image: quay.io/kubevirt/cirros-container-disk-demo:latest

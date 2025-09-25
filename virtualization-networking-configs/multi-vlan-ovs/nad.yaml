@@ -1,0 +1,15 @@
+# NAD — OVN localnet for trunk; VMs can tag VLANs in-guest if required
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: vlan-trunk-net
+  namespace: vmtest
+spec:
+  config: |
+    {
+      "cniVersion": "0.4.0",
+      "type": "ovn-k8s-cni-overlay",
+      "topology": "localnet",
+      "name": "vlan-trunk-net",
+      "netAttachDefName": "vmtest/vlan-trunk-net"
+    }

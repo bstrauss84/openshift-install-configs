@@ -1,0 +1,15 @@
+# NAD — OVN localnet for br0
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: br0-network
+  namespace: vmtest
+spec:
+  config: |
+    {
+      "cniVersion": "0.4.0",
+      "type": "ovn-k8s-cni-overlay",
+      "topology": "localnet",
+      "name": "br0-network",
+      "netAttachDefName": "vmtest/br0-network"
+    }
