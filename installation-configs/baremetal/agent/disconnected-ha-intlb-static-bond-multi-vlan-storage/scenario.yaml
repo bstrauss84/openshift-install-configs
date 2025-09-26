@@ -1,4 +1,4 @@
-name: disconnected-ha-intlb-static-triple-bond-storage-vlan
+name: disconnected-ha-intlb-static-bond-multi-vlan-storage
 platform: baremetal
 method: agent
 networking:
