@@ -1,0 +1,26 @@
+name: disconnected-3node-intlb-static-dualstack
+platform: baremetal
+method: agent
+networking:
+  type: OVNKubernetes
+  machineNetworkCIDRs:
+  - 10.90.0.0/24
+  - fd10:90::/64   # dual-stack: IPv6 must follow IPv4
+loadBalancer: internal
+addressing: static
+nodes:
+  controlPlane: 3
+  workers: 0
+vips:
+  api:
+    - 10.90.0.10
+    - fd10:90::10
+  ingress:
+    - 10.90.0.11
+    - fd10:90::11
+notes:
+  - Dual-stack requires IPv4 entries listed before IPv6 in machineNetwork and VIP lists
+  - Prefer imageDigestSources; imageContentSources is deprecated (kept as commented example)
+artifacts:
+  - install-config.yaml
+  - agent-config.yaml
