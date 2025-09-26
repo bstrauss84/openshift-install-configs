@@ -5,4 +5,4 @@ Uses modern `platform.vsphere.vcenters[]` and `failureDomains[]` plus **VIPs** (
 
 **Why this scenario?** Spreads nodes across zones for better availability while staying in one vCenter/DC.  
 VIPs are required for vSphere IPI. The installer creates the VMs, configures VIPs, and wires up NSX/vSwitch networking.  
-Docs: vSphere platform parameters & failure domains. :contentReference[oaicite:2]{index=2}
+Docs: vSphere platform parameters & failure domains.
