@@ -6,7 +6,7 @@ This directory presents **separate** configs for DNS (`dnsmasq`), DHCP (`dnsmasq
 - `dhcp/` → `dnsmasq` **DHCP-only** config (no DNS)
 - `ntp/` → `chrony` server config
 
-For a simpler single-host deployment, prefer the **all-in-one** variant under `../all-in-one-dnsmasq/` (recommended), but some environments require this separation.
+For a simpler single-host deployment, prefer the **combined dnsmasq** variant under `../all-in-one-dnsmasq/` (recommended), but some environments require this separation.
 
 ## DNS-only quick start
 
