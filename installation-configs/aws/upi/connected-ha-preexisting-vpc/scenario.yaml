@@ -1,0 +1,19 @@
+name: connected-ha-preexisting-vpc-upi
+platform: aws
+method: upi
+networking:
+  type: OVNKubernetes
+  machineNetworkCIDRs:
+  - 10.90.0.0/24
+vpc: existing
+addressing: dhcp
+nodes:
+  controlPlane: 3
+  workers: 3
+region: us-east-1
+notes:
+  - UPI: platform none; you provide NLB/ALB and Route53 records
+  - CNAME api/api-int to NLB; CNAME *.apps to ALB/NLB
+  - Include 169.254.169.254 and cluster domains in noProxy if you enable a proxy
+artifacts:
+  - install-config.yaml
