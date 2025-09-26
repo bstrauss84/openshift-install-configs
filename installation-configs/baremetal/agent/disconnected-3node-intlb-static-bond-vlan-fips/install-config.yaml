@@ -13,8 +13,7 @@
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
 # AGENT INSTALLER NOTES
-# - Use:  openshift-install agent create cluster-manifests
-#         openshift-install agent create image
+# - Use:  openshift-install agent create image
 #         # boot hosts with the generated ISO (or PXE/iPXE per docs)
 # - agent-config.yaml uses NMState for host networking in 'networkConfig'.
 # - If all hosts use DHCP and you provide at least one static IP in networkConfig,
