@@ -29,6 +29,7 @@ networking:
   networkType: OVNKubernetes
   machineNetwork:
   - cidr: 10.90.0.0/24
+  - cidr: fd10:90::/64   # dual-stack: IPv6 must come after IPv4 (required order)
 
 controlPlane:
   name: master
@@ -36,7 +37,7 @@ controlPlane:
 
 compute:
 - name: worker
-  replicas: 3
+  replicas: 0
 
 sshKey: 'ssh-ed25519 AAAA...REPLACE_ME... user@host'
 pullSecret: '{"auths":{"registry.example.com":{"auth":"REPLACE_BASE64","email":"you@example.com"}}}'
@@ -45,8 +46,10 @@ platform:
   baremetal:
     apiVIPs:
     - 10.90.0.10
+    - fd10:90::10      # dual-stack API VIP (IPv6 second)
     ingressVIPs:
     - 10.90.0.11
+    - fd10:90::11      # dual-stack Ingress VIP (IPv6 second)
 
 imageDigestSources:              # Disconnected installs: REQUIRED (use your mirror)
 - mirrors:

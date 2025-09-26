@@ -1,0 +1,95 @@
+# -----------------------------------------------------------------------------
+# IMPORTANT PREP
+# - sshKey MUST be a PUBLIC key (e.g., ~/.ssh/id_ed25519.pub). Generate if needed:
+#     ssh-keygen -t ed25519 -C "you@host" -f ~/.ssh/id_ed25519
+#     cat ~/.ssh/id_ed25519.pub
+# - pullSecret MUST be single-line JSON. Examples:
+#     tr -d '\n' < pull-secret.json
+#     # or
+#     jq -c . < pull-secret.json
+# - Connected installs: use your Red Hat pull secret from console.redhat.com
+# - Disconnected installs: include ONLY your mirror registry auth in pullSecret.
+#   NOTE: OKD has a dummy pattern for OKD only (NOT SUPPORTED for OCP).
+# - If your environment uses a custom CA (proxy or mirror), paste it into additionalTrustBundle
+#   and set additionalTrustBundlePolicy: Always
+# -----------------------------------------------------------------------------
+apiVersion: v1
+baseDomain: example.com
+metadata:
+  name: cluster
+
+# fips: true  # Optional
+
+networking:
+  networkType: OVNKubernetes
+  machineNetwork:
+  - cidr: 10.90.0.0/24            # Must encompass the subnets you list below for an existing VPC
+
+controlPlane:
+  name: master
+  replicas: 3
+
+compute:
+- name: worker
+  replicas: 3
+
+sshKey: 'ssh-ed25519 AAAA...REPLACE_ME... user@host'
+
+pullSecret: '{"auths":{"registry.redhat.io":{"auth":"REPLACE_BASE64","email":"you@example.com"}}}'
+
+platform:
+  aws:
+    region: us-east-1
+    # EXISTING VPC: Provide all subnet IDs (typically private + public across multiple AZs).
+    # The installer infers the VPC from these subnets and creates the needed LBs/SGs there.
+    # Replace the dummy IDs and ensure they are in the selected region/AZs.
+    subnets:
+    - subnet-priv-a0123456789abc001  # private (us-east-1a)
+    - subnet-priv-b0123456789abc002  # private (us-east-1b)
+    - subnet-priv-c0123456789abc003  # private (us-east-1c)
+    - subnet-pub-a0123456789abc101   # public  (us-east-1a)
+    - subnet-pub-b0123456789abc102   # public  (us-east-1b)
+    - subnet-pub-c0123456789abc103   # public  (us-east-1c)
+
+    defaultMachinePlatform:
+      type: m5.xlarge              # Example; size per documented minimums/workload
+      # rootVolume:                # Optional: customize the root volume
+      #   size: 120
+      #   type: gp3
+      #   iops: 3000               # Optional for gp3
+      #   throughput: 125          # Optional for gp3
+      # zones:                     # Optional: normally not needed when subnets are supplied
+      # - us-east-1a
+      # - us-east-1b
+      # - us-east-1c
+    # tags:                        # Optional: add AWS tags to created resources
+    #   owner: platform-team
+    # serviceEndpoints:            # Optional: interface endpoints/PrivateLink (isolated or private regions)
+    # - name: ec2
+    #   url: https://vpce-xxxxxxxx.ec2.us-east-1.vpce.amazonaws.com
+
+# publish: External                 # Optional; default is External. Use Internal for private clusters.
+
+# proxy:                           # Optional cluster-wide proxy (rare for public AWS IPI)
+#   httpProxy: http://user:pass@proxy.example.com:3128
+#   httpsProxy: http://user:pass@proxy.example.com:3128
+#   noProxy: ".cluster.example.com,.example.com,127.0.0.1,localhost,10.90.0.0/24"
+
+# additionalTrustBundle: |         # Optional: Proxy CA and/or registry CA
+#   -----BEGIN CERTIFICATE-----
+#   MIID...REPLACE_ME...
+#   -----END CERTIFICATE-----
+# additionalTrustBundlePolicy: Always
+
+# imageDigestSources:              # Disconnected installs (preferred; replaces deprecated imageContentSources)
+# - mirrors:
+#   - registry.example.com/ocp/release
+#   source: quay.io/openshift-release-dev/ocp-release
+# - mirrors:
+#   - registry.example.com/ocp/release-images
+#   source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+#
+# imageContentSources:             # (Deprecated) Provide only if you mirrored with oc-mirror v1 and must use it temporarily
+# - mirrors:
+#   - registry.example.com/ocp/release
+#   source: quay.io/openshift-release-dev/ocp-release

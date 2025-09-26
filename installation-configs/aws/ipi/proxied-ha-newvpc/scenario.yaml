@@ -1,0 +1,19 @@
+name: proxied-ha-newvpc
+platform: aws
+method: ipi
+networking:
+  type: OVNKubernetes
+  machineNetworkCIDRs:
+  - 10.90.0.0/24
+vpc: installer-provisioned
+proxy: enabled
+addressing: dhcp
+nodes:
+  controlPlane: 3
+  workers: 3
+region: us-east-1
+notes:
+  - Installer creates VPC/subnets/LBs; no VIPs in AWS IPI
+  - Include metadata IP 169.254.169.254 and cluster domains in noProxy
+artifacts:
+  - install-config.yaml

@@ -49,6 +49,20 @@ hosts:
           prefix-length: 24
       ipv6:
         enabled: false
+    - name: bond0.200
+      type: vlan
+      state: up
+      vlan:
+        base-iface: bond0
+        id: 200
+      ipv4:
+        enabled: true
+        dhcp: false
+        address:
+        - ip: 10.90.200.21   # example storage VLAN IP; replace with your storage subnet
+          prefix-length: 24
+      ipv6:
+        enabled: false
     dns-resolver:
       config:
         server:
@@ -102,6 +116,20 @@ hosts:
         dhcp: false
         address:
         - ip: 10.90.0.22
+          prefix-length: 24
+      ipv6:
+        enabled: false
+    - name: bond0.200
+      type: vlan
+      state: up
+      vlan:
+        base-iface: bond0
+        id: 200
+      ipv4:
+        enabled: true
+        dhcp: false
+        address:
+        - ip: 10.90.200.22   # example storage VLAN IP; replace with your storage subnet
           prefix-length: 24
       ipv6:
         enabled: false
@@ -161,6 +189,20 @@ hosts:
           prefix-length: 24
       ipv6:
         enabled: false
+    - name: bond0.200
+      type: vlan
+      state: up
+      vlan:
+        base-iface: bond0
+        id: 200
+      ipv4:
+        enabled: true
+        dhcp: false
+        address:
+        - ip: 10.90.200.23   # example storage VLAN IP; replace with your storage subnet
+          prefix-length: 24
+      ipv6:
+        enabled: false
     dns-resolver:
       config:
         server:
@@ -214,6 +256,20 @@ hosts:
         dhcp: false
         address:
         - ip: 10.90.0.51
+          prefix-length: 24
+      ipv6:
+        enabled: false
+    - name: bond0.200
+      type: vlan
+      state: up
+      vlan:
+        base-iface: bond0
+        id: 200
+      ipv4:
+        enabled: true
+        dhcp: false
+        address:
+        - ip: 10.90.200.51   # example storage VLAN IP; replace with your storage subnet
           prefix-length: 24
       ipv6:
         enabled: false
@@ -273,6 +329,20 @@ hosts:
           prefix-length: 24
       ipv6:
         enabled: false
+    - name: bond0.200
+      type: vlan
+      state: up
+      vlan:
+        base-iface: bond0
+        id: 200
+      ipv4:
+        enabled: true
+        dhcp: false
+        address:
+        - ip: 10.90.200.52   # example storage VLAN IP; replace with your storage subnet
+          prefix-length: 24
+      ipv6:
+        enabled: false
     dns-resolver:
       config:
         server:
@@ -326,6 +396,20 @@ hosts:
         dhcp: false
         address:
         - ip: 10.90.0.53
+          prefix-length: 24
+      ipv6:
+        enabled: false
+    - name: bond0.200
+      type: vlan
+      state: up
+      vlan:
+        base-iface: bond0
+        id: 200
+      ipv4:
+        enabled: true
+        dhcp: false
+        address:
+        - ip: 10.90.200.53   # example storage VLAN IP; replace with your storage subnet
           prefix-length: 24
       ipv6:
         enabled: false

@@ -1,0 +1,20 @@
+name: vsphere-upi-connected-ha-multi-failure-domain
+platform: vsphere
+method: upi
+networking:
+  type: OVNKubernetes
+  machineNetworkCIDR: 10.90.0.0/24
+loadBalancer: external
+addressing: dhcp
+nodes:
+  controlPlane: 3
+  workers: 3
+failureDomains:
+  - fd-a
+  - fd-b
+  - fd-c
+notes:
+  - UPI: platform none; create NLB/ALB and Route53-equivalent (DNS) yourself
+  - Distribute nodes across three vSphere clusters/datastores for resilience
+artifacts:
+  - install-config.yaml

@@ -32,21 +32,17 @@ networking:
 
 controlPlane:
   name: master
-  replicas: 3
+  replicas: 1
 
 compute:
 - name: worker
-  replicas: 3
+  replicas: 0
 
 sshKey: 'ssh-ed25519 AAAA...REPLACE_ME... user@host'
 pullSecret: '{"auths":{"registry.example.com":{"auth":"REPLACE_BASE64","email":"you@example.com"}}}'
 
 platform:
-  baremetal:
-    apiVIPs:
-    - 10.90.0.10
-    ingressVIPs:
-    - 10.90.0.11
+  none: {}
 
 imageDigestSources:              # Disconnected installs: REQUIRED (use your mirror)
 - mirrors:

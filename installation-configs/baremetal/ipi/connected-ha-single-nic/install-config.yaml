@@ -22,14 +22,14 @@ metadata:
 # fips: true  # Optional: Enable FIPS mode cluster-wide
 
 networking:
-  networkType: OVNKubernetes
   machineNetwork:
   - cidr: 10.90.0.0/24
+  networkType: OVNKubernetes
   # clusterNetwork and serviceNetwork use installer defaults if omitted
 
 controlPlane:
   name: master
-  replicas: 3  # HA control plane
+  replicas: 3
 
 compute:
 - name: worker
@@ -45,34 +45,289 @@ platform:
   baremetal:
     # VIPs are required for Bare Metal IPI multi-node clusters (internal load balancer managed by installer)
     apiVIPs:
-    - 10.90.0.10
+      - 10.90.0.10
     ingressVIPs:
-    - 10.90.0.11
+      - 10.90.0.11
 
-    # additionalNTPServers:    # Optional: Specify NTP servers if not using DHCP option 42
-    # - 10.90.0.2
+    # additionalNTPServers:
+    #   - 10.90.0.2   ### Optional: Specify NTP servers if not using DHCP option 42
 
-    # provisioningNetwork: Disabled   # Optional: Virtual media provisioning (disable PXE provisioning network)
-    # externalBridge: labnet          # Optional: Name of bridge for bootstrap VM (if using provisioningNetwork Disabled)
+    # The externalBridge and provisioningNetwork parameters control the creation of the bootstrap VM (via libvirt)
+    # externalBridge: "labnet"            ### Optional: if provisioningNetwork is Disabled, pre-create a bridge for bootstrap VM
+    # provisioningNetwork: "Disabled"     ### Optional: disable PXE; use virtual media (redfish-virtualmedia/idrac-virtualmedia)
 
-    # hosts:                        # Optional: Static host declarations for IPI (rare; typically discovered automatically)
-    # - name: bm-master-0
-    #   role: master
-    #   bmc:
-    #     address: redfish-virtualmedia://<bmc-fqdn-or-ip>/redfish/v1/Systems/<id>
-    #     username: <user>
-    #     password: <pass>
-    #     disableCertificateVerification: true
-    #   bootMode: UEFISecureBoot
-    #   bootMACAddress: 52:54:00:00:00:01
-    #   rootDeviceHints:
-    #     deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"  # Prefer by-path for stability
-    #     # deviceName: "/dev/sda"        # Example (NOT RECOMMENDED): less stable than by-path
+    # hosts is REQUIRED for IPI to provision nodes via BMC. Provide all control-plane and worker nodes below.
+    hosts:
+      - name: cluster-master-1
+        role: master
+        bmc:
+          address: redfish-virtualmedia://bmc-master-1.example.com/redfish/v1/Systems/1
+          disableCertificateVerification: true   ### self-signed BMC certs
+          username: admin
+          password: changeme
+        bootMode: UEFISecureBoot
+        bootMACAddress: 52:54:00:aa:11:01   # MUST be a NIC visible to the provisioning workflow
+        rootDeviceHints:
+          # model: "NVMe"                   ### Optional: substring match (e.g., specific NVMe model)
+          deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"  # Prefer stable by-path naming
+        networkConfig:  # https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/installing/deploying-installer-provisioned-clusters-on-bare-metal
+          interfaces:
+            - name: bond-labnet
+              type: bond
+              state: up
+              mtu: 9000
+              link-aggregation:
+                mode: 802.3ad
+                port:
+                  - eno1
+                  - eno2
+              lldp:
+                enabled: true
+              ipv4:
+                enabled: true
+                dhcp: false
+                address:
+                  - ip: 10.90.0.21
+                    prefix-length: 24
+              ipv6:
+                enabled: false
+          dns-resolver:
+            config:
+              server:
+                - 10.90.0.3
+              # search:
+              #   - example.com  ### optional DNS search domain(s)
+          routes:
+            config:
+              - destination: 0.0.0.0/0
+                next-hop-address: 10.90.0.1    # default gateway IP
+                next-hop-interface: bond-labnet # egress interface
+                table-id: 254                   # main routing table
+
+      - name: cluster-master-2
+        role: master
+        bmc:
+          address: redfish-virtualmedia://bmc-master-2.example.com/redfish/v1/Systems/1
+          disableCertificateVerification: true
+          username: admin
+          password: changeme
+        bootMode: UEFISecureBoot
+        bootMACAddress: 52:54:00:aa:12:01
+        rootDeviceHints:
+          deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+        networkConfig:
+          interfaces:
+            - name: bond-labnet
+              type: bond
+              state: up
+              mtu: 9000
+              link-aggregation:
+                mode: 802.3ad
+                port:
+                  - eno1
+                  - eno2
+              lldp:
+                enabled: true
+              ipv4:
+                enabled: true
+                dhcp: false
+                address:
+                  - ip: 10.90.0.22
+                    prefix-length: 24
+              ipv6:
+                enabled: false
+          dns-resolver:
+            config:
+              server:
+                - 10.90.0.3
+              # search:
+              #   - example.com
+          routes:
+            config:
+              - destination: 0.0.0.0/0
+                next-hop-address: 10.90.0.1
+                next-hop-interface: bond-labnet
+                table-id: 254
+
+      - name: cluster-master-3
+        role: master
+        bmc:
+          address: redfish-virtualmedia://bmc-master-3.example.com/redfish/v1/Systems/1
+          disableCertificateVerification: true
+          username: admin
+          password: changeme
+        bootMode: UEFISecureBoot
+        bootMACAddress: 52:54:00:aa:13:01
+        rootDeviceHints:
+          deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+        networkConfig:
+          interfaces:
+            - name: bond-labnet
+              type: bond
+              state: up
+              mtu: 9000
+              link-aggregation:
+                mode: 802.3ad
+                port:
+                  - eno1
+                  - eno2
+              lldp:
+                enabled: true
+              ipv4:
+                enabled: true
+                dhcp: false
+                address:
+                  - ip: 10.90.0.23
+                    prefix-length: 24
+              ipv6:
+                enabled: false
+          dns-resolver:
+            config:
+              server:
+                - 10.90.0.3
+              # search:
+              #   - example.com
+          routes:
+            config:
+              - destination: 0.0.0.0/0
+                next-hop-address: 10.90.0.1
+                next-hop-interface: bond-labnet
+                table-id: 254
+
+      - name: cluster-worker-1
+        role: worker
+        bmc:
+          address: redfish-virtualmedia://bmc-worker-1.example.com/redfish/v1/Systems/1
+          disableCertificateVerification: true
+          username: admin
+          password: changeme
+        bootMode: UEFISecureBoot
+        bootMACAddress: 52:54:00:aa:21:01
+        rootDeviceHints:
+          deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+        networkConfig:
+          interfaces:
+            - name: bond-labnet
+              type: bond
+              state: up
+              mtu: 9000
+              link-aggregation:
+                mode: 802.3ad
+                port:
+                  - eno1
+                  - eno2
+              lldp:
+                enabled: true
+              ipv4:
+                enabled: true
+                dhcp: false
+                address:
+                  - ip: 10.90.0.51
+                    prefix-length: 24
+              ipv6:
+                enabled: false
+          dns-resolver:
+            config:
+              server:
+                - 10.90.0.3
+          routes:
+            config:
+              - destination: 0.0.0.0/0
+                next-hop-address: 10.90.0.1
+                next-hop-interface: bond-labnet
+                table-id: 254
+
+      - name: cluster-worker-2
+        role: worker
+        bmc:
+          address: redfish-virtualmedia://bmc-worker-2.example.com/redfish/v1/Systems/1
+          disableCertificateVerification: true
+          username: admin
+          password: changeme
+        bootMode: UEFISecureBoot
+        bootMACAddress: 52:54:00:aa:22:01
+        rootDeviceHints:
+          deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+        networkConfig:
+          interfaces:
+            - name: bond-labnet
+              type: bond
+              state: up
+              mtu: 9000
+              link-aggregation:
+                mode: 802.3ad
+                port:
+                  - eno1
+                  - eno2
+              lldp:
+                enabled: true
+              ipv4:
+                enabled: true
+                dhcp: false
+                address:
+                  - ip: 10.90.0.52
+                    prefix-length: 24
+              ipv6:
+                enabled: false
+          dns-resolver:
+            config:
+              server:
+                - 10.90.0.3
+          routes:
+            config:
+              - destination: 0.0.0.0/0
+                next-hop-address: 10.90.0.1
+                next-hop-interface: bond-labnet
+                table-id: 254
+
+      - name: cluster-worker-3
+        role: worker
+        bmc:
+          address: redfish-virtualmedia://bmc-worker-3.example.com/redfish/v1/Systems/1
+          disableCertificateVerification: true
+          username: admin
+          password: changeme
+        bootMode: UEFISecureBoot
+        bootMACAddress: 52:54:00:aa:23:01
+        rootDeviceHints:
+          deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+        networkConfig:
+          interfaces:
+            - name: bond-labnet
+              type: bond
+              state: up
+              mtu: 9000
+              link-aggregation:
+                mode: 802.3ad
+                port:
+                  - eno1
+                  - eno2
+              lldp:
+                enabled: true
+              ipv4:
+                enabled: true
+                dhcp: false
+                address:
+                  - ip: 10.90.0.53
+                    prefix-length: 24
+              ipv6:
+                enabled: false
+          dns-resolver:
+            config:
+              server:
+                - 10.90.0.3
+          routes:
+            config:
+              - destination: 0.0.0.0/0
+                next-hop-address: 10.90.0.1
+                next-hop-interface: bond-labnet
+                table-id: 254
 
 # proxy:                           # Optional: cluster-wide egress proxy
-#   httpProxy: http://user:pass@proxy.example.com:3128
-#   httpsProxy: http://user:pass@proxy.example.com:3128
-#   noProxy: ".cluster.example.com,.example.com,127.0.0.1,localhost,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+proxy:                              # ENABLED for this scenario
+  httpProxy: http://user:pass@proxy.example.com:3128
+  httpsProxy: http://user:pass@proxy.example.com:3128
+  noProxy: ".cluster.example.com,.example.com,127.0.0.1,localhost,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,10.90.0.0/24,registry.example.com,10.90.0.10,10.90.0.11"
 
 # additionalTrustBundle: |         # Optional: PEM-encoded CA bundle (proxy CA and/or mirror registry CA)
 #   -----BEGIN CERTIFICATE-----

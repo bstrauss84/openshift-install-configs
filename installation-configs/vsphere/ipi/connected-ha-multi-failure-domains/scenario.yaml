@@ -1,0 +1,23 @@
+name: vsphere-ipi-connected-ha-multi-failure-domain
+platform: vsphere
+method: ipi
+networking:
+  type: OVNKubernetes
+  machineNetworkCIDR: 10.90.0.0/24
+loadBalancer: internal
+addressing: dhcp
+nodes:
+  controlPlane: 3
+  workers: 3
+failureDomains:
+  - fd-a
+  - fd-b
+  - fd-c
+vips:
+  api: 10.90.0.10
+  ingress: 10.90.0.11
+notes:
+  - Uses vcenters[] + failureDomains[] (preferred 4.18 schema)
+  - VIPs required on vSphere IPI
+artifacts:
+  - install-config.yaml

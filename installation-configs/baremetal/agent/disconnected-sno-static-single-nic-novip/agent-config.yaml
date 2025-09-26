@@ -1,0 +1,40 @@
+apiVersion: v1beta1
+kind: AgentConfig
+metadata:
+  name: cluster
+rendezvousIP: 10.90.0.20
+# additionalNTPSources:
+# - 10.90.0.2
+hosts:
+- hostname: cluster-master-1
+  role: master
+  interfaces:
+  - name: eno1
+    macAddress: 52:54:00:aa:11:01
+  rootDeviceHints:
+    deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+  networkConfig:
+    interfaces:
+    - name: eno1
+      type: ethernet
+      state: up
+      ipv4:
+        enabled: true
+        dhcp: false
+        address:
+        - ip: 10.90.0.21
+          prefix-length: 24
+      ipv6:
+        enabled: false
+    dns-resolver:
+      config:
+        server:
+        - 10.90.0.3
+        # search:
+        # - example.com  # optional DNS search domain(s); add your base/cluster domains if desired
+    routes:
+      config:
+      - destination: 0.0.0.0/0
+        next-hop-address: 10.90.0.1  # default gateway IP for this VLAN/subnet
+        next-hop-interface: eno1      # interface used to reach the gateway
+        table-id: 254                 # main routing table

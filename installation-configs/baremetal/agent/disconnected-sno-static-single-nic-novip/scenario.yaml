@@ -1,0 +1,18 @@
+name: disconnected-sno-static-single-nic-novip
+platform: none
+method: agent
+networking:
+  type: OVNKubernetes
+  machineNetworkCIDRs:
+  - 10.90.0.0/24
+loadBalancer: none
+addressing: static
+nodes:
+  controlPlane: 1
+  workers: 0
+notes:
+  - No VIPs for SNO; DNS for api/ingress should resolve directly to the node IP
+  - Prefer imageDigestSources; imageContentSources is deprecated (kept as commented example)
+artifacts:
+  - install-config.yaml
+  - agent-config.yaml
