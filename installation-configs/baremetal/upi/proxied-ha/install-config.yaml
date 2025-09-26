@@ -16,12 +16,13 @@
 apiVersion: v1
 baseDomain: example.com
 metadata:
-  name: cluster-proxied
+  name: cluster    # UPI: keep environment default so FQDN = cluster.example.com
 
 networking:
   networkType: OVNKubernetes
   machineNetwork:
   - cidr: 10.90.0.0/24
+  # clusterNetwork and serviceNetwork use installer defaults if omitted
 
 controlPlane:
   name: master
@@ -31,17 +32,30 @@ compute:
 - name: worker
   replicas: 3
 
+# PUBLIC SSH KEY (NOT PRIVATE)
 sshKey: 'ssh-ed25519 AAAA...REPLACE_ME... user@host'
 
+# SINGLE-LINE JSON (KEEP JSON FORMAT)
 pullSecret: '{"auths":{"registry.redhat.io":{"auth":"REPLACE_BASE64","email":"you@example.com"}}}'
 
+# UPI: Use an EXTERNAL load balancer. The installer will NOT manage VIPs.
 platform:
   none: {}
+
+# Optional but common in UPI:
+# publish: External                 # Optional: default is External. Internal limits default exposure.
+
+# For your LB, see our utility-box canonical HAProxy:
+#   utility-box/load-balancer/haproxy.cfg
+# Point DNS:
+#   api.cluster.example.com     -> 10.90.0.10
+#   api-int.cluster.example.com -> 10.90.0.10
+#   *.apps.cluster.example.com  -> 10.90.0.11
 
 proxy:
   httpProxy: http://user:pass@proxy.example.com:3128
   httpsProxy: http://user:pass@proxy.example.com:3128
-  noProxy: ".cluster.example.com,.example.com,127.0.0.1,localhost,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+  noProxy: ".cluster.example.com,.example.com,127.0.0.1,localhost,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,10.90.0.0/24,registry.example.com,10.90.0.4,10.90.0.10,10.90.0.11"
 
 additionalTrustBundle: |
   # Paste your proxy CA and/or registry CA (PEM)
@@ -63,3 +77,10 @@ additionalTrustBundlePolicy: Always
 # - mirrors:
 #   - registry.example.com/ocp/release
 #   source: quay.io/openshift-release-dev/ocp-release
+
+# Typical flow (UPI):
+# 1) openshift-install create manifests
+# 2) openshift-install create ignition-configs     # UPI generates Ignition; you handle infra/boot yourself
+# 3) Prepare infra (LB, DNS, Ignition hosting or boot media)
+# 4) Boot nodes with Ignition URLs or ISO / virtual media
+# 5) Monitor bootstrap and cluster bring-up
