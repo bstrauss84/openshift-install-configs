@@ -1,0 +1,82 @@
+# -----------------------------------------------------------------------------
+# IMPORTANT PREP
+# - sshKey MUST be a PUBLIC key (e.g., ~/.ssh/id_ed25519.pub). Generate if needed:
+#     ssh-keygen -t ed25519 -C "you@host" -f ~/.ssh/id_ed25519
+#     cat ~/.ssh/id_ed25519.pub
+# - pullSecret MUST be single-line JSON. Examples:
+#     tr -d '\n' < pull-secret.json
+#     # or
+#     jq -c . < pull-secret.json
+# - Connected installs: use your Red Hat pull secret from console.redhat.com
+# - Disconnected installs: include ONLY your mirror registry auth in pullSecret.
+#   NOTE: OKD has a dummy pattern for OKD only (NOT SUPPORTED for OCP).
+# - If your environment uses a custom CA (proxy or mirror), paste it into additionalTrustBundle
+#   and set additionalTrustBundlePolicy: Always
+# -----------------------------------------------------------------------------
+apiVersion: v1
+baseDomain: example.com
+metadata:
+  name: cluster-proxied
+
+# fips: true  # Optional
+
+networking:
+  networkType: OVNKubernetes
+  machineNetwork:
+  - cidr: 10.90.0.0/24
+  # clusterNetwork and serviceNetwork use installer defaults if omitted
+
+controlPlane:
+  name: master
+  replicas: 3
+
+compute:
+- name: worker
+  replicas: 3
+
+sshKey: 'ssh-ed25519 AAAA...REPLACE_ME... user@host'
+
+pullSecret: '{"auths":{"registry.redhat.io":{"auth":"REPLACE_BASE64","email":"you@example.com"}}}'
+
+platform:
+  aws:
+    region: us-east-1
+    # NEW VPC (default): omit 'subnets' to let the installer create VPC, subnets, SGs, route tables, and LBs.
+    defaultMachinePlatform:
+      type: m5.xlarge
+      # rootVolume:
+      #   size: 120
+      #   type: gp3
+
+# publish: External                 # Optional; default is External. Use Internal for private clusters.
+
+proxy:
+  httpProxy: http://user:pass@proxy.example.com:3128
+  httpsProxy: http://user:pass@proxy.example.com:3128
+  # Include cluster domains, RFC1918 ranges, VPC CIDR, local services, and metadata IP
+  noProxy: ".cluster.example.com,.example.com,.svc,.cluster.local,127.0.0.1,localhost,10.90.0.0/24,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,169.254.169.254"
+
+additionalTrustBundle: |
+  # Paste your proxy CA and/or registry CA (PEM)
+  -----BEGIN CERTIFICATE-----
+  MIID...REPLACE_ME...
+  -----END CERTIFICATE-----
+
+additionalTrustBundlePolicy: Always
+
+# imageDigestSources:              # Disconnected + proxied: prefer these (replaces deprecated imageContentSources)
+# - mirrors:
+#   - registry.example.com/ocp/release
+#   source: quay.io/openshift-release-dev/ocp-release
+# - mirrors:
+#   - registry.example.com/ocp/release-images
+#   source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+#
+# imageContentSources:             # (Deprecated) Provide only if you mirrored with oc-mirror v1 and must use it temporarily
+# - mirrors:
+#   - registry.example.com/ocp/release
+#   source: quay.io/openshift-release-dev/ocp-release
+
+# Typical flow (AWS IPI):
+#   openshift-install create manifests
+#   openshift-install create cluster
