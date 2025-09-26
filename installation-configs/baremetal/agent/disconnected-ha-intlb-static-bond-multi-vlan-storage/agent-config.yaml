@@ -1,4 +1,4 @@
-apiVersion: agent-install.openshift.io/v1beta1
+apiVersion: v1beta1
 kind: AgentConfig
 metadata:
   name: cluster
