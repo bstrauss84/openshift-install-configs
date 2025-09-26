@@ -23,7 +23,7 @@
 apiVersion: v1
 baseDomain: example.com
 metadata:
-  name: cluster-sno
+  name: cluster
 
 networking:
   networkType: OVNKubernetes
@@ -39,22 +39,24 @@ compute:
   replicas: 0
 
 sshKey: 'ssh-ed25519 AAAA...REPLACE_ME... user@host'
-pullSecret: '{"auths":{"registry.redhat.io":{"auth":"REPLACE_BASE64","email":"you@example.com"}}}'
+pullSecret: '{"auths":{"registry.example.com":{"auth":"REPLACE_BASE64","email":"you@example.com"}}}'
 
 platform:
-  baremetal:
-    apiVIPs:
-    - 10.90.0.10
-    ingressVIPs:
-    - 10.90.0.11
+  none: {}
 
-# imageDigestSources:              # Disconnected installs: PREFERRED over imageContentSources (deprecated)
-# - mirrors:
-#   - registry.example.com/ocp/release
-#   source: quay.io/openshift-release-dev/ocp-release
-# - mirrors:
-#   - registry.example.com/ocp/release-images
-#   source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+imageDigestSources:              # Disconnected installs: REQUIRED (use your mirror)
+- mirrors:
+  - registry.example.com/ocp/release
+  source: quay.io/openshift-release-dev/ocp-release
+- mirrors:
+  - registry.example.com/ocp/release-images
+  source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+
+# additionalTrustBundlePolicy: Always   # optional (required if your mirror has a custom CA)
+# additionalTrustBundle: |              # optional - paste PEM here matching the mirror above
+#   -----BEGIN CERTIFICATE-----
+#   ...
+#   -----END CERTIFICATE-----
 
 # imageContentSources:             # (Deprecated) Only if you mirrored with oc-mirror v1 and must use it temporarily
 # - mirrors:
