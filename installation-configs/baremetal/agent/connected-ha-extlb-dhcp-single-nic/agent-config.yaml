@@ -2,7 +2,7 @@ apiVersion: agent-install.openshift.io/v1beta1
 kind: AgentConfig
 metadata:
   name: cluster
-# rendezvousIP: 10.90.0.20  # Optional if at least one host has a static IP in networkConfig
+rendezvousIP: 10.90.0.20
 # additionalNTPSources:
 # - 10.90.0.2
 hosts:
@@ -10,7 +10,7 @@ hosts:
   role: master
   interfaces:
   - name: eno1
-    macAddress: 52:54:00:aa:m1:01
+    macAddress: 52:54:00:aa:11:01
   rootDeviceHints:
     deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
   networkConfig:
@@ -27,7 +27,7 @@ hosts:
   role: master
   interfaces:
   - name: eno1
-    macAddress: 52:54:00:aa:m2:01
+    macAddress: 52:54:00:aa:12:01
   rootDeviceHints:
     deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
   networkConfig:
@@ -44,7 +44,7 @@ hosts:
   role: master
   interfaces:
   - name: eno1
-    macAddress: 52:54:00:aa:m3:01
+    macAddress: 52:54:00:aa:13:01
   rootDeviceHints:
     deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
   networkConfig:
@@ -61,7 +61,7 @@ hosts:
   role: worker
   interfaces:
   - name: eno1
-    macAddress: 52:54:00:aa:w1:01
+    macAddress: 52:54:00:aa:14:01
   rootDeviceHints:
     deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
   networkConfig:
@@ -78,7 +78,7 @@ hosts:
   role: worker
   interfaces:
   - name: eno1
-    macAddress: 52:54:00:aa:w2:01
+    macAddress: 52:54:00:aa:15:01
   rootDeviceHints:
     deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
   networkConfig:
@@ -95,7 +95,7 @@ hosts:
   role: worker
   interfaces:
   - name: eno1
-    macAddress: 52:54:00:aa:w3:01
+    macAddress: 52:54:00:aa:16:01
   rootDeviceHints:
     deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
   networkConfig:
