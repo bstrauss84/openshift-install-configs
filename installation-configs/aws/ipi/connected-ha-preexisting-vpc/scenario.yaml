@@ -1,0 +1,25 @@
+name: connected-ha-preexisting-vpc
+platform: aws
+method: ipi
+networking:
+  type: OVNKubernetes
+  machineNetworkCIDRs:
+  - 10.90.0.0/24
+vpc: existing
+addressing: dhcp
+nodes:
+  controlPlane: 3
+  workers: 3
+region: us-east-1
+subnets:
+  - subnet-priv-a0123456789abc001
+  - subnet-priv-b0123456789abc002
+  - subnet-priv-c0123456789abc003
+  - subnet-pub-a0123456789abc101
+  - subnet-pub-b0123456789abc102
+  - subnet-pub-c0123456789abc103
+notes:
+  - Installer uses the supplied subnets to discover the VPC and place ALB/NLBs
+  - No VIPs; AWS LBs are cloud-managed
+artifacts:
+  - install-config.yaml
