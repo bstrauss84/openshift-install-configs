@@ -18,10 +18,12 @@ baseDomain: example.com
 metadata:
   name: cluster
 
+# fips: true  # Optional
+
 networking:
   networkType: OVNKubernetes
   machineNetwork:
-  - cidr: 10.90.0.0/24
+  - cidr: 10.90.0.0/24            # Must encompass the subnets you list below for an existing VPC
 
 controlPlane:
   name: master
@@ -38,25 +40,46 @@ pullSecret: '{"auths":{"registry.redhat.io":{"auth":"REPLACE_BASE64","email":"yo
 platform:
   aws:
     region: us-east-1
-    # If you want the installer to create VPC/subnets, omit the 'subnets' list.
-    # To use your own VPC/subnets, supply them here (subnet IDs must be in the chosen region & AZs).
-    # subnets:
-    # - subnet-0123456789abcdef0
-    # - subnet-abcdef0123456789a
+    # EXISTING VPC: Provide all subnet IDs (typically private + public across multiple AZs).
+    # The installer infers the VPC from these subnets and creates the needed LBs/SGs there.
+    # Replace the dummy IDs and ensure they are in the selected region/AZs.
+    subnets:
+    - subnet-priv-a0123456789abc001  # private (us-east-1a)
+    - subnet-priv-b0123456789abc002  # private (us-east-1b)
+    - subnet-priv-c0123456789abc003  # private (us-east-1c)
+    - subnet-pub-a0123456789abc101   # public  (us-east-1a)
+    - subnet-pub-b0123456789abc102   # public  (us-east-1b)
+    - subnet-pub-c0123456789abc103   # public  (us-east-1c)
+
     defaultMachinePlatform:
-      type: m5.xlarge   # Example; size per documented minimums and workload
-      # zones:           # Optional: pin to specific AZs
+      type: m5.xlarge              # Example; size per documented minimums/workload
+      # rootVolume:                # Optional: customize the root volume
+      #   size: 120
+      #   type: gp3
+      #   iops: 3000               # Optional for gp3
+      #   throughput: 125          # Optional for gp3
+      # zones:                     # Optional: normally not needed when subnets are supplied
       # - us-east-1a
       # - us-east-1b
       # - us-east-1c
-      # rootVolume:      # Optional: customize root volume
-      #   size: 120
-      #   type: gp3
-    # tags:              # Optional: tags to add to created resources
+    # tags:                        # Optional: add AWS tags to created resources
     #   owner: platform-team
-    # serviceEndpoints:  # Optional: PrivateLink endpoints if mirroring in private regions
+    # serviceEndpoints:            # Optional: interface endpoints/PrivateLink (isolated or private regions)
     # - name: ec2
     #   url: https://vpce-xxxxxxxx.ec2.us-east-1.vpce.amazonaws.com
+
+# publish: External                 # Optional; default is External. Use Internal for private clusters.
+
+# proxy:                           # Optional cluster-wide proxy (rare for public AWS IPI)
+#   httpProxy: http://user:pass@proxy.example.com:3128
+#   httpsProxy: http://user:pass@proxy.example.com:3128
+#   noProxy: ".cluster.example.com,.example.com,127.0.0.1,localhost,10.90.0.0/24"
+
+# additionalTrustBundle: |         # Optional: Proxy CA and/or registry CA
+#   -----BEGIN CERTIFICATE-----
+#   MIID...REPLACE_ME...
+#   -----END CERTIFICATE-----
+# additionalTrustBundlePolicy: Always
 
 # imageDigestSources:              # Disconnected installs (preferred; replaces deprecated imageContentSources)
 # - mirrors:
@@ -70,4 +93,3 @@ platform:
 # - mirrors:
 #   - registry.example.com/ocp/release
 #   source: quay.io/openshift-release-dev/ocp-release
-
