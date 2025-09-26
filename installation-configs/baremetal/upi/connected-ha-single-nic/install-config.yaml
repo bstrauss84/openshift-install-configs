@@ -24,6 +24,7 @@ networking:
   networkType: OVNKubernetes
   machineNetwork:
   - cidr: 10.90.0.0/24
+  # clusterNetwork and serviceNetwork use installer defaults if omitted
 
 controlPlane:
   name: master
@@ -41,17 +42,19 @@ pullSecret: '{"auths":{"registry.redhat.io":{"auth":"REPLACE_BASE64","email":"yo
 platform:
   none: {}
 
+# Optional but common in UPI:
+# publish: External                 # Optional: leave default (External). Internal restricts default routes to Service/Ingress.
+# proxy:
+#   httpProxy: http://user:pass@proxy.example.com:3128
+#   httpsProxy: http://user:pass@proxy.example.com:3128
+#   noProxy: ".cluster.example.com,.example.com,127.0.0.1,localhost,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+
 # For your LB, see our utility-box canonical HAProxy:
 #   utility-box/load-balancer/haproxy.cfg
 # Point DNS:
 #   api.cluster.example.com     -> 10.90.0.10
 #   api-int.cluster.example.com -> 10.90.0.10
 #   *.apps.cluster.example.com  -> 10.90.0.11
-
-# proxy:                           # Optional cluster-wide proxy
-#   httpProxy: http://user:pass@proxy.example.com:3128
-#   httpsProxy: http://user:pass@proxy.example.com:3128
-#   noProxy: ".cluster.example.com,.example.com,127.0.0.1,localhost,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
 
 # additionalTrustBundle: |         # Optional: Proxy CA and/or registry CA
 #   -----BEGIN CERTIFICATE-----
@@ -74,6 +77,7 @@ platform:
 
 # Typical flow (UPI):
 # 1) openshift-install create manifests
-# 2) Prepare infra (LB, DNS, Ignition hosting or boot media)
-# 3) Boot nodes with Ignition URLs or ISO
-# 4) Monitor bootstrap and cluster bring-up
+# 2) openshift-install create ignition-configs     # UPI generates Ignition; you handle infra/boot yourself
+# 3) Prepare infra (LB, DNS, Ignition hosting or boot media)
+# 4) Boot nodes with Ignition URLs or ISO / virtual media
+# 5) Monitor bootstrap and cluster bring-up
