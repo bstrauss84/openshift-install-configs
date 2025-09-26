@@ -1,0 +1,202 @@
+apiVersion: v1beta1
+kind: AgentConfig
+metadata:
+  name: cluster
+rendezvousIP: 10.90.0.20
+# additionalNTPSources:
+# - 10.90.0.2
+hosts:
+- hostname: cluster-master-1
+  role: master
+  interfaces:
+  - name: eno1
+    macAddress: 52:54:00:aa:11:01
+  - name: eno2
+    macAddress: 52:54:00:aa:11:02
+  rootDeviceHints:
+    deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+  networkConfig:
+    interfaces:
+    - name: bond0
+      type: bond
+      state: up
+      link-aggregation:
+        mode: 802.3ad
+        port:
+        - eno1
+        - eno2
+      ipv4:
+        enabled: false
+      ipv6:
+        enabled: false
+    - name: eno1
+      type: ethernet
+      state: up
+    - name: eno2
+      type: ethernet
+      state: up
+    - name: bond0.100
+      type: vlan
+      state: up
+      vlan:
+        base-iface: bond0
+        id: 100
+      ipv4:
+        enabled: true
+        dhcp: false
+        address:
+        - ip: 10.90.0.21
+          prefix-length: 24
+      ipv6:
+        enabled: true
+        dhcp: false
+        address:
+        - ip: fd10:90::21
+          prefix-length: 64
+    dns-resolver:
+      config:
+        server:
+        - 10.90.0.3
+        # - fd10:90::3          # optional IPv6 DNS if available
+        # search:
+        # - example.com         # optional DNS search domain(s)
+    routes:
+      config:
+      - destination: 0.0.0.0/0
+        next-hop-address: 10.90.0.1     # default IPv4 gateway IP
+        next-hop-interface: bond0.100   # interface used to reach the gateway
+        table-id: 254                   # main routing table
+      # - destination: ::/0             # optional IPv6 default route (add if you have an IPv6 GW)
+      #   next-hop-address: fd10:90::1  # default IPv6 gateway IP
+      #   next-hop-interface: bond0.100 # interface used to reach the gateway
+      #   table-id: 254
+
+- hostname: cluster-master-2
+  role: master
+  interfaces:
+  - name: eno1
+    macAddress: 52:54:00:aa:12:01
+  - name: eno2
+    macAddress: 52:54:00:aa:12:02
+  rootDeviceHints:
+    deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+  networkConfig:
+    interfaces:
+    - name: bond0
+      type: bond
+      state: up
+      link-aggregation:
+        mode: 802.3ad
+        port:
+        - eno1
+        - eno2
+      ipv4:
+        enabled: false
+      ipv6:
+        enabled: false
+    - name: eno1
+      type: ethernet
+      state: up
+    - name: eno2
+      type: ethernet
+      state: up
+    - name: bond0.100
+      type: vlan
+      state: up
+      vlan:
+        base-iface: bond0
+        id: 100
+      ipv4:
+        enabled: true
+        dhcp: false
+        address:
+        - ip: 10.90.0.22
+          prefix-length: 24
+      ipv6:
+        enabled: true
+        dhcp: false
+        address:
+        - ip: fd10:90::22
+          prefix-length: 64
+    dns-resolver:
+      config:
+        server:
+        - 10.90.0.3
+        # - fd10:90::3          # optional IPv6 DNS if available
+        # search:
+        # - example.com         # optional DNS search domain(s)
+    routes:
+      config:
+      - destination: 0.0.0.0/0
+        next-hop-address: 10.90.0.1     # default IPv4 gateway IP
+        next-hop-interface: bond0.100   # interface used to reach the gateway
+        table-id: 254                   # main routing table
+      # - destination: ::/0             # optional IPv6 default route (add if you have an IPv6 GW)
+      #   next-hop-address: fd10:90::1  # default IPv6 gateway IP
+      #   next-hop-interface: bond0.100 # interface used to reach the gateway
+      #   table-id: 254
+
+- hostname: cluster-master-3
+  role: master
+  interfaces:
+  - name: eno1
+    macAddress: 52:54:00:aa:13:01
+  - name: eno2
+    macAddress: 52:54:00:aa:13:02
+  rootDeviceHints:
+    deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+  networkConfig:
+    interfaces:
+    - name: bond0
+      type: bond
+      state: up
+      link-aggregation:
+        mode: 802.3ad
+        port:
+        - eno1
+        - eno2
+      ipv4:
+        enabled: false
+      ipv6:
+        enabled: false
+    - name: eno1
+      type: ethernet
+      state: up
+    - name: eno2
+      type: ethernet
+      state: up
+    - name: bond0.100
+      type: vlan
+      state: up
+      vlan:
+        base-iface: bond0
+        id: 100
+      ipv4:
+        enabled: true
+        dhcp: false
+        address:
+        - ip: 10.90.0.23
+          prefix-length: 24
+      ipv6:
+        enabled: true
+        dhcp: false
+        address:
+        - ip: fd10:90::23
+          prefix-length: 64
+    dns-resolver:
+      config:
+        server:
+        - 10.90.0.3
+        # - fd10:90::3          # optional IPv6 DNS if available
+        # search:
+        # - example.com         # optional DNS search domain(s)
+    routes:
+      config:
+      - destination: 0.0.0.0/0
+        next-hop-address: 10.90.0.1     # default IPv4 gateway IP
+        next-hop-interface: bond0.100   # interface used to reach the gateway
+        table-id: 254                   # main routing table
+      # - destination: ::/0             # optional IPv6 default route (add if you have an IPv6 GW)
+      #   next-hop-address: fd10:90::1  # default IPv6 gateway IP
+      #   next-hop-interface: bond0.100 # interface used to reach the gateway
+      #   table-id: 254
