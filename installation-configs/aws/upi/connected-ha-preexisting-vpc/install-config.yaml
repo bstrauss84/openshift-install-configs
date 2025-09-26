@@ -1,0 +1,73 @@
+# -----------------------------------------------------------------------------
+# IMPORTANT PREP (READ ME)
+# - sshKey MUST be a PUBLIC key (e.g., ~/.ssh/id_ed25519.pub). Generate if needed:
+#     ssh-keygen -t ed25519 -C "you@host" -f ~/.ssh/id_ed25519
+#     cat ~/.ssh/id_ed25519.pub
+# - pullSecret MUST be single-line JSON. Examples:
+#     tr -d '\n' < pull-secret.json
+#     # or
+#     jq -c . < pull-secret.json
+# - Connected installs: use your Red Hat pull secret from console.redhat.com
+# - Disconnected installs: include ONLY your mirror registry auth in pullSecret.
+#   NOTE: OKD has a dummy pattern for OKD only (NOT SUPPORTED for OCP).
+# - If your environment uses a custom CA (proxy or mirror), paste it into additionalTrustBundle
+#   and set additionalTrustBundlePolicy: Always
+# - UPI on AWS: YOU provision VPC/subnets/SGs/ELBs/Route53/instances (the installer does not).
+#   Use `openshift-install create ignition-configs`, then attach/host Ignition for each node.
+# -----------------------------------------------------------------------------
+apiVersion: v1
+baseDomain: example.com
+metadata:
+  name: cluster   # FQDN = cluster.example.com
+
+# fips: true  # Optional: enable FIPS across the cluster
+
+networking:
+  networkType: OVNKubernetes
+  machineNetwork:
+  - cidr: 10.90.0.0/24  # Still required by the cluster; must cover your node IP range
+  # clusterNetwork and serviceNetwork: use installer defaults if omitted
+
+controlPlane:
+  name: master
+  replicas: 3  # UPI: you'll create/boot 3 masters yourself
+
+compute:
+- name: worker
+  replicas: 3  # UPI: you'll create/boot 3 workers yourself
+
+sshKey: 'ssh-ed25519 AAAA...REPLACE_ME... user@host'  # REQUIRED (public key)
+
+pullSecret: '{"auths":{"registry.redhat.io":{"auth":"REPLACE_BASE64","email":"you@example.com"}}}'  # REQUIRED
+
+# UPI: The installer does NOT manage AWS infra; set platform to none
+platform:
+  none: {}
+
+# Optional, but recommended to document here for your infra runbook:
+# publish: External     # Default is External. Use Internal for private clusters (private Route53 zone, internal NLB/ALB).
+
+# External load balancers & DNS (YOU create; examples shown):
+# - API: create an NLB (TCP/6443) and forward to master nodes; set Route53:
+#     api.cluster.example.com     CNAME a1b2c3d4e5f6abcdef-1234567890.us-east-1.elb.amazonaws.com
+#     api-int.cluster.example.com CNAME a1b2c3d4e5f6abcdef-1234567890.us-east-1.elb.amazonaws.com
+# - Ingress: create an ALB/NLB (TCP/80,443) targeting worker nodes; set:
+#     *.apps.cluster.example.com  CNAME k1l2m3n4o5p6abcdef-1234567890.us-east-1.elb.amazonaws.com
+
+# proxy:                           # Optional cluster-wide proxy
+#   httpProxy: http://user:pass@proxy.example.com:3128
+#   httpsProxy: http://user:pass@proxy.example.com:3128
+#   noProxy: ".cluster.example.com,.example.com,.svc,.cluster.local,127.0.0.1,localhost,10.90.0.0/24,169.254.169.254"
+
+# additionalTrustBundle: |         # Optional: proxy CA and/or registry CA (PEM)
+#   -----BEGIN CERTIFICATE-----
+#   MIID...REPLACE_ME...
+#   -----END CERTIFICATE-----
+# additionalTrustBundlePolicy: Always
+
+# Typical UPI flow (AWS):
+# 1) openshift-install create manifests
+# 2) openshift-install create ignition-configs
+# 3) Create AWS infra (VPC/subnets/SGs/ELBs/Route53/instances) via IaC (CloudFormation/Terraform/Ansible)
+# 4) Attach/host Ignition for masters/workers (user-data), or use ISO/virtual media
+# 5) Boot nodes, monitor bootstrap progress, then wait for cluster to complete
