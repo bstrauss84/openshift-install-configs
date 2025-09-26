@@ -10,9 +10,9 @@ hosts:
   role: master
   interfaces:
   - name: eno1
-    macAddress: 52:54:00:aa:m1:01
+    macAddress: 52:54:00:aa:11:01
   - name: eno2
-    macAddress: 52:54:00:aa:m1:02
+    macAddress: 52:54:00:aa:11:02
   rootDeviceHints:
     deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
   networkConfig:
@@ -43,18 +43,32 @@ hosts:
         id: 100
       ipv4:
         enabled: true
+        dhcp: false
         address:
-        - 10.90.0.21/24
-        gateway: 10.90.0.1
+        - ip: 10.90.0.21
+          prefix-length: 24
       ipv6:
         enabled: false
+    dns-resolver:
+      config:
+        server:
+        - 10.90.0.3
+        # search:
+        # - example.com  # optional DNS search domain(s); add your base/cluster domains if desired
+    routes:
+      config:
+      - destination: 0.0.0.0/0
+        next-hop-address: 10.90.0.1  # default gateway IP for this VLAN/subnet
+        next-hop-interface: bond0.100  # interface used to reach the gateway
+        table-id: 254  # main routing table
+
 - hostname: cluster-master-2
   role: master
   interfaces:
   - name: eno1
-    macAddress: 52:54:00:aa:m2:01
+    macAddress: 52:54:00:aa:12:01
   - name: eno2
-    macAddress: 52:54:00:aa:m2:02
+    macAddress: 52:54:00:aa:12:02
   rootDeviceHints:
     deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
   networkConfig:
@@ -85,18 +99,32 @@ hosts:
         id: 100
       ipv4:
         enabled: true
+        dhcp: false
         address:
-        - 10.90.0.22/24
-        gateway: 10.90.0.1
+        - ip: 10.90.0.22
+          prefix-length: 24
       ipv6:
         enabled: false
+    dns-resolver:
+      config:
+        server:
+        - 10.90.0.3
+        # search:
+        # - example.com  # optional DNS search domain(s); add your base/cluster domains if desired
+    routes:
+      config:
+      - destination: 0.0.0.0/0
+        next-hop-address: 10.90.0.1  # default gateway IP for this VLAN/subnet
+        next-hop-interface: bond0.100  # interface used to reach the gateway
+        table-id: 254  # main routing table
+
 - hostname: cluster-master-3
   role: master
   interfaces:
   - name: eno1
-    macAddress: 52:54:00:aa:m3:01
+    macAddress: 52:54:00:aa:13:01
   - name: eno2
-    macAddress: 52:54:00:aa:m3:02
+    macAddress: 52:54:00:aa:13:02
   rootDeviceHints:
     deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
   networkConfig:
@@ -127,18 +155,32 @@ hosts:
         id: 100
       ipv4:
         enabled: true
+        dhcp: false
         address:
-        - 10.90.0.23/24
-        gateway: 10.90.0.1
+        - ip: 10.90.0.23
+          prefix-length: 24
       ipv6:
         enabled: false
+    dns-resolver:
+      config:
+        server:
+        - 10.90.0.3
+        # search:
+        # - example.com  # optional DNS search domain(s); add your base/cluster domains if desired
+    routes:
+      config:
+      - destination: 0.0.0.0/0
+        next-hop-address: 10.90.0.1  # default gateway IP for this VLAN/subnet
+        next-hop-interface: bond0.100  # interface used to reach the gateway
+        table-id: 254  # main routing table
+
 - hostname: cluster-worker-1
   role: worker
   interfaces:
   - name: eno1
-    macAddress: 52:54:00:aa:w1:01
+    macAddress: 52:54:00:aa:21:01
   - name: eno2
-    macAddress: 52:54:00:aa:w1:02
+    macAddress: 52:54:00:aa:21:02
   rootDeviceHints:
     deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
   networkConfig:
@@ -169,18 +211,32 @@ hosts:
         id: 100
       ipv4:
         enabled: true
+        dhcp: false
         address:
-        - 10.90.0.51/24
-        gateway: 10.90.0.1
+        - ip: 10.90.0.51
+          prefix-length: 24
       ipv6:
         enabled: false
+    dns-resolver:
+      config:
+        server:
+        - 10.90.0.3
+        # search:
+        # - example.com  # optional DNS search domain(s); add your base/cluster domains if desired
+    routes:
+      config:
+      - destination: 0.0.0.0/0
+        next-hop-address: 10.90.0.1  # default gateway IP for this VLAN/subnet
+        next-hop-interface: bond0.100  # interface used to reach the gateway
+        table-id: 254  # main routing table
+
 - hostname: cluster-worker-2
   role: worker
   interfaces:
   - name: eno1
-    macAddress: 52:54:00:aa:w2:01
+    macAddress: 52:54:00:aa:22:01
   - name: eno2
-    macAddress: 52:54:00:aa:w2:02
+    macAddress: 52:54:00:aa:22:02
   rootDeviceHints:
     deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
   networkConfig:
@@ -211,18 +267,32 @@ hosts:
         id: 100
       ipv4:
         enabled: true
+        dhcp: false
         address:
-        - 10.90.0.52/24
-        gateway: 10.90.0.1
+        - ip: 10.90.0.52
+          prefix-length: 24
       ipv6:
         enabled: false
+    dns-resolver:
+      config:
+        server:
+        - 10.90.0.3
+        # search:
+        # - example.com  # optional DNS search domain(s); add your base/cluster domains if desired
+    routes:
+      config:
+      - destination: 0.0.0.0/0
+        next-hop-address: 10.90.0.1  # default gateway IP for this VLAN/subnet
+        next-hop-interface: bond0.100  # interface used to reach the gateway
+        table-id: 254  # main routing table
+
 - hostname: cluster-worker-3
   role: worker
   interfaces:
   - name: eno1
-    macAddress: 52:54:00:aa:w3:01
+    macAddress: 52:54:00:aa:23:01
   - name: eno2
-    macAddress: 52:54:00:aa:w3:02
+    macAddress: 52:54:00:aa:23:02
   rootDeviceHints:
     deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
   networkConfig:
@@ -253,8 +323,21 @@ hosts:
         id: 100
       ipv4:
         enabled: true
+        dhcp: false
         address:
-        - 10.90.0.53/24
-        gateway: 10.90.0.1
+        - ip: 10.90.0.53
+          prefix-length: 24
       ipv6:
         enabled: false
+    dns-resolver:
+      config:
+        server:
+        - 10.90.0.3
+        # search:
+        # - example.com  # optional DNS search domain(s); add your base/cluster domains if desired
+    routes:
+      config:
+      - destination: 0.0.0.0/0
+        next-hop-address: 10.90.0.1  # default gateway IP for this VLAN/subnet
+        next-hop-interface: bond0.100  # interface used to reach the gateway
+        table-id: 254  # main routing table
