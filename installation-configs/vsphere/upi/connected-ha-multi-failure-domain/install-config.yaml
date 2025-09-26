@@ -1,0 +1,56 @@
+# -----------------------------------------------------------------------------
+# IMPORTANT PREP
+# - UPI on vSphere: YOU provision VMs, LBs, and DNS. The installer only generates Ignition.
+#   Use: openshift-install create manifests && openshift-install create ignition-configs
+# -----------------------------------------------------------------------------
+apiVersion: v1
+baseDomain: example.com
+metadata:
+  name: cluster
+
+# fips: true  # Optional
+
+networking:
+  networkType: OVNKubernetes
+  machineNetwork:
+  - cidr: 10.90.0.0/24
+
+controlPlane:
+  name: master
+  replicas: 3   # You will create/boot 3 masters
+compute:
+- name: worker
+  replicas: 3   # You will create/boot 3 workers
+
+sshKey: 'ssh-ed25519 AAAA...REPLACE_ME... user@host'
+pullSecret: '{"auths":{"registry.redhat.io":{"auth":"REPLACE_BASE64","email":"you@example.com"}}}'
+
+platform:
+  none: {}  # UPI: installer does not create vSphere resources
+
+# External LBs & DNS you must provide (examples):
+# - API NLB (TCP/6443) → masters; set Route/DNS:
+#     api.cluster.example.com, api-int.cluster.example.com → CNAME to your NLB DNS name
+# - Apps LB (TCP/80,443) → workers; set:
+#     *.apps.cluster.example.com → CNAME to that LB
+#
+# Place your masters/workers across **fd-a/fd-b/fd-c** clusters/datastores for domain spread (infra/IaC level).
+
+# proxy:                           # Optional
+#   httpProxy: http://user:pass@proxy.example.com:3128
+#   httpsProxy: http://user:pass@proxy.example.com:3128
+#   noProxy: ".cluster.example.com,.example.com,.svc,.cluster.local,127.0.0.1,localhost,10.90.0.0/24"
+
+# additionalTrustBundle: |         # Optional
+#   -----BEGIN CERTIFICATE-----
+#   MIID...REPLACE_ME...
+#   -----END CERTIFICATE-----
+# additionalTrustBundlePolicy: Always
+
+# imageDigestSources:              # Optional (disconnected)
+# - mirrors:
+#   - registry.example.com/ocp/release
+#   source: quay.io/openshift-release-dev/ocp-release
+# - mirrors:
+#   - registry.example.com/ocp/release-images
+#   source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
