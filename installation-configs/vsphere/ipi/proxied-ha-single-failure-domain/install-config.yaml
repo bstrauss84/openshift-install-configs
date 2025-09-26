@@ -1,0 +1,58 @@
+# -----------------------------------------------------------------------------
+# IMPORTANT PREP (same as above)
+# -----------------------------------------------------------------------------
+apiVersion: v1
+baseDomain: example.com
+metadata:
+  name: cluster-proxied
+
+networking:
+  networkType: OVNKubernetes
+  machineNetwork:
+  - cidr: 10.90.0.0/24
+
+controlPlane:
+  name: master
+  replicas: 3
+compute:
+- name: worker
+  replicas: 3
+
+sshKey: 'ssh-ed25519 AAAA...REPLACE_ME... user@host'
+pullSecret: '{"auths":{"registry.redhat.io":{"auth":"REPLACE_BASE64","email":"you@example.com"}}}'
+
+platform:
+  vsphere:
+    # Single failure domain using classic keys (valid for 4.18)
+    vCenter: vcenter.example.com
+    username: administrator@vsphere.local
+    password: 'REPLACE_ME'
+    datacenter: DC1
+    defaultDatastore: datastore1
+    cluster: Compute-Cluster
+    network: "VM Network"
+    apiVIPs:
+    - 10.90.0.10
+    ingressVIPs:
+    - 10.90.0.11
+    # diskType: thin   # Optional
+
+proxy:                              # ENABLED
+  httpProxy: http://user:pass@proxy.example.com:3128
+  httpsProxy: http://user:pass@proxy.example.com:3128
+  # Include cluster domains + RFC1918 + your CIDR
+  noProxy: ".cluster.example.com,.example.com,.svc,.cluster.local,127.0.0.1,localhost,10.90.0.0/24,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+
+additionalTrustBundle: |
+  -----BEGIN CERTIFICATE-----
+  MIID...REPLACE_ME...
+  -----END CERTIFICATE-----
+additionalTrustBundlePolicy: Always
+
+# imageDigestSources:              # Optional (disconnected)
+# - mirrors:
+#   - registry.example.com/ocp/release
+#   source: quay.io/openshift-release-dev/ocp-release
+# - mirrors:
+#   - registry.example.com/ocp/release-images
+#   source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
