@@ -1,6 +1,5 @@
 # OpenShift Installation & Networking Configs (4.18+)
 
-<!-- START: OCP Repo Fix — Fake Environment (authoritative reference) -->
 **Fake Environment (authoritative reference)**
 - Base domain: `example.com`
 - Cluster name: `cluster`
@@ -21,7 +20,6 @@
   - Option 119 (search): `cluster.example.com, example.com`
   - Option 42 (NTP) if needed
 - Host addressing: nodes use static or reserved DHCP in `10.90.0.x`
-<!-- END: OCP Repo Fix — Fake Environment (authoritative reference) -->
 
 Welcome! This repo is a documentation-accurate, heavily commented collection of:
 - **Installation configs** (IPI, UPI, Agent) for **Bare Metal**, **AWS**, and **vSphere**

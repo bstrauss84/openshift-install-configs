@@ -7,7 +7,6 @@ Uses modern `platform.vsphere.vcenters[]` and `failureDomains[]` plus **VIPs** (
 VIPs are required for vSphere IPI. The installer creates the VMs, configures VIPs, and wires up NSX/vSwitch networking.  
 Docs: vSphere platform parameters & failure domains.
 
-<!-- START: OCP Repo Fix — vSphere field-to-inventory mapping + checklist -->
 **Field → vSphere inventory mapping**
 | install-config field | vSphere object example |
 |---|---|
@@ -24,4 +23,3 @@ Docs: vSphere platform parameters & failure domains.
 - Portgroup names match exactly
 - Datastore has capacity/permissions
 - DNS, NTP, and IP addressing accessible from ESXi hosts
-<!-- END: OCP Repo Fix — vSphere field-to-inventory mapping + checklist -->

@@ -20,7 +20,6 @@ Attach VMs to a single OVN localnet NAD; segment traffic upstream or via VLAN ta
 
 Same as the OVS dedicated NIC scenario: set interface `state: absent` and localnet `state: absent`, re-apply, then delete NNCP after success.
 
-<!-- START: OCP Repo Fix — OVS multi-VLAN: trunk/per-VLAN guidance -->
 **Multi-VLAN options**
 1) **Single NAD with trunk:** In `.spec.config` (JSON), include a `trunk` list, e.g.:
 ```json
@@ -33,12 +32,7 @@ Same as the OVS dedicated NIC scenario: set interface `state: absent` and localn
 ```
 2) **Per-VLAN NADs:** Create one NAD per VLAN with `"type":"ovs"` and `"vlan": <id>`.
 Choose one approach and keep it consistent across VMs/Pods.
-<!-- END: OCP Repo Fix — OVS multi-VLAN: trunk/per-VLAN guidance -->
 
-<!-- START: OCP Repo Fix — MTU alignment note (CNI/underlay) -->
 **MTU alignment:** Ensure the MTU configured on bridges/OVS/localnet matches the underlay. A mismatch can cause silent drops/fragmentation issues.
-<!-- END: OCP Repo Fix — MTU alignment note (CNI/underlay) -->
 
-<!-- START: OCP Repo Fix — Do not reuse the same NIC across bridges -->
 **Warning:** Do not bind the same physical NIC to multiple bridges. Reuse can lead to conflicts, loss of connectivity, and unpredictable failovers.
-<!-- END: OCP Repo Fix — Do not reuse the same NIC across bridges -->

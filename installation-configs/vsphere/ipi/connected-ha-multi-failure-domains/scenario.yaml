@@ -22,6 +22,4 @@ notes:
 artifacts:
   - install-config.yaml
 
-# START: OCP Repo Fix — Scenario tokens (for alignment tooling)
 tokens: [ vsphere, ipi, ha, connected ]
-# END: OCP Repo Fix — Scenario tokens (for alignment tooling)

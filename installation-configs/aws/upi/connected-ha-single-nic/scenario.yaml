@@ -14,6 +14,4 @@ notes:
 artifacts:
   - install-config.yaml
 
-# START: OCP Repo Fix — Scenario tokens (for alignment tooling)
 tokens: [ aws, upi, ha, connected ]
-# END: OCP Repo Fix — Scenario tokens (for alignment tooling)

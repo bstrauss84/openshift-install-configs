@@ -13,9 +13,7 @@
 - **SSH public key** and **pullSecret (single-line JSON)** are required. See comments in files.
 - **Disconnected**: prefer `imageDigestSources`; `imageContentSources` is deprecated and commented as a reminder.
 
-<!-- START: OCP Repo Fix — Agent FIPS prerequisites (installer/host/OS) -->
 **FIPS prerequisites**
 - Use the **FIPS-enabled installer** binary
 - Run the installation from a **FIPS-enabled** host
 - Ensure the target OS is **FIPS-enabled** prior to installation
-<!-- END: OCP Repo Fix — Agent FIPS prerequisites (installer/host/OS) -->

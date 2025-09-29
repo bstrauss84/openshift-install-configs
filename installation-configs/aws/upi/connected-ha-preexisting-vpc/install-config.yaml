@@ -72,7 +72,6 @@ platform:
 # 4) Attach/host Ignition for masters/workers (user-data), or use ISO/virtual media
 # 5) Boot nodes, monitor bootstrap progress, then wait for cluster to complete
 
-# START: OCP Repo Fix — Optional install-config keys (commented examples)
 # capabilities: {}           # OPTIONAL: limit/enable cluster capabilities
 # clusterNetwork:            # OPTIONAL: override default pod network
 # - cidr: 10.128.0.0/14
@@ -83,4 +82,3 @@ platform:
 # # imageContentSources: []  # OPTIONAL (v1, deprecated): legacy mapping
 # fips: false                # OPTIONAL: set true for FIPS-mode installs
 # publish: External          # OPTIONAL: control external/internal publishing
-# END: OCP Repo Fix — Optional install-config keys (commented examples)
