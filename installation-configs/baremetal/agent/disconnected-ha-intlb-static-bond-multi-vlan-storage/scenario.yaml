@@ -18,3 +18,7 @@ notes:
 artifacts:
   - install-config.yaml
   - agent-config.yaml
+
+# START: OCP Repo Fix — Scenario tokens (for alignment tooling)
+tokens: [ baremetal, agent, ha, disconnected, intlb, static, vlan, bond ]
+# END: OCP Repo Fix — Scenario tokens (for alignment tooling)

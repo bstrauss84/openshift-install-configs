@@ -1,5 +1,28 @@
 # OpenShift Installation & Networking Configs (4.18+)
 
+<!-- START: OCP Repo Fix — Fake Environment (authoritative reference) -->
+**Fake Environment (authoritative reference)**
+- Base domain: `example.com`
+- Cluster name: `cluster`
+- Machine network CIDR: `10.90.0.0/24`
+- VIPs:
+  - API: `10.90.0.10`
+  - Ingress: `10.90.0.11`
+- Rendezvous IP (Agent-based): `10.90.0.50`
+- DNS records:
+  - `api.cluster.example.com` → `10.90.0.10`
+  - `api-int.cluster.example.com` → `10.90.0.10`
+  - `*.apps.cluster.example.com` → `10.90.0.11`
+- DHCP guidance:
+  - Reserve host MAC→IP leases for control-plane/worker nodes
+  - Option 3 (gateway): subnet default GW
+  - Option 6 (DNS): authoritative DNS (e.g., `10.90.0.53`)
+  - Option 15 (domain): `example.com`
+  - Option 119 (search): `cluster.example.com, example.com`
+  - Option 42 (NTP) if needed
+- Host addressing: nodes use static or reserved DHCP in `10.90.0.x`
+<!-- END: OCP Repo Fix — Fake Environment (authoritative reference) -->
+
 Welcome! This repo is a documentation-accurate, heavily commented collection of:
 - **Installation configs** (IPI, UPI, Agent) for **Bare Metal**, **AWS**, and **vSphere**
 - **ImageSet configs** (oc-mirror **v1** and **v2**) with “golden” and split variants

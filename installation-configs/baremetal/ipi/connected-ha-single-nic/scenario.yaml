@@ -17,3 +17,7 @@ notes:
   - Optional proxy: see proxied variant
 artifacts:
   - install-config.yaml
+
+# START: OCP Repo Fix — Scenario tokens (for alignment tooling)
+tokens: [ baremetal, ipi, ha, connected ]
+# END: OCP Repo Fix — Scenario tokens (for alignment tooling)

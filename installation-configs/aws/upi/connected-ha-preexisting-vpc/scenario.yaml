@@ -17,3 +17,7 @@ notes:
   - Include 169.254.169.254 and cluster domains in noProxy if you enable a proxy
 artifacts:
   - install-config.yaml
+
+# START: OCP Repo Fix — Scenario tokens (for alignment tooling)
+tokens: [ aws, upi, ha, connected ]
+# END: OCP Repo Fix — Scenario tokens (for alignment tooling)

@@ -21,3 +21,7 @@ notes:
   - VIPs required on vSphere IPI
 artifacts:
   - install-config.yaml
+
+# START: OCP Repo Fix — Scenario tokens (for alignment tooling)
+tokens: [ vsphere, ipi, ha, connected ]
+# END: OCP Repo Fix — Scenario tokens (for alignment tooling)

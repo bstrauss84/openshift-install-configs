@@ -23,3 +23,15 @@ spec:
       - localnet: vlan-trunk-net    # Single localnet mapped to br0
         bridge: br0
         state: present
+
+# START: OCP Repo Fix — NNCP rollback example (state: absent)
+# Example rollback (remove policy safely)
+# apiVersion: nmstate.io/v1
+# kind: NodeNetworkConfigurationPolicy
+# metadata:
+#   name: example-rollback
+# spec:
+#   desiredState:
+#     interfaces: []
+#   state: absent
+# END: OCP Repo Fix — NNCP rollback example (state: absent)

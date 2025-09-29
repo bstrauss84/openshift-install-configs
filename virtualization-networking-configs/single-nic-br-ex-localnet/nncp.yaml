@@ -13,3 +13,15 @@ spec:
       - localnet: br-ex-network   # NAME referenced by the NAD below
         bridge: br-ex             # Built-in bridge for OVN-Kubernetes
         state: present            # use 'absent' to remove safely
+
+# START: OCP Repo Fix — NNCP rollback example (state: absent)
+# Example rollback (remove policy safely)
+# apiVersion: nmstate.io/v1
+# kind: NodeNetworkConfigurationPolicy
+# metadata:
+#   name: example-rollback
+# spec:
+#   desiredState:
+#     interfaces: []
+#   state: absent
+# END: OCP Repo Fix — NNCP rollback example (state: absent)

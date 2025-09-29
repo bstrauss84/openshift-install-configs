@@ -13,3 +13,7 @@ notes:
   - You must provide external LB + DNS (api, api-int, *.apps)
 artifacts:
   - install-config.yaml
+
+# START: OCP Repo Fix — Scenario tokens (for alignment tooling)
+tokens: [ aws, upi, ha, connected ]
+# END: OCP Repo Fix — Scenario tokens (for alignment tooling)

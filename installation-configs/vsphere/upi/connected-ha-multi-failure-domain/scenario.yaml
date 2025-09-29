@@ -18,3 +18,7 @@ notes:
   - Distribute nodes across three vSphere clusters/datastores for resilience
 artifacts:
   - install-config.yaml
+
+# START: OCP Repo Fix — Scenario tokens (for alignment tooling)
+tokens: [ vsphere, upi, ha, connected ]
+# END: OCP Repo Fix — Scenario tokens (for alignment tooling)
