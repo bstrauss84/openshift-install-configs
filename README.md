@@ -6,8 +6,6 @@ Welcome! This repo is a documentation-accurate, heavily commented collection of:
 - **Utility-box** building blocks (DNS/DHCP/NTP, mirror-registry, load balancer)
 - **Virtualization networking** scenarios (NMState + Multus/NAD, VMs)
 
-We favor **block YAML** (JSON only where required, e.g., `pullSecret`), opt for **clear comments**.
-
 **Fake Environment (authoritative reference)**
 - Base domain: `example.com`
 - Cluster name: `cluster`
@@ -29,6 +27,8 @@ We favor **block YAML** (JSON only where required, e.g., `pullSecret`), opt for 
   - Option 42 (NTP) if needed
 - Host addressing: nodes use static or reserved DHCP in `10.90.0.x`
 - VLANs `100`, `200`
+
+We favor **block YAML** (JSON only where required, e.g., `pullSecret`), opt for **clear comments**.
 
 > When in doubt, **official OpenShift and RHEL documentation take precedence**. See [`SOURCES.md`](./SOURCES.md) for direct links to the exact sections used.
 
