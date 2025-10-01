@@ -36,3 +36,7 @@ oc -n vmtest apply -f vm.yaml
 ## Warnings
 
 - **Do not** create additional bridges on the **same physical NIC** that backs `br-ex`. Use this localnet mapping approach to avoid disrupting cluster networking.
+
+**MTU alignment:** Ensure the MTU configured on bridges/OVS/localnet matches the underlay. A mismatch can cause silent drops/fragmentation issues.
+
+**Warning:** Do not bind the same physical NIC to multiple bridges. Reuse can lead to conflicts, loss of connectivity, and unpredictable failovers.

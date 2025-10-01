@@ -17,3 +17,5 @@ notes:
   - Optional proxy: see proxied variant
 artifacts:
   - install-config.yaml
+
+tokens: [ baremetal, ipi, ha, connected ]

@@ -28,3 +28,7 @@ oc -n vmtest apply -f vm.yaml
 
 - If your NIC name differs from `enp2s0`, change it under `port: - name:`.
 - VLAN‑tagged and untagged frames can traverse this bridge; VMs can tag traffic in‑guest or you can segment upstream.
+
+**MTU alignment:** Ensure the MTU configured on bridges/OVS/localnet matches the underlay. A mismatch can cause silent drops/fragmentation issues.
+
+**Warning:** Do not bind the same physical NIC to multiple bridges. Reuse can lead to conflicts, loss of connectivity, and unpredictable failovers.

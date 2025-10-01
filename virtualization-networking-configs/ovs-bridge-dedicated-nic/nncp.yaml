@@ -24,3 +24,14 @@ spec:
       - localnet: br0-network
         bridge: br0
         state: present
+
+# Example rollback (remove policy safely)
+# apiVersion: nmstate.io/v1
+# kind: NodeNetworkConfigurationPolicy
+# metadata:
+#   name: example-rollback
+# spec:
+#   desiredState:
+#     interfaces:
+#     - name: [name]
+#       state: absent

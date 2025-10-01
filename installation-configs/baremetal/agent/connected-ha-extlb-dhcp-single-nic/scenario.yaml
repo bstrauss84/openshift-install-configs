@@ -16,3 +16,5 @@ notes:
 artifacts:
   - install-config.yaml
   - agent-config.yaml
+
+tokens: [ baremetal, agent, ha, connected, extlb, dhcp ]

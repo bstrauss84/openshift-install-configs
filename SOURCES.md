@@ -11,11 +11,11 @@ Priority order: **Official OpenShift docs** > **RH solution/knowledge articles**
   *Pick the exact OCP version and platform (RHEL 8/9) to download oc/oc-mirror; includes checksums and signatures.*
 
 - **Disconnected mirroring (oc-mirror v2 workflow)** — OCP 4.18  
-  https://docs.openshift.com/container-platform/4.18/installing/disconnected_install/installing-mirroring-disconnected.html  
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/disconnected_environments/mirroring-in-disconnected-environments  
   *Mirror to disk, disk to mirror, mirror to mirror; location of generated cluster resources; high-level prerequisites.*
 
 - **ImageContentSourcePolicy vs ImageDigestMirrorSet / ImageTagMirrorSet** — OCP 4.18  
-  https://docs.openshift.com/container-platform/4.18/openshift_images/image-configuration.html  
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/images/image-configuration  
   *Explains deprecation of ICSP (v1-era) in favor of IDMS/ITMS (v2-era); how the cluster consumes mirrored images.*
 
 - **oc-mirror v2 CLI reference (flags & workflows)**  
@@ -28,27 +28,27 @@ Priority order: **Official OpenShift docs** > **RH solution/knowledge articles**
 ### Bare Metal
 
 - **Installing a cluster on bare metal (IPI)** — OCP 4.18  
-  https://docs.openshift.com/container-platform/4.18/installing/installing_bare_metal_ipi/ipi-install-installation-workflow.html  
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/installing_on_bare_metal/installer-provisioned-infrastructure  
   *Bare metal IPI workflow, VIP semantics, provisioning network details, BMC drivers, boot modes.*
 
 - **Bare metal UPI** — OCP 4.18  
-  https://docs.openshift.com/container-platform/4.18/installing/installing_bare_metal/installing-bare-metal.html  
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/installing_on_bare_metal/user-provisioned-infrastructure  
   *UPI responsibilities, external load balancer and DNS expectations.*
 
 - **Agent-based installer** — OCP 4.18  
-  https://docs.openshift.com/container-platform/4.18/installing_with_agent_based_installer/installing-with-agent-based-installer.html  
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/installing_an_on-premise_cluster_with_the_agent-based_installer/installing-with-agent-based-installer  
   *Agent-based flow, `install-config.yaml` + `AgentConfig` (`v1beta1`), generating ISO, rendezvous IP, NMState in `networkConfig`.*
 
-- **Configuring host network interfaces in the install-config.yaml (Bare Metal IPI)** — OCP 4.18  
-  https://docs.openshift.com/container-platform/4.18/installing/installing_bare_metal_ipi/ipi-preparing-to-install-on-bare-metal.html#configuring-host-network-interfaces-in-the-install-config-yaml-file_ipi-preparing-to-install-on-bare-metal  
+- **Preparing to install on bare metal (host networking in install-config)** — OCP 4.18  
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/installing_on_bare_metal/preparing-to-install-on-bare-metal  
   *Inline NMState for IPI when specifying host networking.*
 
 - **Proxy configuration (install-config & cluster)** — OCP 4.18  
-  https://docs.openshift.com/container-platform/4.18/networking/enable-cluster-wide-proxy.html  
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/configuring_network_settings/enable-cluster-wide-proxy  
   *`proxy:` in `install-config.yaml`, trusted CAs, `Proxy` object semantics.*
 
 - **FIPS mode** — OCP 4.18  
-  https://docs.openshift.com/container-platform/4.18/installing/installing-fips.html  
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/installation_overview/installing-fips  
   *FIPS pre-reqs, use of FIPS-enabled installer, host OS considerations.*
 
 - **Example (educational)** — IPI on bare metal with rich commentary (external reference)  
@@ -58,37 +58,37 @@ Priority order: **Official OpenShift docs** > **RH solution/knowledge articles**
 ### AWS
 
 - **Installing a cluster on AWS (IPI)** — OCP 4.18  
-  https://docs.openshift.com/container-platform/4.18/installing/installing_aws/installing-aws-default.html  
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/installing_on_aws/installer-provisioned-infrastructure  
   *Installer-managed VPC, subnets, security groups, ELB/ALB; `platform.aws` fields.*
 
 - **User-provisioned infrastructure on AWS (UPI)** — OCP 4.18  
-  https://docs.openshift.com/container-platform/4.18/installing/installing_aws/installing-aws-user-infra.html  
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/installing_on_aws/user-provisioned-infrastructure  
   *UPI responsibilities: external load balancer, DNS, EC2, IAM; `platform: none` usage.*
 
 - **AWS-specific install-config parameters** — OCP 4.18  
-  https://docs.openshift.com/container-platform/4.18/installing/installing_aws/ipi-aws-installation-reqs.html#installation-aws-config-yaml-parameters_ipi-aws-installation-reqs  
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/installing_on_aws/installation-config-parameters-aws  
   *`platform.aws` fields: region, subnets, defaultMachinePlatform, rootVolume, zones, tags, serviceEndpoints.*
 
 - **Proxy configuration** — OCP 4.18  
-  https://docs.openshift.com/container-platform/4.18/networking/enable-cluster-wide-proxy.html  
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/configuring_network_settings/enable-cluster-wide-proxy  
   *Cluster-wide proxy and trust bundles; `noProxy` considerations.*
 
 ### vSphere
 
 - **Installing a cluster on vSphere (IPI)** — OCP 4.18  
-  https://docs.openshift.com/container-platform/4.18/installing/installing_vsphere/installing-vsphere-installer-provisioned.html  
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/installing_on_vmware_vsphere/installer-provisioned-infrastructure  
   *`platform.vsphere` fields: vCenter, datacenter, datastore, cluster/resourcePool, network/PortGroup; VIP requirements.*
 
 - **User-provisioned infrastructure on vSphere (UPI)** — OCP 4.18  
-  https://docs.openshift.com/container-platform/4.18/installing/installing_vsphere/installing-vsphere.html  
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/installing_on_vmware_vsphere/user-provisioned-infrastructure  
   *UPI on vSphere responsibilities; `platform: none`; external LB and DNS requirements.*
 
 - **vSphere-specific install-config parameters** — OCP 4.18  
-  https://docs.openshift.com/container-platform/4.18/installing/installing_vsphere/installing-vsphere-installer-provisioned.html#installation-vsphere-manual_infrastructure-configuration  
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/installing_on_vmware_vsphere/installation-config-parameters-vsphere  
   *Parameter table and examples; VIP list semantics (`apiVIPs`, `ingressVIPs`).*
 
 - **Proxy configuration** — OCP 4.18  
-  https://docs.openshift.com/container-platform/4.18/networking/enable-cluster-wide-proxy.html  
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/configuring_network_settings/enable-cluster-wide-proxy  
   *Same proxy/trust guidance as other platforms.*
 
 ---
@@ -100,20 +100,20 @@ Priority order: **Official OpenShift docs** > **RH solution/knowledge articles**
   *br-ex `localnet`, OVS bridge on dedicated NIC, Linux bridge on dedicated NIC; NAD and VM attachment examples.*
 
 - **NMState Operator concepts (NNS/NNCP/NNCE)** — OCP 4.18  
-  https://docs.openshift.com/container-platform/4.18/networking/k8s_nmstate/k8s-nmstate-about-the-k8s-nmstate-operator.html  
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/networking_operators/k8s-nmstate-about-the-k8s-nmstate-operator  
   *CRDs, desired vs current state, policy enactments.*
 
 - **Configure node network with NMState (NNCP)** — OCP 4.18  
-  https://docs.openshift.com/container-platform/4.18/networking/k8s_nmstate/k8s-nmstate-updating-node-network-config.html  
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/kubernetes_nmstate/k8s-nmstate-updating-node-network-config  
   *NNCP YAML structure, `state:` usage, safe rollback.*
 
-- **Multus / NAD** — OCP 4.18  
-  https://docs.openshift.com/container-platform/4.18/networking/multiple_networks/understanding-multiple-networks.html  
-  https://docs.openshift.com/container-platform/4.18/networking/multiple_networks/configuring-additional-network.html  
+- **Multiple networks — concepts & configuration** — OCP 4.18  
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/multiple_networks/understanding-multiple-networks  
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/multiple_networks/index  
   *Multiple networks concepts, NetworkAttachmentDefinition with OVN localnet and Linux bridge types.*
 
 - **OpenShift Virtualization (CNV) VMs** — OCP 4.18  
-  https://docs.openshift.com/container-platform/4.18/virt/virtual_machines/virt-creating-vms.html  
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/virtualization/creating-a-virtual-machine  
   *VM NIC configuration and expectations when attached to additional networks.*
 
 ---
@@ -133,7 +133,7 @@ Priority order: **Official OpenShift docs** > **RH solution/knowledge articles**
   *Layer-4 passthrough vs Layer-7, TLS passthrough for API/API-int/apps routes.*
 
 - **Mirror registry (Quay) for OpenShift** — OCP 4.18  
-  https://docs.openshift.com/container-platform/4.18/installing/disconnected_install/installing-mirroring-disconnected.html#installing-mirror-registry  
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/disconnected_environments/mirroring-in-disconnected-environments  
   *“Mirror registry” (mini-quay) installation steps, certs, auth integration with oc-mirror. Notes for RHEL 9/8.*
 
 ---

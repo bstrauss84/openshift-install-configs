@@ -26,3 +26,7 @@ oc -n vmtest apply -f vm.yaml
 
 - This scenario assumes the external network **has no DHCP** — configure IP inside the guest.
 - Default MTUs differ: OVS‑attached VIFs often show **1400**, Linux bridge VIFs **1500** by default (see OCP docs).
+
+**MTU alignment:** Ensure the MTU configured on bridges/OVS/localnet matches the underlay. A mismatch can cause silent drops/fragmentation issues.
+
+**Warning:** Do not bind the same physical NIC to multiple bridges. Reuse can lead to conflicts, loss of connectivity, and unpredictable failovers.

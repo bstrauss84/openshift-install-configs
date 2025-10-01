@@ -18,3 +18,5 @@ notes:
   - Distribute nodes across three vSphere clusters/datastores for resilience
 artifacts:
   - install-config.yaml
+
+tokens: [ vsphere, upi, ha, connected ]

@@ -23,3 +23,14 @@ spec:
       - localnet: vlan-trunk-net    # Single localnet mapped to br0
         bridge: br0
         state: present
+
+# Example rollback (remove policy safely)
+# apiVersion: nmstate.io/v1
+# kind: NodeNetworkConfigurationPolicy
+# metadata:
+#   name: example-rollback
+# spec:
+#   desiredState:
+#     interfaces:
+#     - name: [name]
+#       state: absent

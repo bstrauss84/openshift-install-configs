@@ -24,3 +24,5 @@ notes:
 artifacts:
   - install-config.yaml
   - agent-config.yaml
+
+tokens: [ baremetal, agent, 3node, disconnected, intlb, static ]

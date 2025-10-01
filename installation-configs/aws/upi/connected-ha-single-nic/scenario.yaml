@@ -13,3 +13,5 @@ notes:
   - You must provide external LB + DNS (api, api-int, *.apps)
 artifacts:
   - install-config.yaml
+
+tokens: [ aws, upi, ha, connected ]

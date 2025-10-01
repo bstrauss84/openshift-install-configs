@@ -19,3 +19,5 @@ notes:
   - Prefer imageDigestSources for disconnected mirroring; imageContentSources is deprecated
 artifacts:
   - install-config.yaml
+
+tokens: [ baremetal, ipi, ha, connected ]

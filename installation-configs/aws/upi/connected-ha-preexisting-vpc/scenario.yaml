@@ -17,3 +17,5 @@ notes:
   - Include 169.254.169.254 and cluster domains in noProxy if you enable a proxy
 artifacts:
   - install-config.yaml
+
+tokens: [ aws, upi, ha, connected ]

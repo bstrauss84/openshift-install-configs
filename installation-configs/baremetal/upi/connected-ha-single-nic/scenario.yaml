@@ -19,3 +19,5 @@ notes:
   - prefer imageDigestSources if disconnected; imageContentSources is deprecated
 artifacts:
   - install-config.yaml
+
+tokens: [ baremetal, upi, ha, connected ]

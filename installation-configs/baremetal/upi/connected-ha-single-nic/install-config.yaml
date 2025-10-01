@@ -81,3 +81,14 @@ platform:
 # 3) Prepare infra (LB, DNS, Ignition hosting or boot media)
 # 4) Boot nodes with Ignition URLs or ISO / virtual media
 # 5) Monitor bootstrap and cluster bring-up
+
+# capabilities: {}           # OPTIONAL: limit/enable cluster capabilities
+# clusterNetwork:            # OPTIONAL: override default pod network
+# - cidr: 10.128.0.0/14
+#   hostPrefix: 23
+# serviceNetwork:            # OPTIONAL: override default service CIDR
+# - 172.30.0.0/16
+# imageDigestSources: []     # OPTIONAL (v2): mirror by digest (preferred)
+# # imageContentSources: []  # OPTIONAL (v1, deprecated): legacy mapping
+# fips: false                # OPTIONAL: set true for FIPS-mode installs
+# publish: External          # OPTIONAL: control external/internal publishing

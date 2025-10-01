@@ -23,3 +23,5 @@ notes:
   - No VIPs; AWS LBs are cloud-managed
 artifacts:
   - install-config.yaml
+
+tokens: [ aws, ipi, ha, connected ]

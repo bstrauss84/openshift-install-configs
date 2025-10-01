@@ -21,3 +21,5 @@ notes:
   - VIPs required on vSphere IPI
 artifacts:
   - install-config.yaml
+
+tokens: [ vsphere, ipi, ha, connected ]

@@ -13,3 +13,5 @@ proxy:
   enabled: true
 artifacts:
   - install-config.yaml
+
+tokens: [ vsphere, upi, ha, connected ]
