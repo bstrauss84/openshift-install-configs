@@ -1,5 +1,13 @@
 # OpenShift Installation & Networking Configs (4.18+)
 
+Welcome! This repo is a documentation-accurate, heavily commented collection of:
+- **Installation configs** (IPI, UPI, Agent) for **Bare Metal**, **AWS**, and **vSphere**
+- **ImageSet configs** (oc-mirror **v1** and **v2**) with “golden” and split variants
+- **Utility-box** building blocks (DNS/DHCP/NTP, mirror-registry, load balancer)
+- **Virtualization networking** scenarios (NMState + Multus/NAD, VMs)
+
+We favor **block YAML** (JSON only where required, e.g., `pullSecret`), opt for **clear comments**.
+
 **Fake Environment (authoritative reference)**
 - Base domain: `example.com`
 - Cluster name: `cluster`
@@ -20,18 +28,7 @@
   - Option 119 (search): `cluster.example.com, example.com`
   - Option 42 (NTP) if needed
 - Host addressing: nodes use static or reserved DHCP in `10.90.0.x`
-
-Welcome! This repo is a documentation-accurate, heavily commented collection of:
-- **Installation configs** (IPI, UPI, Agent) for **Bare Metal**, **AWS**, and **vSphere**
-- **ImageSet configs** (oc-mirror **v1** and **v2**) with “golden” and split variants
-- **Utility-box** building blocks (DNS/DHCP/NTP, mirror-registry, load balancer)
-- **Virtualization networking** scenarios (NMState + Multus/NAD, VMs)
-
-We favor **block YAML** (JSON only where required, e.g., `pullSecret`), opt for **clear comments**, and keep a consistent
-fake environment for learning:
-- `baseDomain: example.com`
-- Example cluster name: `cluster`
-- Demo networks: `10.90.0.0/24`, VLANs `100`, `200`
+- VLANs `100`, `200`
 
 > When in doubt, **official OpenShift and RHEL documentation take precedence**. See [`SOURCES.md`](./SOURCES.md) for direct links to the exact sections used.
 
