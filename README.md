@@ -72,7 +72,7 @@ openshift-install-configs/
 Each scenario directory contains:
 - `install-config.yaml` (and `agent-config.yaml` for Agent)
 - `README.md` (how to use, what to change, what each field means)
-- `scenario.yaml` (short metadata for humans/scripts)
+- `scenario.yaml` (short metadata for reference/scripts)
 
 ---
 
