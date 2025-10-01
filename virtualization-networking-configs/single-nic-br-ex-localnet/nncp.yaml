@@ -21,5 +21,6 @@ spec:
 #   name: example-rollback
 # spec:
 #   desiredState:
-#     interfaces: []
-#   state: absent
+#     interfaces:
+#     - name: [name]
+#       state: absent

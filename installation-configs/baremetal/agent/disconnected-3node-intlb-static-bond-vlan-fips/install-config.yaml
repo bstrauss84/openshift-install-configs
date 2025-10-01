@@ -29,6 +29,11 @@ networking:
   networkType: OVNKubernetes
   machineNetwork:
   - cidr: 10.90.0.0/24
+# clusterNetwork:            # OPTIONAL: override default pod network
+# - cidr: 10.128.0.0/14
+#   hostPrefix: 23
+# serviceNetwork:            # OPTIONAL: override default service CIDR
+# - 172.30.0.0/16
 
 controlPlane:
   name: master
@@ -66,14 +71,15 @@ imageDigestSources:              # Disconnected installs: REQUIRED (use your mir
 # - mirrors:
 #   - registry.example.com/ocp/release
 #   source: quay.io/openshift-release-dev/ocp-release
+# - mirrors:
+#   - registry.example.com/ocp/release-images
+#   source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+
+# proxy:              # If proxied access is required, uncomment and populate this block
+#   httpProxy: http://user:pass@proxy.example.com:3128              # httpProxy/httpsProxy may include creds; httpsProxy CAN point to http:// if your proxy terminates TLS
+#   httpsProxy: http://user:pass@proxy.example.com:3128              # httpProxy/httpsProxy may include creds; httpsProxy CAN point to http:// if your proxy terminates TLS
+#   noProxy: ".cluster.example.com,.example.com,127.0.0.1,localhost,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"  # noProxy should include your cluster domain(s), service networks, and RFC1918 ranges as needed
 
 # capabilities: {}           # OPTIONAL: limit/enable cluster capabilities
-# clusterNetwork:            # OPTIONAL: override default pod network
-# - cidr: 10.128.0.0/14
-#   hostPrefix: 23
-# serviceNetwork:            # OPTIONAL: override default service CIDR
-# - 172.30.0.0/16
-# imageDigestSources: []     # OPTIONAL (v2): mirror by digest (preferred)
-# # imageContentSources: []  # OPTIONAL (v1, deprecated): legacy mapping
+
 # fips: false                # OPTIONAL: set true for FIPS-mode installs
-# publish: External          # OPTIONAL: control external/internal publishing

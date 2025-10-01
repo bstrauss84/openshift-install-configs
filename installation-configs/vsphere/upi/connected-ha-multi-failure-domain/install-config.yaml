@@ -63,5 +63,4 @@ platform:
 # - 172.30.0.0/16
 # imageDigestSources: []     # OPTIONAL (v2): mirror by digest (preferred)
 # # imageContentSources: []  # OPTIONAL (v1, deprecated): legacy mapping
-# fips: false                # OPTIONAL: set true for FIPS-mode installs
 # publish: External          # OPTIONAL: control external/internal publishing
