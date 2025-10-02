@@ -6,6 +6,7 @@ kind: ImageSetConfiguration
 apiVersion: mirror.openshift.io/v2alpha1
 mirror:
   operators:
+    # Red Hat Operator Index Catalog
     - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.18
       packages:
         # Advanced Cluster Management for Kubernetes
@@ -87,6 +88,10 @@ mirror:
         - name: kubernetes-nmstate-operator
           channels:
             - name: stable
+        # Migration Toolkit for Virtualization
+        - name: mtv-operator
+         channels:
+            - name: release-v2.9
         # Update Service
         - name: cincinnati-operator
           channels:
@@ -144,3 +149,23 @@ mirror:
         - name: openshift-cert-manager-operator
           channels:
             - name: stable-v1
+
+    # Red Hat Community Operator Index Catalog
+    - catalog: registry.redhat.io/redhat/community-operator-index:v4.18
+      packages:
+        # Trident
+        - name: group-sync-operator
+          channels:
+            - name: alpha
+
+    # Red Hat Certified Operator Index Catalog     
+    - catalog: registry.redhat.io/redhat/certified-operator-index:v4.18
+      packages:
+        # NVIDIA GPU Operator
+        - name: gpu-operator-certified
+          channels:
+            - name: v25.3
+        # Trident
+        - name: trident-operator
+          channels:
+            - name: stable
