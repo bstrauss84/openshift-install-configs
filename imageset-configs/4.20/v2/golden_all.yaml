@@ -1,7 +1,7 @@
 # Feel free to modify to reflect the operators/images you're targeting for your install
 # To get an accurate representation of the current list of operators and their current default channels,
 #   run the following command on an internet-facing box that has the oc-mirror binary available (NOTE: it takes a few minutes to complete)
-#   oc-mirror list operators --catalog=registry.redhat.io/redhat/redhat-operator-index:v4.18 --version=4.18 # Replace "4.18" with whatever minor release version you're targeting for the install
+#   oc-mirror list operators --catalog=registry.redhat.io/redhat/redhat-operator-index:v4.20 --version=4.20 # Replace "4.20" with whatever minor release version you're targeting for the install
 kind: ImageSetConfiguration
 apiVersion: mirror.openshift.io/v2alpha1
 mirror:
@@ -20,8 +20,8 @@ mirror:
     - name: registry.redhat.io/rhel9/rhel-guest-image:latest
     - name: registry.redhat.io/openshift4/ose-must-gather:latest
     - name: registry.redhat.io/ubi9/ubi:latest
-    - name: registry.redhat.io/odf4/odf-must-gather-rhel9:v4.18
-    - name: registry.redhat.io/container-native-virtualization/cnv-must-gather-rhel9:v4.18
+    - name: registry.redhat.io/odf4/odf-must-gather-rhel9:v4.20
+    - name: registry.redhat.io/container-native-virtualization/cnv-must-gather-rhel9:v4.20
     # The following are for the Boot Images for various VM OS's (For OpenShift Virtualization). Feel free to remove/update as needed
     - name: registry.redhat.io/rhel8/rhel-guest-image:8.4.0
     - name: registry.redhat.io/rhel8/rhel-guest-image:8.6.0
@@ -35,7 +35,8 @@ mirror:
     - name: quay.io/containerdisks/centos-stream:8-latest
     - name: quay.io/containerdisks/centos-stream:9-latest
   operators:
-    - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.18
+    # Red Hat Operator Index Catalog
+    - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.20
       packages:
         # Advanced Cluster Management for Kubernetes
         - name: advanced-cluster-management
@@ -116,6 +117,10 @@ mirror:
         - name: kubernetes-nmstate-operator
           channels:
             - name: stable
+        # Migration Toolkit for Virtualization
+        - name: mtv-operator
+         channels:
+            - name: release-v2.9
         # Update Service
         - name: cincinnati-operator
           channels:
@@ -173,3 +178,23 @@ mirror:
         - name: openshift-cert-manager-operator
           channels:
             - name: stable-v1
+
+    # Red Hat Community Operator Index Catalog
+    - catalog: registry.redhat.io/redhat/community-operator-index:v4.20
+      packages:
+        # Trident
+        - name: group-sync-operator
+          channels:
+            - name: alpha
+
+    # Red Hat Certified Operator Index Catalog     
+    - catalog: registry.redhat.io/redhat/certified-operator-index:v4.20
+      packages:
+        # NVIDIA GPU Operator
+        - name: gpu-operator-certified
+          channels:
+            - name: v25.3
+        # Trident
+        - name: trident-operator
+          channels:
+            - name: stable
