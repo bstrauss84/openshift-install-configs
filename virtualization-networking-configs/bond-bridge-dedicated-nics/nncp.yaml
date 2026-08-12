@@ -1,0 +1,31 @@
+# NNCP --- Bond two NICs (LACP), then create a Linux bridge on top for VM attachment
+apiVersion: nmstate.io/v1
+kind: NodeNetworkConfigurationPolicy
+metadata:
+  name: bond-br1-linux-bridge
+spec:
+  nodeSelector:
+    node-role.kubernetes.io/worker: ''
+  desiredState:
+    interfaces:
+    - name: bond1
+      description: 802.3ad bond of two dedicated NICs
+      type: bond
+      state: up
+      link-aggregation:
+        mode: 802.3ad
+        options:
+          miimon: '100'
+        port:
+        - enp7s0                       # CHANGE_ME -- first NIC
+        - enp8s0                       # CHANGE_ME -- second NIC
+    - name: br1
+      description: Linux bridge on top of bond1
+      type: linux-bridge
+      state: up
+      bridge:
+        options:
+          stp:
+            enabled: false
+        port:
+        - name: bond1

@@ -16,7 +16,7 @@
 apiVersion: v1
 baseDomain: example.com
 metadata:
-  name: cluster-proxied
+  name: cluster
 
 # fips: true  # Optional
 

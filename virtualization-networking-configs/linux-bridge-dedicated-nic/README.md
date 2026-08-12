@@ -1,11 +1,11 @@
 # Linux bridge on a dedicated NIC
 
-**Goal:** Create a Linux bridge (`br1`) on a spare NIC (e.g., `enp8s0`) and attach VMs using the `cnv-bridge` NAD.
+**Goal:** Create a Linux bridge (`br1`) on a spare NIC (e.g., `enp8s0`) and attach VMs using the `cnv-bridge` plugin.
 
 ## Files
 
 - `nncp.yaml`: Creates `br1` as a Linux bridge and adds `enp8s0` as a port (STP disabled).
-- `nad.yaml`: CNV bridge NAD pointing directly to `br1`.
+- `nad.yaml`: `cnv-bridge` NAD pointing directly to `br1`. Uses `cnv-bridge` (not plain `bridge`) for proper KubeVirt MAC handling.
 - `vm.yaml`: KubeVirt VM attaching the NAD.
 
 ## Apply

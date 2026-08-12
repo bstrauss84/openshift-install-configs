@@ -1,7 +1,8 @@
-# scenario.yaml (human summary)
+# scenario.yaml
 name: single-nic-br-ex-localnet
+targetReleases: [ "4.18", "4.19", "4.20", "4.21", "4.22" ]
 nodes:
-  selector: node-role.kubernetes.io/worker: ''
+  selector: "node-role.kubernetes.io/worker: ''"
 inputs:
   bridge: br-ex
   localnet: br-ex-network
@@ -9,3 +10,4 @@ artifacts:
   - nncp.yaml
   - nad.yaml
   - vm.yaml
+tokens: [ virtualization, localnet, ovn, single-nic, br-ex ]

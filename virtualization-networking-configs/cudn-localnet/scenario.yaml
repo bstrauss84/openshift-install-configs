@@ -1,0 +1,13 @@
+# scenario.yaml
+name: cudn-localnet
+targetReleases: [ "4.19", "4.20", "4.21", "4.22" ]
+nodes:
+  selector: "node-role.kubernetes.io/worker: ''"
+inputs:
+  physicalNetworkName: br-ex-network
+  externalCIDR: 10.90.0.0/24
+artifacts:
+  - cudn.yaml
+  - nncp.yaml
+  - vm.yaml
+tokens: [ virtualization, cudn, localnet, ovn, cluster-user-defined-network ]

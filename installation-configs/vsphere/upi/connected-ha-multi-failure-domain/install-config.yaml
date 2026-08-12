@@ -1,5 +1,16 @@
 # -----------------------------------------------------------------------------
-# IMPORTANT PREP
+# IMPORTANT PREP (READ ME)
+# - sshKey MUST be a PUBLIC key (e.g., ~/.ssh/id_ed25519.pub). Generate if needed:
+#     ssh-keygen -t ed25519 -C "you@host" -f ~/.ssh/id_ed25519
+#     cat ~/.ssh/id_ed25519.pub
+# - pullSecret MUST be single-line JSON. Examples:
+#     tr -d '\n' < pull-secret.json
+#     # or
+#     jq -c . < pull-secret.json
+# - Connected installs: use your Red Hat pull secret from console.redhat.com
+# - Disconnected installs: include ONLY your mirror registry auth in pullSecret (single-line JSON).
+# - If your environment uses a custom CA (proxy or mirror), paste it into additionalTrustBundle
+#   and set additionalTrustBundlePolicy: Always
 # - UPI on vSphere: YOU provision VMs, LBs, and DNS. The installer only generates Ignition.
 #   Use: openshift-install create manifests && openshift-install create ignition-configs
 # -----------------------------------------------------------------------------
@@ -39,7 +50,7 @@ platform:
 # proxy:                           # Optional
 #   httpProxy: http://user:pass@proxy.example.com:3128
 #   httpsProxy: http://user:pass@proxy.example.com:3128
-#   noProxy: ".cluster.example.com,.example.com,.svc,.cluster.local,127.0.0.1,localhost,10.90.0.0/24"
+#   noProxy: ".cluster.example.com,.example.com,.svc,.cluster.local,127.0.0.1,localhost,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
 
 # additionalTrustBundle: |         # Optional
 #   -----BEGIN CERTIFICATE-----

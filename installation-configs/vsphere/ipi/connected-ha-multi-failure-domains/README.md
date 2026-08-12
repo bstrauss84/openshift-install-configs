@@ -7,15 +7,15 @@ Uses modern `platform.vsphere.vcenters[]` and `failureDomains[]` plus **VIPs** (
 VIPs are required for vSphere IPI. The installer creates the VMs, configures VIPs, and wires up NSX/vSwitch networking.  
 Docs: vSphere platform parameters & failure domains.
 
-**Field → vSphere inventory mapping**
+**Field to vSphere inventory mapping**
 | install-config field | vSphere object example |
 |---|---|
-| `platform.vsphere.vCenter` | vCenter FQDN or IP |
-| `platform.vsphere.datacenter` | Datacenter name |
-| `platform.vsphere.defaultDatastore` | Datastore name |
-| `platform.vsphere.network` | Portgroup name |
-| `failureDomains[].topology.cluster` | Cluster or Resource Pool |
-| `platform.vsphere.folder` | VM folder path |
+| `vcenters[].server` | vCenter FQDN or IP |
+| `failureDomains[].topology.datacenter` | Datacenter name |
+| `failureDomains[].topology.datastore` | Datastore path |
+| `failureDomains[].topology.networks[]` | Portgroup name |
+| `failureDomains[].topology.computeCluster` | Cluster path |
+| `failureDomains[].topology.folder` | VM folder path |
 
 **Quick checklist**
 - Valid vCenter creds; API reachable

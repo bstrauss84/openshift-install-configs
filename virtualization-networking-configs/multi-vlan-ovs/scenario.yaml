@@ -1,7 +1,8 @@
 # scenario.yaml
 name: multi-vlan-ovs
+targetReleases: [ "4.18", "4.19", "4.20", "4.21", "4.22" ]
 nodes:
-  selector: node-role.kubernetes.io/worker: ''
+  selector: "node-role.kubernetes.io/worker: ''"
 inputs:
   nic: enp2s0
   bridge: br0
@@ -10,3 +11,4 @@ artifacts:
   - nncp.yaml
   - nad.yaml
   - vm.yaml
+tokens: [ virtualization, ovs-bridge, multi-vlan, trunk, localnet, dedicated-nic ]

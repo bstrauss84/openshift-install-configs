@@ -1,4 +1,4 @@
-# NAD — Connect directly to the Linux bridge 'br1' using CNV bridge plugin
+# NAD — Connect VMs to Linux bridge 'br1' via the cnv-bridge plugin
 apiVersion: k8s.cni.cncf.io/v1
 kind: NetworkAttachmentDefinition
 metadata:
@@ -8,7 +8,7 @@ spec:
   config: |
     {
       "cniVersion": "0.3.1",
-      "type": "bridge",
+      "type": "cnv-bridge",
       "name": "br1-network",
       "bridge": "br1"
     }

@@ -2,7 +2,7 @@ apiVersion: v1beta1
 kind: AgentConfig
 metadata:
   name: cluster
-rendezvousIP: 10.90.0.20
+rendezvousIP: 10.90.0.21
 # additionalNTPSources:
 # - 10.90.0.2
 hosts:

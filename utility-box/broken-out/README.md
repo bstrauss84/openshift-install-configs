@@ -20,7 +20,7 @@ For a simpler single-host deployment, the **all-in-one** variant under `../all-i
 - Registry: `registry.example.com` → `10.90.0.4`
 - Nodes (static DHCP reservations):
   - control plane: `10.90.0.20–10.90.0.22`
-  - workers: `10.90.0.30–10.90.0.32`
+  - workers: `10.90.0.51–10.90.0.53`
 
 ---
 
@@ -96,7 +96,7 @@ sudo tail -f /var/lib/misc/dnsmasq.leases
 journalctl -u dnsmasq -f
 ```
 
-**Tip:** Keep hostnames in DHCP short (e.g., cluster-master0). The DNS server publishes the FQDN A-records.
+**Tip:** Keep hostnames in DHCP short (e.g., cluster-master-1). The DNS server publishes the FQDN A-records.
 
 ---
 
@@ -134,15 +134,17 @@ chronyc sources -v
 You can run DNS and DHCP on one host and NTP on another, or all three on one host.  
 If all on one host, choose either the broken-out pair (two separate include files) or the all-in-one config — not both at once.
 
-**All-in-one path:** use `../all-in-one-dnsmasq/dnsmasq.conf` (simplest).  
-**Broken-out on one host:** keep two include files and do not set `port=0` in the DNS file.
+**All-in-one path:** use `../all-in-one-dnsmasq/dnsmasq.conf` (simplest; recommended for single-host).\
+**Broken-out on one host:** include both config files, but **remove `port=0`** from `dhcp-only.conf`
+before combining. The `port=0` directive disables DNS, which conflicts with the DNS config's
+`port=53`. The DNS config's `port=53` should be retained so dnsmasq serves both DNS and DHCP.
 
 Example single host includes:
 
 ```ini
 # /etc/dnsmasq.conf
 conf-file=/etc/dnsmasq.d/dns-only.conf
-conf-file=/etc/dnsmasq.d/dhcp-only.conf
+conf-file=/etc/dnsmasq.d/dhcp-only.conf   # remove 'port=0' from this file first
 ```
 
 ---

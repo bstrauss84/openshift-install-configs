@@ -1,0 +1,40 @@
+# NNCP --- bridge-mapping prerequisite for the CUDN localnet
+# If using br-ex (single-NIC), the mapping may already exist. If using a dedicated NIC,
+# create the OVS bridge and mapping here.
+#
+# Option A: reuse br-ex (single-NIC clusters)
+apiVersion: nmstate.io/v1
+kind: NodeNetworkConfigurationPolicy
+metadata:
+  name: br-ex-localnet-mapping
+spec:
+  nodeSelector:
+    node-role.kubernetes.io/worker: ''
+  desiredState:
+    ovn:
+      bridge-mappings:
+      - localnet: br-ex-network
+        bridge: br-ex
+        state: present
+---
+# Option B: dedicated NIC (uncomment and customize if needed)
+# apiVersion: nmstate.io/v1
+# kind: NodeNetworkConfigurationPolicy
+# metadata:
+#   name: br-ext-localnet-mapping
+# spec:
+#   nodeSelector:
+#     node-role.kubernetes.io/worker: ''
+#   desiredState:
+#     interfaces:
+#     - name: br-ext
+#       type: ovs-bridge
+#       state: up
+#       bridge:
+#         port:
+#         - name: enp2s0            # CHANGE_ME -- dedicated NIC
+#     ovn:
+#       bridge-mappings:
+#       - localnet: br-ext-network
+#         bridge: br-ext
+#         state: present

@@ -92,9 +92,9 @@ oc-mirror --config=imageset-config.yaml docker://registry.example.com:443
    ```
 
 Both workflows generate:
-- **ImageContentSourcePolicy (ICSP)**
+- **IDMS/ITMS manifests** (current format for OCP 4.13+)
 - **CatalogSource**
-- **IDMS/ITMS manifests** for cluster use
+- **ImageContentSourcePolicy (ICSP)** (legacy, v1 only — used by OCP < 4.13)
 
 ---
 

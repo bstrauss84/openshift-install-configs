@@ -17,7 +17,7 @@
 apiVersion: v1
 baseDomain: example.com
 metadata:
-  name: cluster-proxied
+  name: cluster
 
 networking:
   networkType: OVNKubernetes
@@ -45,12 +45,224 @@ platform:
     # additionalNTPServers:
     # - 10.90.0.2
 
+    # hosts is REQUIRED for IPI to provision nodes via BMC. Provide all control-plane and worker nodes below.
+    hosts:
+      - name: cluster-master-1
+        role: master
+        bmc:
+          address: redfish-virtualmedia://bmc-master-1.example.com/redfish/v1/Systems/1
+          disableCertificateVerification: true
+          username: admin
+          password: changeme
+        bootMode: UEFISecureBoot
+        bootMACAddress: 52:54:00:aa:11:01
+        rootDeviceHints:
+          deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+        networkConfig:
+          interfaces:
+            - name: eno1
+              type: ethernet
+              state: up
+              ipv4:
+                enabled: true
+                dhcp: false
+                address:
+                  - ip: 10.90.0.21
+                    prefix-length: 24
+              ipv6:
+                enabled: false
+          dns-resolver:
+            config:
+              server:
+                - 10.90.0.3
+          routes:
+            config:
+              - destination: 0.0.0.0/0
+                next-hop-address: 10.90.0.1
+                next-hop-interface: eno1
+                table-id: 254
+
+      - name: cluster-master-2
+        role: master
+        bmc:
+          address: redfish-virtualmedia://bmc-master-2.example.com/redfish/v1/Systems/1
+          disableCertificateVerification: true
+          username: admin
+          password: changeme
+        bootMode: UEFISecureBoot
+        bootMACAddress: 52:54:00:aa:12:01
+        rootDeviceHints:
+          deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+        networkConfig:
+          interfaces:
+            - name: eno1
+              type: ethernet
+              state: up
+              ipv4:
+                enabled: true
+                dhcp: false
+                address:
+                  - ip: 10.90.0.22
+                    prefix-length: 24
+              ipv6:
+                enabled: false
+          dns-resolver:
+            config:
+              server:
+                - 10.90.0.3
+          routes:
+            config:
+              - destination: 0.0.0.0/0
+                next-hop-address: 10.90.0.1
+                next-hop-interface: eno1
+                table-id: 254
+
+      - name: cluster-master-3
+        role: master
+        bmc:
+          address: redfish-virtualmedia://bmc-master-3.example.com/redfish/v1/Systems/1
+          disableCertificateVerification: true
+          username: admin
+          password: changeme
+        bootMode: UEFISecureBoot
+        bootMACAddress: 52:54:00:aa:13:01
+        rootDeviceHints:
+          deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+        networkConfig:
+          interfaces:
+            - name: eno1
+              type: ethernet
+              state: up
+              ipv4:
+                enabled: true
+                dhcp: false
+                address:
+                  - ip: 10.90.0.23
+                    prefix-length: 24
+              ipv6:
+                enabled: false
+          dns-resolver:
+            config:
+              server:
+                - 10.90.0.3
+          routes:
+            config:
+              - destination: 0.0.0.0/0
+                next-hop-address: 10.90.0.1
+                next-hop-interface: eno1
+                table-id: 254
+
+      - name: cluster-worker-1
+        role: worker
+        bmc:
+          address: redfish-virtualmedia://bmc-worker-1.example.com/redfish/v1/Systems/1
+          disableCertificateVerification: true
+          username: admin
+          password: changeme
+        bootMode: UEFISecureBoot
+        bootMACAddress: 52:54:00:aa:21:01
+        rootDeviceHints:
+          deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+        networkConfig:
+          interfaces:
+            - name: eno1
+              type: ethernet
+              state: up
+              ipv4:
+                enabled: true
+                dhcp: false
+                address:
+                  - ip: 10.90.0.51
+                    prefix-length: 24
+              ipv6:
+                enabled: false
+          dns-resolver:
+            config:
+              server:
+                - 10.90.0.3
+          routes:
+            config:
+              - destination: 0.0.0.0/0
+                next-hop-address: 10.90.0.1
+                next-hop-interface: eno1
+                table-id: 254
+
+      - name: cluster-worker-2
+        role: worker
+        bmc:
+          address: redfish-virtualmedia://bmc-worker-2.example.com/redfish/v1/Systems/1
+          disableCertificateVerification: true
+          username: admin
+          password: changeme
+        bootMode: UEFISecureBoot
+        bootMACAddress: 52:54:00:aa:22:01
+        rootDeviceHints:
+          deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+        networkConfig:
+          interfaces:
+            - name: eno1
+              type: ethernet
+              state: up
+              ipv4:
+                enabled: true
+                dhcp: false
+                address:
+                  - ip: 10.90.0.52
+                    prefix-length: 24
+              ipv6:
+                enabled: false
+          dns-resolver:
+            config:
+              server:
+                - 10.90.0.3
+          routes:
+            config:
+              - destination: 0.0.0.0/0
+                next-hop-address: 10.90.0.1
+                next-hop-interface: eno1
+                table-id: 254
+
+      - name: cluster-worker-3
+        role: worker
+        bmc:
+          address: redfish-virtualmedia://bmc-worker-3.example.com/redfish/v1/Systems/1
+          disableCertificateVerification: true
+          username: admin
+          password: changeme
+        bootMode: UEFISecureBoot
+        bootMACAddress: 52:54:00:aa:23:01
+        rootDeviceHints:
+          deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+        networkConfig:
+          interfaces:
+            - name: eno1
+              type: ethernet
+              state: up
+              ipv4:
+                enabled: true
+                dhcp: false
+                address:
+                  - ip: 10.90.0.53
+                    prefix-length: 24
+              ipv6:
+                enabled: false
+          dns-resolver:
+            config:
+              server:
+                - 10.90.0.3
+          routes:
+            config:
+              - destination: 0.0.0.0/0
+                next-hop-address: 10.90.0.1
+                next-hop-interface: eno1
+                table-id: 254
+
 proxy:
   # httpProxy/httpsProxy may include creds; httpsProxy CAN point to http:// if your proxy terminates TLS
   httpProxy: http://user:pass@proxy.example.com:3128
   httpsProxy: http://user:pass@proxy.example.com:3128
   # noProxy should include your cluster domain(s), service networks, and RFC1918 ranges as needed
-  noProxy: ".cluster.example.com,.example.com,127.0.0.1,localhost,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+  noProxy: ".cluster.example.com,.example.com,.svc,.cluster.local,127.0.0.1,localhost,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,10.90.0.10,10.90.0.11"
 
 additionalTrustBundle: |
   # Paste your proxy CA and/or mirror registry CA here (PEM)
@@ -73,13 +285,6 @@ additionalTrustBundlePolicy: Always
 #   - registry.example.com/ocp/release
 #   source: quay.io/openshift-release-dev/ocp-release
 
-# capabilities: {}           # OPTIONAL: limit/enable cluster capabilities
-# clusterNetwork:            # OPTIONAL: override default pod network
-# - cidr: 10.128.0.0/14
-#   hostPrefix: 23
-# serviceNetwork:            # OPTIONAL: override default service CIDR
-# - 172.30.0.0/16
-# imageDigestSources: []     # OPTIONAL (v2): mirror by digest (preferred)
-# # imageContentSources: []  # OPTIONAL (v1, deprecated): legacy mapping
-# fips: false                # OPTIONAL: set true for FIPS-mode installs
-# publish: External          # OPTIONAL: control external/internal publishing
+# NOTE: After creating this file, run:
+#   openshift-install create manifests
+#   openshift-install create cluster

@@ -1,0 +1,18 @@
+# Feel free to modify to reflect the operators/images you're targeting for your install
+# To get an accurate representation of the current list of operators and their current default channels,
+#   run the following command on an internet-facing box that has the oc-mirror binary available (NOTE: it takes a few minutes to complete)
+#   oc-mirror list operators --catalog=registry.redhat.io/redhat/redhat-operator-index:v4.22 --version=4.22 # Replace "4.22" with whatever minor release version you're targeting for the install
+kind: ImageSetConfiguration
+apiVersion: mirror.openshift.io/v2alpha1
+
+mirror:
+  platform:
+    # Uncommenting the following two lines and updating to reflect your specific architecture, will help decrease the size of the mirrored content.
+    # architectures:
+    #   - amd64
+    channels:
+      - type: ocp
+        name: stable-4.22
+        minVersion: 4.22.3
+        maxVersion: 4.22.3
+    graph: true

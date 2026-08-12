@@ -1,0 +1,33 @@
+# KubeVirt VM --- attaches the bond-br1-network NAD (bond + Linux bridge)
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: vm-bond-br1
+  namespace: vmtest
+spec:
+  runStrategy: Always
+  template:
+    metadata:
+      labels:
+        kubevirt.io/domain: vm-bond-br1
+    spec:
+      domain:
+        devices:
+          disks:
+          - disk:
+              bus: virtio
+            name: rootdisk
+          interfaces:
+          - name: bond-br1-net
+            bridge: {}
+        resources:
+          requests:
+            memory: 2Gi
+      networks:
+      - name: bond-br1-net
+        multus:
+          networkName: vmtest/bond-br1-network
+      volumes:
+      - name: rootdisk
+        containerDisk:
+          image: quay.io/kubevirt/cirros-container-disk-demo:latest

@@ -1,0 +1,22 @@
+# ClusterUserDefinedNetwork --- localnet topology (GA in OCP 4.19+)
+# Automates NAD creation in selected namespaces, replacing the manual
+# one-NAD-per-namespace pattern. The underlying OVN bridge-mapping (NNCP)
+# is still required.
+apiVersion: k8s.ovn.org/v1
+kind: ClusterUserDefinedNetwork
+metadata:
+  name: external-localnet
+spec:
+  namespaceSelector:
+    matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: In
+      values:
+      - vmtest                               # CHANGE_ME -- namespaces that need this network
+  network:
+    topology: Localnet
+    localnet:
+      role: Secondary
+      physicalNetworkName: br-ex-network     # must match an existing OVN bridge-mapping localnet name
+      ipam:
+        mode: Disabled                       # VMs use external DHCP or static cloud-init addresses

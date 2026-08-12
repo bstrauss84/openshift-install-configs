@@ -1,3 +1,5 @@
+# DEPRECATED: oc-mirror v1 (v1alpha2) is deprecated in OCP 4.18+.
+# Use the v2 (v2alpha1) configs instead. These files are retained for legacy reference.
 # Feel free to modify to reflect the operators/images you're targeting for your install
 # To get an accurate representation of the current list of operators and their current default channels,
 #   run the following command on an internet-facing box that has the oc-mirror binary available (NOTE: it takes a few minutes to complete)
@@ -49,10 +51,10 @@ mirror:
         # Advanced Cluster Management for Kubernetes
         - name: advanced-cluster-management
           channels:
-            - name: release-2.13
+            - name: release-2.15
         - name: multicluster-engine
           channels:
-            - name: stable-2.8
+            - name: stable-2.10
 
         # Advanced Cluster Security for Kubernetes
         - name: rhacs-operator
@@ -134,8 +136,8 @@ mirror:
 
         # Migration Toolkit for Virtualization
         - name: mtv-operator
-         channels:
-            - name: release-v2.9
+          channels:
+            - name: release-v2.10
 
         # Update Service
         - name: cincinnati-operator
@@ -155,7 +157,7 @@ mirror:
         # Ansible Automation Platform Operator
         - name: ansible-automation-platform-operator
           channels:
-            - name: stable-2.5
+            - name: stable-2.7
 
         # MetalLB Operator
         - name: metallb-operator
@@ -170,10 +172,10 @@ mirror:
         # OpenShift Logging
         - name: cluster-logging
           channels:
-            - name: stable-6.2
+            - name: stable-6.4
         - name: loki-operator
           channels:
-            - name: stable-6.2
+            - name: stable-6.4
 
         # OpenShift Service Mesh
         - name: servicemeshoperator3
@@ -199,7 +201,7 @@ mirror:
         # Keycloak Operator
         - name: rhbk-operator
           channels:
-            - name: stable-v26.0
+            - name: stable-v26.6
 
         # Cert Manager
         - name: openshift-cert-manager-operator
@@ -209,7 +211,7 @@ mirror:
     # Red Hat Community Operator Index Catalog
     - catalog: registry.redhat.io/redhat/community-operator-index:v4.18
       packages:
-        # Trident
+        # Group Sync Operator
         - name: group-sync-operator
           channels:
             - name: alpha
@@ -220,7 +222,7 @@ mirror:
         # NVIDIA GPU Operator
         - name: gpu-operator-certified
           channels:
-            - name: v25.3
+            - name: v26.3
         # Trident
         - name: trident-operator
           channels:

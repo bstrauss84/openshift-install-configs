@@ -1,0 +1,36 @@
+name: Validate configs
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install PyYAML
+      run: pip install pyyaml
+
+    - name: YAML syntax check
+      run: scripts/validate/yaml-syntax-check.sh
+
+    - name: Check rendezvousIP consistency
+      run: scripts/validate/check-rendezvous-ip.sh
+
+    - name: Check scenario metadata
+      run: scripts/validate/check-scenario-metadata.sh
+
+    - name: Check golden/split equivalence
+      run: scripts/validate/check-golden-split.sh
+
+    - name: Check cross-file consistency
+      run: scripts/validate/check-cross-file-consistency.sh

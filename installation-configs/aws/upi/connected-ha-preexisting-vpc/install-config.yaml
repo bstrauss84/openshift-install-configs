@@ -57,7 +57,7 @@ platform:
 # proxy:                           # Optional cluster-wide proxy
 #   httpProxy: http://user:pass@proxy.example.com:3128
 #   httpsProxy: http://user:pass@proxy.example.com:3128
-#   noProxy: ".cluster.example.com,.example.com,.svc,.cluster.local,127.0.0.1,localhost,10.90.0.0/24,169.254.169.254"
+#   noProxy: ".cluster.example.com,.example.com,.svc,.cluster.local,127.0.0.1,localhost,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,169.254.169.254"
 
 # additionalTrustBundle: |         # Optional: proxy CA and/or registry CA (PEM)
 #   -----BEGIN CERTIFICATE-----

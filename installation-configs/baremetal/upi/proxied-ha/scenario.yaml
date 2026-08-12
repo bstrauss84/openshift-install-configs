@@ -1,9 +1,11 @@
-name: baremetal-upi-proxied-ha
+name: proxied-ha
+targetReleases: [ "4.18", "4.19", "4.20", "4.21", "4.22" ]
 platform: baremetal
 method: upi
 networking:
   type: OVNKubernetes
-  machineNetworkCIDR: 10.90.0.0/24
+  machineNetworkCIDRs:
+  - 10.90.0.0/24
 loadBalancer: external
 addressing: dhcp
 nodes:
@@ -18,4 +20,4 @@ notes:
 artifacts:
   - install-config.yaml
 
-tokens: [ baremetal, upi, ha, connected ]
+tokens: [ baremetal, upi, ha, proxied ]

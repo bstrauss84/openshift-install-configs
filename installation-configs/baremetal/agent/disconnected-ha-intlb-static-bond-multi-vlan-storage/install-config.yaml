@@ -13,12 +13,12 @@
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
 # AGENT INSTALLER NOTES
-# - Use:  openshift-install agent create cluster-manifests
+# - Use:  openshift-install agent create cluster-manifests  # generate manifests first to inject storage operator configs
 #         openshift-install agent create image
 #         # boot hosts with the generated ISO (or PXE/iPXE per docs)
 # - agent-config.yaml uses NMState for host networking in 'networkConfig'.
-# - If all hosts use DHCP and you provide at least one static IP in networkConfig,
-#   you may omit rendezvousIP; otherwise set it explicitly.
+# - Static IPs: rendezvousIP can be omitted (installer infers from first static host).
+#   DHCP: set rendezvousIP explicitly and create a DHCP reservation for that IP.
 # -----------------------------------------------------------------------------
 apiVersion: v1
 baseDomain: example.com
@@ -72,7 +72,7 @@ imageDigestSources:              # Disconnected installs: REQUIRED (use your mir
 # proxy:              # If proxied access is required, uncomment and populate this block
 #   httpProxy: http://user:pass@proxy.example.com:3128              # httpProxy/httpsProxy may include creds; httpsProxy CAN point to http:// if your proxy terminates TLS
 #   httpsProxy: http://user:pass@proxy.example.com:3128              # httpProxy/httpsProxy may include creds; httpsProxy CAN point to http:// if your proxy terminates TLS
-#   noProxy: ".cluster.example.com,.example.com,127.0.0.1,localhost,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"  # noProxy should include your cluster domain(s), service networks, and RFC1918 ranges as needed
+#   noProxy: ".cluster.example.com,.example.com,.svc,.cluster.local,127.0.0.1,localhost,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"  # noProxy should include your cluster domain(s), service networks, and RFC1918 ranges as needed
 
 # capabilities: {}           # OPTIONAL: limit/enable cluster capabilities
 

@@ -1,9 +1,11 @@
-name: vsphere-upi-proxied-ha-single-failure-domain
+name: proxied-ha-single-failure-domain
+targetReleases: [ "4.18", "4.19", "4.20", "4.21", "4.22" ]
 platform: vsphere
 method: upi
 networking:
   type: OVNKubernetes
-  machineNetworkCIDR: 10.90.0.0/24
+  machineNetworkCIDRs:
+  - 10.90.0.0/24
 loadBalancer: external
 addressing: dhcp
 nodes:
@@ -14,4 +16,4 @@ proxy:
 artifacts:
   - install-config.yaml
 
-tokens: [ vsphere, upi, ha, connected ]
+tokens: [ vsphere, upi, ha, proxied ]

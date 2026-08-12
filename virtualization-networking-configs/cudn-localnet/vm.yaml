@@ -1,0 +1,34 @@
+# KubeVirt VM --- attaches to the CUDN-managed localnet network
+# The CUDN auto-creates a NAD named after the CUDN in each selected namespace.
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: vm-cudn-localnet
+  namespace: vmtest
+spec:
+  runStrategy: Always
+  template:
+    metadata:
+      labels:
+        kubevirt.io/domain: vm-cudn-localnet
+    spec:
+      domain:
+        devices:
+          disks:
+          - disk:
+              bus: virtio
+            name: rootdisk
+          interfaces:
+          - name: localnet-iface
+            bridge: {}
+        resources:
+          requests:
+            memory: 2Gi
+      networks:
+      - name: localnet-iface
+        multus:
+          networkName: external-localnet     # matches the CUDN metadata.name
+      volumes:
+      - name: rootdisk
+        containerDisk:
+          image: quay.io/kubevirt/cirros-container-disk-demo:latest

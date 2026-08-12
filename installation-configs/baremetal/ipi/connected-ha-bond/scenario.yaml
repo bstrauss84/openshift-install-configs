@@ -1,0 +1,19 @@
+name: connected-ha-bond
+targetReleases: [ "4.18", "4.19", "4.20", "4.21", "4.22" ]
+platform: baremetal
+method: ipi
+networking:
+  type: OVNKubernetes
+  machineNetworkCIDRs:
+  - 10.90.0.0/24
+loadBalancer: internal
+addressing: static
+nodes:
+  controlPlane: 3
+  workers: 3
+vips:
+  api: 10.90.0.10
+  ingress: 10.90.0.11
+artifacts:
+  - install-config.yaml
+tokens: [ baremetal, ipi, ha, connected, bond, static ]

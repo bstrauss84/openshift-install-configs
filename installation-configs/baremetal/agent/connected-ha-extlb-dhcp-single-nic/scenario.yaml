@@ -1,5 +1,6 @@
 name: connected-ha-extlb-dhcp-single-nic
-platform: baremetal
+targetReleases: [ "4.18", "4.19", "4.20", "4.21", "4.22" ]
+platform: none
 method: agent
 networking:
   type: OVNKubernetes

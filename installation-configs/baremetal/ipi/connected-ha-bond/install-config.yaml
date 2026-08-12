@@ -324,10 +324,9 @@ platform:
                 table-id: 254
 
 # proxy:                           # Optional: cluster-wide egress proxy
-proxy:                              # ENABLED for this scenario
-  httpProxy: http://user:pass@proxy.example.com:3128
-  httpsProxy: http://user:pass@proxy.example.com:3128
-  noProxy: ".cluster.example.com,.example.com,127.0.0.1,localhost,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,10.90.0.0/24,registry.example.com,10.90.0.10,10.90.0.11"
+#   httpProxy: http://user:pass@proxy.example.com:3128
+#   httpsProxy: http://user:pass@proxy.example.com:3128
+#   noProxy: ".cluster.example.com,.example.com,.svc,.cluster.local,127.0.0.1,localhost,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,10.90.0.10,10.90.0.11"
 
 # additionalTrustBundle: |         # Optional: PEM-encoded CA bundle (proxy CA and/or mirror registry CA)
 #   -----BEGIN CERTIFICATE-----
@@ -354,12 +353,3 @@ proxy:                              # ENABLED for this scenario
 # NOTE: After creating this file, run:
 #   openshift-install create manifests
 #   openshift-install create cluster
-
-# capabilities: {}           # OPTIONAL: limit/enable cluster capabilities
-# clusterNetwork:            # OPTIONAL: override default pod network
-# - cidr: 10.128.0.0/14
-#   hostPrefix: 23
-# serviceNetwork:            # OPTIONAL: override default service CIDR
-# - 172.30.0.0/16
-
-# fips: false                # OPTIONAL: set true for FIPS-mode installs

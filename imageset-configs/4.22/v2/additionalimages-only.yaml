@@ -1,0 +1,27 @@
+# Feel free to modify to reflect the operators/images you're targeting for your install
+# To get an accurate representation of the current list of operators and their current default channels,
+#   run the following command on an internet-facing box that has the oc-mirror binary available (NOTE: it takes a few minutes to complete)
+#   oc-mirror list operators --catalog=registry.redhat.io/redhat/redhat-operator-index:v4.22 --version=4.22 # Replace "4.22" with whatever minor release version you're targeting for the install
+kind: ImageSetConfiguration
+apiVersion: mirror.openshift.io/v2alpha1
+
+mirror:
+  additionalImages:
+    - name: registry.redhat.io/rhel9/support-tools:latest
+    - name: registry.redhat.io/rhel9/rhel-guest-image:latest
+    - name: registry.redhat.io/openshift4/ose-must-gather:latest
+    - name: registry.redhat.io/ubi9/ubi:latest
+    - name: registry.redhat.io/odf4/odf-must-gather-rhel9:v4.22
+    - name: registry.redhat.io/container-native-virtualization/cnv-must-gather-rhel9:v4.22
+    # The following are for the Boot Images for various VM OS's (For OpenShift Virtualization). Feel free to remove/update as needed
+    - name: registry.redhat.io/rhel8/rhel-guest-image:8.4.0
+    - name: registry.redhat.io/rhel8/rhel-guest-image:8.6.0
+    - name: registry.redhat.io/rhel8/rhel-guest-image:8.8.0
+    - name: registry.redhat.io/rhel8/rhel-guest-image:8.10.0
+    - name: registry.redhat.io/rhel8/rhel-guest-image:latest
+    - name: registry.redhat.io/rhel9/rhel-guest-image:9.2
+    - name: registry.redhat.io/rhel9/rhel-guest-image:9.4
+    - name: registry.redhat.io/rhel9/rhel-guest-image:latest
+    - name: quay.io/containerdisks/centos:7-2009
+    - name: quay.io/containerdisks/centos-stream:8-latest
+    - name: quay.io/containerdisks/centos-stream:9-latest

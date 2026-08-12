@@ -1,0 +1,14 @@
+# scenario.yaml
+name: bond-bridge-dedicated-nics
+targetReleases: [ "4.18", "4.19", "4.20", "4.21", "4.22" ]
+nodes:
+  selector: "node-role.kubernetes.io/worker: ''"
+inputs:
+  nics: [ enp7s0, enp8s0 ]
+  bond: bond1
+  bridge: br1
+artifacts:
+  - nncp.yaml
+  - nad.yaml
+  - vm.yaml
+tokens: [ virtualization, bond, linux-bridge, cnv-bridge, dedicated-nic ]

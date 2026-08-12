@@ -1,4 +1,5 @@
 name: disconnected-ha-intlb-static-bond-multi-vlan-storage
+targetReleases: [ "4.18", "4.19", "4.20", "4.21", "4.22" ]
 platform: baremetal
 method: agent
 networking:
@@ -19,4 +20,4 @@ artifacts:
   - install-config.yaml
   - agent-config.yaml
 
-tokens: [ baremetal, agent, ha, disconnected, intlb, static, vlan, bond ]
+tokens: [ baremetal, agent, ha, disconnected, intlb, static, vlan, bond, storage, multi-vlan ]

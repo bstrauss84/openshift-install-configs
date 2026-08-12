@@ -1,0 +1,110 @@
+apiVersion: v1beta1
+kind: AgentConfig
+metadata:
+  name: cluster
+rendezvousIP: 10.90.0.20
+# additionalNTPSources:
+# - 10.90.0.2
+hosts:
+- hostname: cluster-master-1
+  role: master
+  interfaces:
+  - name: eno1
+    macAddress: 52:54:00:aa:11:01
+  rootDeviceHints:
+    deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+  networkConfig:
+    interfaces:
+    - name: eno1
+      type: ethernet
+      state: up
+      ipv4:
+        enabled: true
+        dhcp: true
+      ipv6:
+        enabled: false
+- hostname: cluster-master-2
+  role: master
+  interfaces:
+  - name: eno1
+    macAddress: 52:54:00:aa:12:01
+  rootDeviceHints:
+    deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+  networkConfig:
+    interfaces:
+    - name: eno1
+      type: ethernet
+      state: up
+      ipv4:
+        enabled: true
+        dhcp: true
+      ipv6:
+        enabled: false
+- hostname: cluster-master-3
+  role: master
+  interfaces:
+  - name: eno1
+    macAddress: 52:54:00:aa:13:01
+  rootDeviceHints:
+    deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+  networkConfig:
+    interfaces:
+    - name: eno1
+      type: ethernet
+      state: up
+      ipv4:
+        enabled: true
+        dhcp: true
+      ipv6:
+        enabled: false
+- hostname: cluster-worker-1
+  role: worker
+  interfaces:
+  - name: eno1
+    macAddress: 52:54:00:aa:14:01
+  rootDeviceHints:
+    deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+  networkConfig:
+    interfaces:
+    - name: eno1
+      type: ethernet
+      state: up
+      ipv4:
+        enabled: true
+        dhcp: true
+      ipv6:
+        enabled: false
+- hostname: cluster-worker-2
+  role: worker
+  interfaces:
+  - name: eno1
+    macAddress: 52:54:00:aa:15:01
+  rootDeviceHints:
+    deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+  networkConfig:
+    interfaces:
+    - name: eno1
+      type: ethernet
+      state: up
+      ipv4:
+        enabled: true
+        dhcp: true
+      ipv6:
+        enabled: false
+- hostname: cluster-worker-3
+  role: worker
+  interfaces:
+  - name: eno1
+    macAddress: 52:54:00:aa:16:01
+  rootDeviceHints:
+    deviceName: "/dev/disk/by-path/pci-0000:01:00.0-nvme-1"
+  networkConfig:
+    interfaces:
+    - name: eno1
+      type: ethernet
+      state: up
+      ipv4:
+        enabled: true
+        dhcp: true
+      ipv6:
+        enabled: false

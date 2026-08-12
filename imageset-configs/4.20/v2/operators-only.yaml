@@ -12,10 +12,10 @@ mirror:
         # Advanced Cluster Management for Kubernetes
         - name: advanced-cluster-management
           channels:
-            - name: release-2.14
+            - name: release-2.17
         - name: multicluster-engine
           channels:
-            - name: stable-2.9
+            - name: stable-2.12
         # Advanced Cluster Security for Kubernetes
         - name: rhacs-operator
           channels:
@@ -23,32 +23,32 @@ mirror:
         # Quay
         - name: quay-operator
           channels:
-            - name: stable-3.15
+            - name: stable-3.16
         - name: quay-bridge-operator
           channels:
-            - name: stable-3.15
+            - name: stable-3.16
         - name: container-security-operator
           channels:
-            - name: stable-3.15
+            - name: stable-3.16
         # Data Foundation Essentials
         - name: odf-operator
           channels:
-            - name: stable-4.19
+            - name: stable-4.20
         - name: odf-csi-addons-operator
           channels:
             - name: stable-4.20
         - name: ocs-operator
           channels:
-            - name: stable-4.19
+            - name: stable-4.20
         - name: mcg-operator
           channels:
-            - name: stable-4.19
+            - name: stable-4.20
         - name: odf-dependencies
           channels:
             - name: stable-4.20
         - name: rook-ceph-operator
           channels:
-            - name: stable-4.19
+            - name: stable-4.20
         - name: recipe
           channels:
             - name: stable-4.20
@@ -70,7 +70,7 @@ mirror:
         # Local Storage Operator
         - name: lvms-operator
           channels:
-            - name: stable-4.19
+            - name: stable-4.20
         - name: local-storage-operator
           channels:
             - name: stable
@@ -90,8 +90,8 @@ mirror:
             - name: stable
         # Migration Toolkit for Virtualization
         - name: mtv-operator
-         channels:
-            - name: release-v2.9
+          channels:
+            - name: release-v2.12
         # Update Service
         - name: cincinnati-operator
           channels:
@@ -107,7 +107,7 @@ mirror:
         # Ansible Automation Platform Operator
         - name: ansible-automation-platform-operator
           channels:
-            - name: stable-2.5
+            - name: stable-2.7
         # MetalLB Operator
         - name: metallb-operator
           channels:
@@ -119,10 +119,10 @@ mirror:
         # OpenShift Logging
         - name: cluster-logging
           channels:
-            - name: stable-6.3
+            - name: stable-6.6
         - name: loki-operator
           channels:
-            - name: stable-6.3
+            - name: stable-6.6
         # OpenShift Service Mesh
         - name: servicemeshoperator3
           channels:
@@ -144,7 +144,7 @@ mirror:
         # Keycloak Operator
         - name: rhbk-operator
           channels:
-            - name: stable-v26.0
+            - name: stable-v26.6
         # Cert Manager
         - name: openshift-cert-manager-operator
           channels:
@@ -153,7 +153,7 @@ mirror:
     # Red Hat Community Operator Index Catalog
     - catalog: registry.redhat.io/redhat/community-operator-index:v4.20
       packages:
-        # Trident
+        # Group Sync Operator
         - name: group-sync-operator
           channels:
             - name: alpha
@@ -164,7 +164,7 @@ mirror:
         # NVIDIA GPU Operator
         - name: gpu-operator-certified
           channels:
-            - name: v25.3
+            - name: v26.3
         # Trident
         - name: trident-operator
           channels:

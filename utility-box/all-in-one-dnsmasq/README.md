@@ -60,15 +60,15 @@ On the NTP server (which can be this same utility box if it also has `10.90.0.2`
 sudo dnf install -y chrony
 sudo bash -c 'cat >/etc/chrony.conf <<EOF
 # Minimal chrony for lab
-server time.cloudflare.com iburst
-server time.google.com iburst
+pool pool.ntp.org iburst
 # Serve time to the lab subnet
 allow 10.90.0.0/24
-local stratum 8
+local stratum 10
 # Record drift
 driftfile /var/lib/chrony/drift
 makestep 1.0 3
-logdir /var/log/chrony
+rtcsync
+# logdir /var/log/chrony
 EOF'
 sudo systemctl enable --now chronyd
 sudo firewall-cmd --permanent --add-service=ntp
@@ -128,7 +128,7 @@ sudo firewall-cmd --reload
   - `api-int.cluster.example.com` → **10.90.0.10**
   - `*.apps.cluster.example.com` → **10.90.0.11**
 - Nodes reserved by MAC:
-  - `cluster-master0..2` → `10.90.0.20–.22`
-  - `cluster-worker0..2` → `10.90.0.30–.32`
+  - `cluster-master-1..3` → `10.90.0.20–.22`
+  - `cluster-worker-1..3` → `10.90.0.51–.53`
 - DHCP dynamic pool **does not** overlap the static reservations (`.100–.199`).
 - Security: open ports **53/tcp, 53/udp, 67/udp** on the host firewall. Keep `bind-interfaces` enabled.
