@@ -1,0 +1,27 @@
+name: connected-2node-fencing-intlb-static-single-nic
+targetReleases: [ "4.22" ]
+platform: baremetal
+method: agent
+networking:
+  type: OVNKubernetes
+  machineNetworkCIDRs:
+  - 10.90.0.0/24
+loadBalancer: internal
+addressing: static
+nodes:
+  controlPlane: 2
+  workers: 0
+vips:
+  api: 10.90.0.10
+  ingress: 10.90.0.11
+artifacts:
+  - install-config.yaml
+  - agent-config.yaml
+notes:
+  - "Two-Node with fencing (TNF): 2 control-plane nodes with BMC-based Pacemaker fencing (no arbiter)."
+  - "GA in OCP 4.22. Tech Preview in 4.20-4.21 (requires featureSet: TechPreviewNoUpgrade, not shown here)."
+  - "Requires Redfish-compatible BMC on both nodes. IPMI is not supported."
+  - "Fencing credential hostnames must match agent-config.yaml hostnames."
+  - "Workers are not supported (compute.replicas must be 0)."
+  - "ZTP is not supported for TNF."
+tokens: [ baremetal, agent, 2node, fencing, connected, intlb, static, single-nic ]

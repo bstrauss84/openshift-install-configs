@@ -93,13 +93,17 @@ Priority order: **Official OpenShift docs** > **RH solution/knowledge articles**
 
 ### Two-Node OpenShift
 
-- **Two-Node with local arbiter (TNA)** — Tech Preview in 4.19, GA in 4.20+\
+- **Two-Node with local arbiter (TNA) — IPI** — Tech Preview in 4.19, GA in 4.20+\
   https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/installing_a_two_node_openshift_cluster/about-two-node-arbiter-installation\
-  *Two control-plane nodes plus a lightweight arbiter for etcd quorum. Supported on bare metal via IPI and Agent-based installer.*
+  *Two control-plane nodes plus a lightweight arbiter for etcd quorum. IPI and UPI (4.20+) workflows.*
+
+- **Two-Node with local arbiter (TNA) — Agent-based installer** — GA in 4.20+\
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/installing_an_on-premise_cluster_with_the_agent-based_installer/preparing-to-install-with-agent-based-installer\
+  *Agent-based arbiter configuration: `role: arbiter` in agent-config.yaml, top-level `arbiter:` block in install-config.yaml.*
 
 - **Two-Node with fencing (TNF)** — Tech Preview in 4.20--4.21, GA in 4.22\
-  https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/installing_a_two_node_openshift_cluster/two-node-with-fencing\
-  *Two control-plane nodes with BMC-based Pacemaker fencing instead of an arbiter node.*
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/installing_a_two_node_openshift_cluster/installing-two-node-fencing\
+  *Two control-plane nodes with BMC-based Pacemaker fencing. Redfish BMC required; IPMI not supported. IPI, UPI, and Agent-based installer.*
 
 ---
 

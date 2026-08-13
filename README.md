@@ -61,7 +61,7 @@ openshift-install-configs/
 │   │   ├── ipi/            # connected & proxied
 │   │   └── upi/            # connected (preexisting VPC)
 │   ├── baremetal/
-│   │   ├── agent/          # 9 variants (connected/disconnected/proxied, HA/3node/SNO, static/DHCP, bond/single-nic, FIPS, dual-stack, multi-VLAN-storage)
+│   │   ├── agent/          # 11 variants (connected/disconnected/proxied, HA/3node/SNO/2node-arbiter/2node-fencing, static/DHCP, bond/single-nic, FIPS, dual-stack, multi-VLAN-storage)
 │   │   ├── ipi/            # connected (bond) & proxied
 │   │   └── upi/            # connected & proxied
 │   └── vsphere/
@@ -115,6 +115,8 @@ Common patterns across scenarios:
 - **Proxy** (proxied scenarios): include `proxy:` (`httpProxy`, `httpsProxy`, `noProxy`), plus `additionalTrustBundle` (PEM)
   and `additionalTrustBundlePolicy: Always`.
 - **Disconnected**: prefer **`imageDigestSources`** (oc-mirror v2); `imageContentSources` is deprecated (v1) and kept only as a commented example.
+- **Two-Node with Arbiter (TNA)**: 2 control-plane + 1 lightweight arbiter for etcd quorum. Top-level `arbiter:` block in `install-config.yaml`, `role: arbiter` in `agent-config.yaml`. GA in OCP 4.20+.
+- **Two-Node with Fencing (TNF)**: 2 control-plane nodes with Redfish BMC fencing. `controlPlane.fencing.credentials` in `install-config.yaml`. GA in OCP 4.22.
 
 ### ImageSet Configs (oc-mirror)
 - `imageset-configs/*/v2/`: oc-mirror v2 format, with `golden_all.yaml` (categorized operator blocks) and exact split variants:

@@ -1,0 +1,26 @@
+name: connected-2node-arbiter-intlb-static-single-nic
+targetReleases: [ "4.20", "4.21", "4.22" ]
+platform: baremetal
+method: agent
+networking:
+  type: OVNKubernetes
+  machineNetworkCIDRs:
+  - 10.90.0.0/24
+loadBalancer: internal
+addressing: static
+nodes:
+  controlPlane: 2
+  workers: 0
+  arbiters: 1
+vips:
+  api: 10.90.0.10
+  ingress: 10.90.0.11
+artifacts:
+  - install-config.yaml
+  - agent-config.yaml
+notes:
+  - "Two-Node with local arbiter (TNA): 2 control-plane nodes + 1 lightweight arbiter for etcd quorum."
+  - "GA in OCP 4.20+. Tech Preview in 4.19 (requires featureSet: TechPreviewNoUpgrade, not shown here)."
+  - "Arbiter runs only etcd; not schedulable (tainted node-role.kubernetes.io/arbiter:NoSchedule)."
+  - "Arbiter minimum requirements: 2 vCPU, 8 GB RAM, 50 GB SSD."
+tokens: [ baremetal, agent, 2node, arbiter, connected, intlb, static, single-nic ]

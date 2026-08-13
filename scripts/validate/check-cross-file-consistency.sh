@@ -42,18 +42,78 @@ ic_replicas_w = compute[0].get("replicas", 0) if compute else 0
 hosts = ac.get("hosts", [])
 masters = sum(1 for h in hosts if h.get("role") == "master")
 workers = sum(1 for h in hosts if h.get("role") == "worker")
+arbiters = sum(1 for h in hosts if h.get("role") == "arbiter")
 
 if masters != ic_replicas_cp:
     errors.append(f"install-config controlPlane.replicas={ic_replicas_cp} but agent-config has {masters} master hosts")
 if workers != ic_replicas_w:
     errors.append(f"install-config compute.replicas={ic_replicas_w} but agent-config has {workers} worker hosts")
 
+ic_arbiter = ic.get("arbiter", {})
+ic_replicas_a = ic_arbiter.get("replicas", 0) if ic_arbiter else 0
+
+# TNA validation: arbiter block present in install-config
+if ic_arbiter and ic_replicas_a:
+    if arbiters != ic_replicas_a:
+        errors.append(f"install-config arbiter.replicas={ic_replicas_a} but agent-config has {arbiters} arbiter hosts")
+    arbiter_name = ic_arbiter.get("name", "")
+    if arbiter_name != "arbiter":
+        errors.append(f"install-config arbiter.name='{arbiter_name}', must be 'arbiter'")
+    if ic_replicas_a != 1:
+        errors.append(f"install-config arbiter.replicas={ic_replicas_a}, must be exactly 1")
+    if ic_replicas_cp != 2:
+        errors.append(f"install-config controlPlane.replicas={ic_replicas_cp}, must be exactly 2 for two-node arbiter topology")
+elif arbiters > 0:
+    errors.append(f"agent-config has {arbiters} arbiter hosts but install-config has no arbiter block")
+
 sc_cp = sc.get("nodes", {}).get("controlPlane", 0)
 sc_w = sc.get("nodes", {}).get("workers", 0)
+sc_a = sc.get("nodes", {}).get("arbiters", 0)
 if sc_cp and sc_cp != ic_replicas_cp:
     errors.append(f"scenario.yaml controlPlane={sc_cp} != install-config replicas={ic_replicas_cp}")
 if sc_w and sc_w != ic_replicas_w:
     errors.append(f"scenario.yaml workers={sc_w} != install-config replicas={ic_replicas_w}")
+if sc_a and not ic_replicas_a:
+    errors.append(f"scenario.yaml nodes.arbiters={sc_a} but install-config has no arbiter block")
+elif sc_a and ic_replicas_a and sc_a != ic_replicas_a:
+    errors.append(f"scenario.yaml arbiters={sc_a} != install-config arbiter.replicas={ic_replicas_a}")
+
+# TNF fencing credential validation
+fencing = ic.get("controlPlane", {}).get("fencing", {})
+fencing_creds = fencing.get("credentials", []) if fencing else []
+if fencing is not None and isinstance(fencing, dict) and "credentials" in fencing:
+    if not fencing_creds:
+        errors.append("fencing.credentials is present but empty")
+    elif len(fencing_creds) != 2:
+        errors.append(f"fencing credentials count={len(fencing_creds)}, expected exactly 2")
+    if ic_replicas_cp != 2:
+        errors.append(f"controlPlane.replicas={ic_replicas_cp}, must be exactly 2 when fencing is present")
+    if ic_replicas_w != 0:
+        errors.append(f"compute.replicas={ic_replicas_w}, must be 0 when fencing is present (workers not supported)")
+    ac_hostnames = {h.get("hostname", "") for h in hosts if h.get("role") == "master"}
+    cred_hostnames = []
+    for i, cred in enumerate(fencing_creds):
+        addr = cred.get("address", "")
+        if not addr:
+            errors.append(f"fencing credential[{i}] missing required field 'address'")
+        elif "redfish" not in addr.lower():
+            errors.append(f"fencing credential[{i}] address '{addr}' does not contain 'redfish'")
+        if not cred.get("username"):
+            errors.append(f"fencing credential[{i}] missing required field 'username'")
+        if not cred.get("password"):
+            errors.append(f"fencing credential[{i}] missing required field 'password'")
+        cred_host = cred.get("hostname", "")
+        if not cred_host and not cred.get("macAddress"):
+            errors.append(f"fencing credential[{i}] missing required field 'hostname' (or 'macAddress')")
+        if cred_host:
+            cred_hostnames.append(cred_host)
+            if cred_host not in ac_hostnames:
+                errors.append(f"fencing credential[{i}] hostname '{cred_host}' not found in agent-config master hosts")
+        cert_verify = cred.get("certificateVerification", "")
+        if cert_verify and cert_verify not in ("Enabled", "Disabled"):
+            errors.append(f"fencing credential[{i}] certificateVerification='{cert_verify}', must be 'Enabled' or 'Disabled'")
+    if len(cred_hostnames) != len(set(cred_hostnames)):
+        errors.append(f"fencing credential hostnames are not unique: {cred_hostnames}")
 
 # VIP consistency: compare install-config apiVIPs with scenario.yaml vips.api
 ic_platform = ic.get("platform", {})
