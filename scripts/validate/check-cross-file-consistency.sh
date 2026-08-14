@@ -115,6 +115,23 @@ if fencing is not None and isinstance(fencing, dict) and "credentials" in fencin
     if len(cred_hostnames) != len(set(cred_hostnames)):
         errors.append(f"fencing credential hostnames are not unique: {cred_hostnames}")
 
+# vSphere structural validation: validate when present, do not require presence
+vsphere = ic.get("platform", {}).get("vsphere", {})
+if vsphere:
+    vcenters = vsphere.get("vcenters", [])
+    fds = vsphere.get("failureDomains", [])
+    vcenter_servers = {vc.get("server", "") for vc in vcenters} if vcenters else set()
+    if fds:
+        for i, fd in enumerate(fds):
+            fd_server = fd.get("server", "")
+            if fd_server and vcenter_servers and fd_server not in vcenter_servers:
+                errors.append(f"failureDomains[{i}].server='{fd_server}' not found in vcenters[].server list")
+            topo = fd.get("topology", {})
+            if topo:
+                nets = topo.get("networks", [])
+                if nets is not None and isinstance(nets, list) and len(nets) == 0:
+                    errors.append(f"failureDomains[{i}].topology.networks is empty")
+
 # VIP consistency: compare install-config apiVIPs with scenario.yaml vips.api
 ic_platform = ic.get("platform", {})
 sc_vips = sc.get("vips", {})

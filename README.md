@@ -65,6 +65,7 @@ openshift-install-configs/
 │   │   ├── ipi/            # connected (bond) & proxied
 │   │   └── upi/            # connected & proxied
 │   └── vsphere/
+│       ├── agent/          # connected (HA, single-FD, static)
 │       ├── ipi/            # connected (multi-FD) & proxied (single-FD, modern schema)
 │       └── upi/            # connected (multi-FD) & proxied (single-FD)
 ├── utility-box/

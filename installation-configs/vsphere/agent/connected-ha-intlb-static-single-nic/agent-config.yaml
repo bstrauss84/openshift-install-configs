@@ -1,0 +1,199 @@
+apiVersion: v1beta1
+kind: AgentConfig
+metadata:
+  name: cluster
+rendezvousIP: 10.90.0.21
+# additionalNTPSources:
+# - 10.90.0.2
+hosts:
+- hostname: cluster-master-1
+  role: master
+  interfaces:
+  - name: ens192
+    # CHANGE_ME: replace with the actual MAC assigned to this VM's NIC
+    macAddress: 00:50:56:3a:11:01
+  rootDeviceHints:
+    deviceName: "/dev/sda"
+  networkConfig:
+    interfaces:
+    - name: ens192
+      type: ethernet
+      state: up
+      ipv4:
+        enabled: true
+        dhcp: false
+        address:
+        - ip: 10.90.0.21
+          prefix-length: 24
+      ipv6:
+        enabled: false
+    dns-resolver:
+      config:
+        server:
+        - 10.90.0.3
+    routes:
+      config:
+      - destination: 0.0.0.0/0
+        next-hop-address: 10.90.0.1
+        next-hop-interface: ens192
+        table-id: 254
+
+- hostname: cluster-master-2
+  role: master
+  interfaces:
+  - name: ens192
+    # CHANGE_ME: replace with the actual MAC assigned to this VM's NIC
+    macAddress: 00:50:56:3a:12:01
+  rootDeviceHints:
+    deviceName: "/dev/sda"
+  networkConfig:
+    interfaces:
+    - name: ens192
+      type: ethernet
+      state: up
+      ipv4:
+        enabled: true
+        dhcp: false
+        address:
+        - ip: 10.90.0.22
+          prefix-length: 24
+      ipv6:
+        enabled: false
+    dns-resolver:
+      config:
+        server:
+        - 10.90.0.3
+    routes:
+      config:
+      - destination: 0.0.0.0/0
+        next-hop-address: 10.90.0.1
+        next-hop-interface: ens192
+        table-id: 254
+
+- hostname: cluster-master-3
+  role: master
+  interfaces:
+  - name: ens192
+    # CHANGE_ME: replace with the actual MAC assigned to this VM's NIC
+    macAddress: 00:50:56:3a:13:01
+  rootDeviceHints:
+    deviceName: "/dev/sda"
+  networkConfig:
+    interfaces:
+    - name: ens192
+      type: ethernet
+      state: up
+      ipv4:
+        enabled: true
+        dhcp: false
+        address:
+        - ip: 10.90.0.23
+          prefix-length: 24
+      ipv6:
+        enabled: false
+    dns-resolver:
+      config:
+        server:
+        - 10.90.0.3
+    routes:
+      config:
+      - destination: 0.0.0.0/0
+        next-hop-address: 10.90.0.1
+        next-hop-interface: ens192
+        table-id: 254
+
+- hostname: cluster-worker-1
+  role: worker
+  interfaces:
+  - name: ens192
+    # CHANGE_ME: replace with the actual MAC assigned to this VM's NIC
+    macAddress: 00:50:56:3a:14:01
+  rootDeviceHints:
+    deviceName: "/dev/sda"
+  networkConfig:
+    interfaces:
+    - name: ens192
+      type: ethernet
+      state: up
+      ipv4:
+        enabled: true
+        dhcp: false
+        address:
+        - ip: 10.90.0.51
+          prefix-length: 24
+      ipv6:
+        enabled: false
+    dns-resolver:
+      config:
+        server:
+        - 10.90.0.3
+    routes:
+      config:
+      - destination: 0.0.0.0/0
+        next-hop-address: 10.90.0.1
+        next-hop-interface: ens192
+        table-id: 254
+
+- hostname: cluster-worker-2
+  role: worker
+  interfaces:
+  - name: ens192
+    # CHANGE_ME: replace with the actual MAC assigned to this VM's NIC
+    macAddress: 00:50:56:3a:15:01
+  rootDeviceHints:
+    deviceName: "/dev/sda"
+  networkConfig:
+    interfaces:
+    - name: ens192
+      type: ethernet
+      state: up
+      ipv4:
+        enabled: true
+        dhcp: false
+        address:
+        - ip: 10.90.0.52
+          prefix-length: 24
+      ipv6:
+        enabled: false
+    dns-resolver:
+      config:
+        server:
+        - 10.90.0.3
+    routes:
+      config:
+      - destination: 0.0.0.0/0
+        next-hop-address: 10.90.0.1
+        next-hop-interface: ens192
+        table-id: 254
+
+- hostname: cluster-worker-3
+  role: worker
+  interfaces:
+  - name: ens192
+    # CHANGE_ME: replace with the actual MAC assigned to this VM's NIC
+    macAddress: 00:50:56:3a:16:01
+  rootDeviceHints:
+    deviceName: "/dev/sda"
+  networkConfig:
+    interfaces:
+    - name: ens192
+      type: ethernet
+      state: up
+      ipv4:
+        enabled: true
+        dhcp: false
+        address:
+        - ip: 10.90.0.53
+          prefix-length: 24
+      ipv6:
+        enabled: false
+    dns-resolver:
+      config:
+        server:
+        - 10.90.0.3
+    routes:
+      config:
+      - destination: 0.0.0.0/0
+        next-hop-address: 10.90.0.1
+        next-hop-interface: ens192
+        table-id: 254

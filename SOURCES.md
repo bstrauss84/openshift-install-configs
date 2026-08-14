@@ -91,6 +91,10 @@ Priority order: **Official OpenShift docs** > **RH solution/knowledge articles**
   https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/installing_on_vmware_vsphere/installation-config-parameters-vsphere\
   *Parameter table and examples; modern `vcenters[]` + `failureDomains[]` schema; VIP list semantics.*
 
+- **Agent-based installer on vSphere** — OCP 4.18+\
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/installing_an_on-premise_cluster_with_the_agent-based_installer/installing-with-agent-based-installer\
+  *Agent-based installer supports `platform: vsphere`. VMs are user-provisioned; `topology.folder` is optional in the schema but required by the Agent installer when vCenter credentials are provided. vCenter credentials are optional for installation but recommended for post-install cloud provider integration.*
+
 ### Two-Node OpenShift
 
 - **Two-Node with local arbiter (TNA) — IPI** — Tech Preview in 4.19, GA in 4.20+\
