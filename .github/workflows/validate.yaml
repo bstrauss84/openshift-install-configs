@@ -34,3 +34,6 @@ jobs:
 
     - name: Check cross-file consistency
       run: scripts/validate/check-cross-file-consistency.sh
+
+    - name: Check SR-IOV consistency
+      run: scripts/validate/check-sriov-consistency.sh

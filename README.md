@@ -79,7 +79,8 @@ openshift-install-configs/
 │   ├── linux-bridge-dedicated-nic/   # Linux bridge (cnv-bridge)
 │   ├── multi-vlan-ovs/              # OVS trunk for multi-VLAN
 │   ├── ovs-bridge-dedicated-nic/    # OVS bridge + OVN localnet
-│   └── single-nic-br-ex-localnet/   # OVN localnet on br-ex (single NIC)
+│   ├── single-nic-br-ex-localnet/   # OVN localnet on br-ex (single NIC)
+│   └── sriov-vm-network/           # SR-IOV VF passthrough to VM (vfio-pci)
 ├── scripts/validate/        # validation scripts (also used in CI)
 ├── COMPATIBILITY.md          # OCP 4.18--4.22 feature/schema matrix
 └── SOURCES.md                # official doc links organized by topic
@@ -138,10 +139,11 @@ Operator channels are verified against official Red Hat catalogs and lifecycle p
 - **Mirror registry**: doc-accurate **mini-quay** walkthrough for OCP 4.18+ on RHEL 9 (with RHEL 8 notes).
 
 ### Virtualization Networking
-- Six curated examples covering OVS bridges, Linux bridges, bond+bridge, OVN localnet, and ClusterUserDefinedNetwork (CUDN).
+- Seven curated examples covering OVS bridges, Linux bridges, bond+bridge, OVN localnet, ClusterUserDefinedNetwork (CUDN), and SR-IOV VF passthrough.
 - Each has `nncp.yaml` (or `cudn.yaml`), `nad.yaml` (where applicable), and `vm.yaml`.
 - READMEs cover how to apply and safely roll back NNCP (`state: absent`), and caveats (don't build new bridges on the same NIC as `br-ex` without care).
 - CUDN localnet scenario requires OCP 4.19+ (GA).
+- **SR-IOV** scenario demonstrates `vfio-pci` VF passthrough to VMs via `SriovNetworkNodePolicy` + `SriovNetwork`. Bare metal / RHOSP only.
 
 ---
 
@@ -156,6 +158,7 @@ scripts/validate/check-rendezvous-ip.sh
 scripts/validate/check-scenario-metadata.sh
 scripts/validate/check-golden-split.sh
 scripts/validate/check-cross-file-consistency.sh
+scripts/validate/check-sriov-consistency.sh
 ```
 
 CI runs these checks automatically on push/PR via GitHub Actions (`.github/workflows/validate.yaml`).

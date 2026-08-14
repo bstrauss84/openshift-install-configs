@@ -103,6 +103,11 @@ mirror:
           channels:
             - name: stable
 
+        # SR-IOV Network Operator
+        - name: sriov-network-operator
+          channels:
+            - name: stable
+
         # Migration Toolkit for Virtualization
         - name: mtv-operator
           channels:

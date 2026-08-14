@@ -1,0 +1,34 @@
+# SriovNetworkNodePolicy — configures VFs on a physical NIC for VM passthrough
+apiVersion: sriovnetwork.openshift.io/v1
+kind: SriovNetworkNodePolicy
+metadata:
+  name: vm-vf-policy
+  namespace: openshift-sriov-network-operator
+spec:
+  # CHANGE_ME: name used to register VFs as an extended resource (openshift.io/<resourceName>)
+  resourceName: vmvf
+
+  # CHANGE_ME: target only worker nodes with this label.
+  # Apply the label first:  oc label node <worker> sriov-vm=true
+  # Alternatively, use the NFD auto-detected label to target ALL capable nodes:
+  #   feature.node.kubernetes.io/network-sriov.capable: "true"
+  nodeSelector:
+    sriov-vm: "true"
+
+  # CHANGE_ME: number of VFs to create on the PF (must not exceed NIC capability)
+  numVfs: 8
+
+  # CHANGE_ME: physical function (PF) name on your worker nodes
+  # Alternative selectors (use only one):
+  #   rootDevices: ["0000:65:00.0"]    # PCI address
+  #   vendor: "8086"                   # Intel
+  #   deviceID: "1572"                 # specific NIC model
+  nicSelector:
+    pfNames:
+    - "ens1f0"
+
+  # vfio-pci is REQUIRED for VFs passed through to OpenShift Virtualization VMs.
+  # Do not use netdevice here — that is for pod-level SR-IOV networking.
+  deviceType: vfio-pci
+
+  priority: 99

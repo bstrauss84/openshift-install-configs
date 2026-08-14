@@ -1,0 +1,25 @@
+# SriovNetwork — the SR-IOV Network Operator auto-generates a NetworkAttachmentDefinition
+# in the namespace specified by networkNamespace. Do NOT create the NAD manually.
+apiVersion: sriovnetwork.openshift.io/v1
+kind: SriovNetwork
+metadata:
+  name: sriov-vm-network
+  namespace: openshift-sriov-network-operator
+spec:
+  # Must match the resourceName in SriovNetworkNodePolicy
+  resourceName: vmvf
+
+  # Namespace where the auto-generated NAD will be created (and where VMs should run)
+  networkNamespace: vmtest
+
+  # CHANGE_ME: VLAN tag applied at the VF level (0 = untagged/native)
+  # If set, the physical switch port must carry this VLAN as a trunk member.
+  # Tagging occurs on the VF hardware, not inside the VM guest.
+  vlan: 0
+
+  # No CNI-level IPAM. With deviceType: vfio-pci the VF is passed directly
+  # to the VM guest via VFIO — the host CNI stack cannot configure IP inside
+  # the guest. The guest OS handles interface addressing (DHCP, static, or
+  # cloud-init). The operator renders this as "ipam":{} in the generated NAD.
+  ipam: |-
+    {}

@@ -140,6 +140,18 @@ Priority order: **Official OpenShift docs** > **RH solution/knowledge articles**
 - **cnv-bridge vs bridge CNI plugin**\
   *`cnv-bridge` is the KubeVirt-optimized bridge plugin for VM networking on Linux bridges. Prefer it over the generic `bridge` CNI plugin for VM use cases. Requires kubevirt-hyperconverged operator.*
 
+- **SR-IOV Network Operator** — OCP 4.18+\
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/networking_operators/sr-iov-operator\
+  *Operator installation, SriovNetworkNodePolicy, SriovNetwork, device plugin, Network Resources Injector.*
+
+- **About SR-IOV hardware networks** — OCP 4.18+\
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/hardware_networks/about-sriov\
+  *Supported platforms (bare metal, RHOSP), supported devices, deviceType (vfio-pci vs netdevice), VF lifecycle.*
+
+- **Connecting a VM to an SR-IOV network** — OCP 4.18+\
+  https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/virtualization/networking#virt-connecting-vm-to-sriov\
+  *VM `sriov: {}` interface binding, multus networkName reference, live migration support, hot plug behavior.*
+
 ---
 
 ## Utility Box (RHEL 9 focus)

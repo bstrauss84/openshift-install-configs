@@ -1,0 +1,13 @@
+name: sriov-vm-network
+targetReleases: [ "4.18", "4.19", "4.20", "4.21", "4.22" ]
+nodes:
+  selector: "sriov-vm: 'true'"
+inputs:
+  pf: ens1f0
+  resourceName: vmvf
+  vmNamespace: vmtest
+artifacts:
+  - sriov-network-node-policy.yaml
+  - sriov-network.yaml
+  - vm.yaml
+tokens: [ virtualization, networking, sriov, multus, vfio, secondary-network ]
