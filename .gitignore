@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# OS / editor
+.DS_Store
+*.swp
+*.swo
+*~
+
+# oc-mirror / installer working artifacts
+.oc-mirror.log
+oc-mirror-workspace/
+
+# Credentials / auth files
+auth/
+auth.json
+pull-secret.json
+
+# Large generated/downloaded artifacts
+*.iso
+*.tar
+*.tar.gz

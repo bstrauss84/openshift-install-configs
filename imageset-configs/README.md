@@ -5,7 +5,7 @@
 Download from Red Hat's client downloads page:
 - https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/
 
-Pick the **OpenShift version** you are installing/upgrading (e.g., 4.18, 4.19, 4.20),
+Pick the **OpenShift version** you are installing/upgrading (e.g., 4.18, 4.19, 4.20, 4.21, 4.22),
 then download the `oc-mirror` archive for your OS (RHEL 8/9).
 
 Install to your PATH:
@@ -19,7 +19,7 @@ oc-mirror --help
 ```
 
 See per-version folders. Each folder contains:
-- `golden_all.yaml` (exact from templates/imageset-golden_all.yaml)
+- `golden_all.yaml` — curated ImageSetConfiguration combining platform releases, operators, and additional images
 - `platform-only.yaml` (only the `platform:` slice)
 - `operators-only.yaml` (only the `operators:` slice)
 - `additionalimages-only.yaml` (only the `additionalImages:` slice)
@@ -46,7 +46,7 @@ oc-mirror --config ./4.18/v1/operators-only.yaml docker://registry.example.com
 ### Where artifacts land (v1)
 `./oc-mirror-workspace/results-*/` → apply with `oc apply -f ./oc-mirror-workspace/results-*/ -R`
 
-## oc-mirror v2 (4.18/v2, 4.19/v2, 4.20/v2)
+## oc-mirror v2 (4.18/v2, 4.19/v2, 4.20/v2, 4.21/v2, 4.22/v2)
 
 ### mirrorToDisk
 ```bash

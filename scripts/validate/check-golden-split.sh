@@ -97,11 +97,19 @@ if os.path.isfile(platform_file):
     if golden_ch_set != plat_ch_set:
         errors.append(f"platform channels mismatch: golden_all={golden_ch_set} vs platform-only={plat_ch_set}")
 
+# Duplicate additionalImages within golden_all
+golden_images = golden.get("mirror", {}).get("additionalImages", [])
+golden_img_seen = set()
+for img in golden_images:
+    name = img.get("name", "")
+    if name in golden_img_seen:
+        errors.append(f"duplicate additionalImage in golden_all: {name}")
+    golden_img_seen.add(name)
+
 # AdditionalImages comparison
 if os.path.isfile(additional_file):
     with open(additional_file) as f:
         addl = yaml.safe_load(f)
-    golden_images = golden.get("mirror", {}).get("additionalImages", [])
     addl_images = addl.get("mirror", {}).get("additionalImages", [])
 
     golden_img_set = {img.get("name", "") for img in golden_images}
@@ -114,6 +122,14 @@ if os.path.isfile(additional_file):
             errors.append(f"images in additionalimages-only but not golden_all: {missing_in_golden}")
         if missing_in_addl:
             errors.append(f"images in golden_all but not additionalimages-only: {missing_in_addl}")
+
+    # Duplicate additionalImages within additionalimages-only
+    addl_img_seen = set()
+    for img in addl_images:
+        name = img.get("name", "")
+        if name in addl_img_seen:
+            errors.append(f"duplicate additionalImage in additionalimages-only: {name}")
+        addl_img_seen.add(name)
 
 if errors:
     for e in errors:

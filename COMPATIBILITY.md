@@ -70,6 +70,7 @@ See the `imageset-configs/` directory for per-release operator channel configura
 | RHBK | stable-v26.6 | stable-v26.6 | stable-v26.6 | stable-v26.6 | stable-v26.6 |
 | Service Mesh 3 | stable | stable | stable | stable | stable |
 | AAP | stable-2.7 | stable-2.7 | stable-2.7 | stable-2.7 | stable-2.7 |
+| SR-IOV Network Operator | stable | stable | stable | stable | stable |
 
 ## Key differences to watch
 

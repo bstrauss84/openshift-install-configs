@@ -190,4 +190,4 @@ We will continue to expand and tune this repo over time.
 
 ## License
 
-Unless otherwise noted, content is provided as-is. Review license headers in subtrees where present.
+Licensed under the Apache License 2.0. See [`LICENSE`](./LICENSE).

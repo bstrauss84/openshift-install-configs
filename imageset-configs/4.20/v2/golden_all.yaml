@@ -30,7 +30,6 @@ mirror:
     - name: registry.redhat.io/rhel8/rhel-guest-image:latest
     - name: registry.redhat.io/rhel9/rhel-guest-image:9.2
     - name: registry.redhat.io/rhel9/rhel-guest-image:9.4
-    - name: registry.redhat.io/rhel9/rhel-guest-image:latest
     - name: quay.io/containerdisks/centos:7-2009
     - name: quay.io/containerdisks/centos-stream:8-latest
     - name: quay.io/containerdisks/centos-stream:9-latest
